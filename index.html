@@ -11,6 +11,8 @@
             margin: 0;
             padding: 0;
             font-family: Sans-Serif;
+            
+                overflow: auto;
         }
 
         body {
@@ -77,21 +79,23 @@
             top: 0;
         }
 
-            #downloadview #previewimg {
-                width: 100%;
-                height: 100%;
-            }
-
-            #downloadview .preview:not(.dragged), #downloadview #previewimg img:not(.dragged) {
+            #downloadview .preview {
                 max-width: 100%;
                 max-height: 100%;
             }
+
+        #previewimg img:not(.dragged) {
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+
             #downloadview .preview {
                 display: block;
                 margin: 0 auto;
             }
 
-        audio.preview, video.preview, #downloadprogress, #previewimg img, #previewimg {
+
+        audio.preview, video.preview, #downloadprogress, #previewimg {
             position: relative;
             top: 50%;
             text-align: center;
