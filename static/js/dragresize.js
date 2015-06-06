@@ -4,8 +4,24 @@ $(function () {
     var lastx
     var lasty
 
+    $(document).on('dblclick', '.dragresize', function (e) {
+        var target = $(e.target)
+        target.toggleClass('full')
+        if (target.hasClass('full')) {
+            target.addClass('dragged')
+            target.width(e.target.naturalWidth)
+            target.height(e.target.naturalHeight)
+        } else {
+            target.removeClass('dragged')
+            target.width('auto')
+            target.height('auto')
+        }
+    })
+
     $(document).on('mousedown', '.dragresize', function(e) {
-        e.preventDefault()
+        if (event.which != 1) {
+            return
+        }
         dragging = $(e.target)
         dragging.addClass('dragging')
         lastx = e.pageX
@@ -16,11 +32,12 @@ $(function () {
         if (!dragging) {
             return
         }
-        e.preventDefault()
-
+        
+        e.preventDefault();
         var newx = e.pageX - lastx
         var newy = e.pageY - lasty
 
+        
         var width = dragging.width()
         var height = dragging.height()
 
@@ -44,8 +61,9 @@ $(function () {
         if (!dragging) {
             return
         }
-        e.preventDefault()
-
+        if (event.which != 1) {
+            return
+        }
         dragging.removeClass('dragging')
         dragging = undefined
     });
