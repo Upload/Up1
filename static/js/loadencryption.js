@@ -45,9 +45,11 @@ $(function () {
 
     crypt.encrypt = function (file) {
 
+        var extension = file.type.split('/')
+
         var header = JSON.stringify({
             'mime': file.type,
-            'name': file.name ? file.name : ('Pasted ' + (file.type.startsWith('text/') ? 'text' : 'file'))
+            'name': file.name ? file.name : ('Pasted ' + extension[0] + '.' + (extension[1] == 'plain' ? 'txt' : extension[1]))
         })
 
         var zero = new Uint8Array([0, 0]);
