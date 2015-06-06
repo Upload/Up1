@@ -77,6 +77,11 @@
             top: 0;
         }
 
+            #downloadview #previewimg {
+                width: 100%;
+                height: 100%;
+            }
+
             #downloadview .preview:not(.dragged), #downloadview #previewimg img:not(.dragged) {
                 max-width: 100%;
                 max-height: 100%;
@@ -86,11 +91,12 @@
                 margin: 0 auto;
             }
 
-        #previewimg, audio.preview, video.preview, #downloadprogress {
+        audio.preview, video.preview, #downloadprogress, #previewimg img, #previewimg {
             position: relative;
             top: 50%;
             text-align: center;
             transform: translateY(-50%);
+            margin: 0 auto;
         }
 
         body {
