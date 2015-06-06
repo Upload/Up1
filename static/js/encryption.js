@@ -50,6 +50,8 @@ function decrypt(file, seed, id) {
 
     var headerlength = new DataView(headerlengthbuffer).getUint16(0)
 
+    console.log(headerlength)
+
     var headerbuffer = new Uint8Array(Array.prototype.slice.call(afterarray, 2, (headerlength + 1) * 2)).buffer
 
     var header = ''
@@ -59,6 +61,8 @@ function decrypt(file, seed, id) {
     for (var i = 0; i < headerlength; i++) {
         header += String.fromCharCode(headerview.getUint16(i * 2, false));
     }
+
+    console.log(header)
 
     var header = JSON.parse(header)
 
