@@ -25,7 +25,7 @@ The server-side is written in Go and uses no dependencies outside of the standar
 External tools
 ---
 
-Currently, there are two external programs adapted to work with EncImg: [ShareX](todo:link-to-sharex) [(relevant code changes)](todo:link-to-commit), and [Scup](todo:link-to-scup) [(relevant code changes)](todo:link-to-commit). At this point in time, these both use hard-coded static keys, and so the source would need to be modified to change this. We hope to fix this in the near future.
+Currently, there is one external program adapted to work with Upload: [ShareX](https://github.com/ultramancool/ShareX) [(relevant code changes)](https://github.com/ultramancool/ShareX/commits/uploadcrypt). At this point in time, this uses a hard-coded static key, and so the source would need to be modified to change this. We hope to fix this in the near future.
 
 
 Configuration
