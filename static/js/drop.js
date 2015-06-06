@@ -33,7 +33,6 @@ $(function () {
             },
             type: 'POST'
         }).done(function (response) {
-            progress.text('Encrypting')
             progressbg.css('width', 0);
             pastearea.removeClass('hidden')
             uploadprogress.addClass('hidden')
@@ -45,6 +44,7 @@ $(function () {
     function doupload(file) {
         pastearea.addClass('hidden')
         uploadprogress.removeClass('hidden')
+        progress.text('Encrypting')
         crypt.encrypt(file).done(encrypted)
     }
 
@@ -152,6 +152,7 @@ $(function () {
     filepicker.on('change', function (e) {
         if (e.target.files.length > 0) {
             doupload(e.target.files[0])
+            filepicker.closest('form')[0].reset()
         }
     })
 

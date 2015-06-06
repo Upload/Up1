@@ -99,7 +99,7 @@ $(function () {
             }
 
             details.find('.preview').addClass('hidden')
-            details.find('img').removeClass('dragged').removeClass('dragging')
+            details.find('img').removeClass('dragged').removeClass('dragging').width('auto').height('auto')
             details.find('video.preview').prop('src', '')
             details.find('audio.preview').prop('src', '')
             previewimg.prop('src', '')
