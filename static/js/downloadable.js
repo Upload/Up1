@@ -43,7 +43,10 @@ $(function () {
                         hljs.highlightBlock(previewtext.find('code')[0])
                     }
                     fr.readAsText (data.decrypted)
-
+                } else if (data.header.mime.startsWith('video/')) {
+                    details.find('video.preview').removeClass('hidden').prop('src', url)
+                } else if (data.header.mime.startsWith('audio/')) {
+                    details.find('audio.preview').removeClass('hidden').prop('src', url)
                 } else {
                     // Unknown, todo
                 }
@@ -66,8 +69,10 @@ $(function () {
             crypt.ident(seed).done(downloadfromident)
         } else {
             upview.removeClass('hidden')
-            downview.addClass('hidden')
+            details.find('.preview').addClass('hidden')
             details.addClass('hidden')
+            details.find('video.preview').prop('src', '')
+            details.find('audio.preview').prop('src', '')
             previewimg.prop('src', '')
             previewtext.find('code').empty()
             g.focusPaste()

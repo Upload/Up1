@@ -84,7 +84,7 @@
                 margin: 0 auto;
             }
 
-        #previewimg {
+        #previewimg, audio.preview, video.preview {
             position: relative;
             top: 50%;
             transform: translateY(-50%);
@@ -199,10 +199,10 @@
             <img src="" class="hidden preview" id="previewimg" />
             <pre class="hidden preview" id="previewtext">
                 <code>
-
-
                 </code>
             </pre>
+            <video class="hidden preview" controls autoplay></video>
+            <audio class="hidden preview" controls autoplay></audio>
             <div id="btnarea">
 
                 <a class="btn" id="dlbtn" href="#">Download</a>
