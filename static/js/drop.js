@@ -1,4 +1,5 @@
 var g = {}
+g.config = {}
 
 $(function () {
     var pastearea = $('#pastearea')
@@ -19,7 +20,7 @@ $(function () {
         formdata.append('ident', data.ident)
         formdata.append('file', data.encrypted)
         $.ajax({
-            url: 'up',
+            url: (g.config.server ? g.config.server : '') + 'up',
             data: formdata,
             cache: false,
             processData: false,
