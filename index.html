@@ -130,7 +130,11 @@
             color: white;
             opacity: .75;
             z-index: 1;
-            word-wrap: break-word;
+            max-width: 100%;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         #btnarea, #globalbtnarea {
