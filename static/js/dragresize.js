@@ -19,7 +19,7 @@ $(function () {
     })
 
     $(document).on('mousedown', '.dragresize', function(e) {
-        if (event.which != 1) {
+        if (e.which != 1) {
             return
         }
         dragging = $(e.target)
@@ -61,7 +61,7 @@ $(function () {
         if (!dragging) {
             return
         }
-        if (event.which != 1) {
+        if (e.which != 1) {
             return
         }
         dragging.removeClass('dragging')
