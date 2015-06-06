@@ -27,7 +27,7 @@ $(function () {
         }
     })
 
-    $(document).on('mousedown touchstart', '.dragresize', function (e) {
+    $(document).on('mousedown', '.dragresize', function (e) {
         if (e.which && e.which != 1) {
             return
         }
@@ -53,7 +53,7 @@ $(function () {
         lasty = e.pageY
     })
 
-    $(document).on('mousemove touchmove', function (e) {
+    $(document).on('mousemove', function (e) {
         if (!dragging) {
             return
         }
@@ -80,7 +80,7 @@ $(function () {
 
     })
 
-    $(document).on('mouseup touchend', function (e) {
+    $(document).on('mouseup', function (e) {
         if (!dragging) {
             return
         }
