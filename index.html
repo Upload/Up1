@@ -77,9 +77,11 @@
             top: 0;
         }
 
-            #downloadview .preview {
+            #downloadview .preview:not(.dragged), #downloadview #previewimg img:not(.dragged) {
                 max-width: 100%;
                 max-height: 100%;
+            }
+            #downloadview .preview {
                 display: block;
                 margin: 0 auto;
             }
@@ -89,6 +91,10 @@
             top: 50%;
             text-align: center;
             transform: translateY(-50%);
+        }
+
+        body {
+            overflow: auto;
         }
 
         #pastecatcher {
@@ -127,7 +133,7 @@
         }
 
         #filename {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             padding: 5px;
@@ -145,7 +151,7 @@
         }
 
         #btnarea, #globalbtnarea {
-            position: absolute;
+            position: fixed;
             bottom: 5px;
             height: 40px;
             display: table;
@@ -195,6 +201,10 @@
             width: 30px;
             overflow: hidden;
         }
+
+        .dragresize.dragging {
+            cursor: nwse-resize;
+        }
     </style>
     <script src="/static/deps/jquery-2.1.4.min.js"></script>
     <script src="/static/js/shims.js"></script>
@@ -202,6 +212,7 @@
     <script src="/static/js/loadencryption.js"></script>
     <script src="/static/js/downloadable.js"></script>
     <script src="/static/js/config.js"></script>
+    <script src="/static/js/dragresize.js"></script>
     <script>
         $(window).unload(function () { $(window).unbind('unload') })
     </script>
@@ -231,7 +242,9 @@
         <h1 id="downloadprogress"></h1>
         <div id="downloaddetails" class="hidden">
             <h1 id="filename">Filename</h1>
-            <img src="" class="hidden preview" id="previewimg" />
+            <div class="preview hidden" id="previewimg">
+                <img src="" class="dragresize" />
+            </div>
             <div id="previewtext" class="hidden preview">
                 <div id="linenos"></div>
                 <pre><code></code></pre>

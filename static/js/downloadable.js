@@ -32,7 +32,7 @@ $(function () {
                 dlbtn.prop('download', data.header.name)
 
                 if (data.header.mime.startsWith('image/')) {
-                    previewimg.prop('src', url)
+                    previewimg.find('img').prop('src', url)
                     previewimg.removeClass('hidden')
                 } else if (data.header.mime.startsWith('text/')) {
                     var fr = new FileReader()
