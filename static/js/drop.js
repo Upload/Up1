@@ -101,7 +101,7 @@ $(function () {
     }
 
     $(document).on('click', function (e) {
-        if (event.which != 1) {
+        if (e.which != 1) {
             return
         }
 
