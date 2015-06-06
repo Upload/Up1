@@ -17,7 +17,7 @@ There is also a static key that is used between the client and server for upload
 Technologies
 ---
 
-The browser-side is written in plain Javascript using SJCL for the AES-CCM encryption. Everything is HTML5 and its associated Javascript APIs, but should work in IE10 and later, plus any decently modern copy of Firefox, Chrome or Safari.
+The browser-side is written in plain Javascript using SJCL for the AES-CCM encryption. Everything is HTML5 and its associated Javascript APIs, but should work in any decently modern copy of Firefox or Chrome.
 
 The server-side is written in Go and uses no dependencies outside of the standard library. In order to build it, install the go compiler and run `go build server.go`, then run the `./server` executable.
 
