@@ -46,20 +46,17 @@ function decrypt(file, seed, id) {
     var after = sjcl.mode.ccm.decrypt(prp, before, params.iv);
     var afterarray = new Uint8Array(sjcl.codec.bytes.fromBits(after));
 
-    var headerlengthbuffer = new Uint8Array(Array.prototype.slice.call(afterarray, 0, 2)).buffer
-
-    var headerlength = new DataView(headerlengthbuffer).getUint16(0)
-
-    console.log(headerlength)
-
-    var headerbuffer = new Uint8Array(Array.prototype.slice.call(afterarray, 2, (headerlength + 1) * 2)).buffer
-
     var header = ''
 
-    var headerview = new DataView(headerbuffer)
+    var headerview = new DataView(afterarray.buffer)
 
-    for (var i = 0; i < headerlength; i++) {
-        header += String.fromCharCode(headerview.getUint16(i * 2, false));
+    var i = 0;
+    for (; ; i++) {
+        var num = headerview.getUint16(i * 2, false)
+        if (num == 0) {
+            break;
+        }
+        header += String.fromCharCode(num);
     }
 
     console.log(header)
@@ -71,7 +68,7 @@ function decrypt(file, seed, id) {
     postMessage({
         'id': id,
         'header': header,
-        'decrypted': data.slice((headerlength + 1) * 2, data.size, header.mime)
+        'decrypted': data.slice((i * 2) + 2, data.size, header.mime)
     })
 }
 

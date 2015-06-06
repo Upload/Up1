@@ -50,11 +50,9 @@ $(function () {
             'name': file.name ? file.name : ('Pasted ' + (file.type.startsWith('text/') ? 'text' : 'file'))
         })
 
-        var length = new ArrayBuffer(2);
+        var zero = new Uint8Array([0, 0]);
 
-        var dv = new DataView(length).setUint16(0, header.length, false)
-
-        var blob = new Blob([length, str2ab(header), file])
+        var blob = new Blob([str2ab(header), zero, file])
 
         var promise = getpromise()
 
