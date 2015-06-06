@@ -68,7 +68,7 @@ $(function () {
             function downloadfromident(ident) {
                 var xhr = new XMLHttpRequest();
                 xhr.onload = downloaded
-                xhr.open('GET', 'i/' + ident.ident)
+                xhr.open('GET', (g.config.server ? g.config.server : '') + 'i/' + ident.ident)
                 xhr.responseType = 'blob'
                 
                 xhr.addEventListener('progress', downloadprogress, false)
