@@ -69,9 +69,9 @@ $(function () {
         dragging.addClass('dragged')
 
         if (Math.abs(newx) > Math.abs(newy)) {
-            dragging.css({ 'width': Math.min(maxw, Math.max(width + (width * (.01 * newx)), minw)) + 'px', 'height': 'auto' })
+            dragging.css({ 'width': Math.min(maxw, Math.max(width + (width * (.0025 * newx)), minw)) + 'px', 'height': 'auto' })
         } else {
-            dragging.css({ 'height': Math.min(maxh, Math.max(height + (height * (.01 * newy)), minh)) + 'px', 'width': 'auto' })
+            dragging.css({ 'height': Math.min(maxh, Math.max(height + (height * (.0025 * newy)), minh)) + 'px', 'width': 'auto' })
         }
 
 
