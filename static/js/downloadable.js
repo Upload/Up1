@@ -76,6 +76,7 @@ $(function () {
             upview.removeClass('hidden')
             details.find('.preview').addClass('hidden')
             details.addClass('hidden')
+            downview.addClass('hidden')
             details.find('video.preview').prop('src', '')
             details.find('audio.preview').prop('src', '')
             previewimg.prop('src', '')
