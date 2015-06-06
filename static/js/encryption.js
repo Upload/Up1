@@ -24,7 +24,7 @@ function encrypt(file, seed, id) {
     var uarr = new Uint8Array(file)
     var before = sjcl.codec.bytes.toBits(uarr)
     var prp = new sjcl.cipher.aes(params.key)
-    var after = sjcl.mode.ccm.encrypt(prp, before, params.iv)
+    var after = sjcl.arrayBuffer.ccm.compat_encrypt(prp, before, params.iv)
     var afterarray = new Uint8Array(sjcl.codec.bytes.fromBits(after))
     postMessage({
         'id': id,
@@ -43,7 +43,7 @@ function decrypt(file, seed, id) {
     var uarr = new Uint8Array(file)
     var before = sjcl.codec.bytes.toBits(uarr);
     var prp = new sjcl.cipher.aes(params.key);
-    var after = sjcl.mode.ccm.decrypt(prp, before, params.iv);
+    var after = sjcl.arrayBuffer.ccm.compat_decrypt(prp, before, params.iv);
     var afterarray = new Uint8Array(sjcl.codec.bytes.fromBits(after));
 
     var header = ''
