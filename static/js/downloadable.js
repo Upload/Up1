@@ -45,7 +45,7 @@ $(function () {
                         previewtext.find('code').text(text)
                         hljs.highlightBlock(previewtext.find('code')[0])
 
-                        var linenumbers = $('#linenos')
+                        var linenumbers = $('#linenos').empty()
 
                         var length = text.split(/\r\n|\r|\n/).length
 
