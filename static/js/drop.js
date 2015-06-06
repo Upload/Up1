@@ -146,7 +146,9 @@ $(function () {
     })
 
     filepicker.on('change', function (e) {
-        doupload(e.target.files[0])
+        if (e.target.files.length > 0) {
+            doupload(e.target.files[0])
+        }
     })
 
 });
