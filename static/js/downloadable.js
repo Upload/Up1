@@ -39,7 +39,8 @@ $(function () {
                         var text = fr.result
 
                         previewtext.removeClass('hidden')
-                        previewtext.text(text)
+                        previewtext.find('code').text(text)
+                        hljs.highlightBlock(previewtext.find('code')[0])
                     }
                     fr.readAsText (data.decrypted)
 
