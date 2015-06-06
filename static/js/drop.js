@@ -19,7 +19,7 @@ $(function () {
         formdata.append('ident', data.ident)
         formdata.append('file', data.encrypted)
         $.ajax({
-            url: 'https://e.3d3.ca/up',
+            url: 'up',
             data: formdata,
             cache: false,
             processData: false,

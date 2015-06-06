@@ -68,7 +68,7 @@ $(function () {
             function downloadfromident(ident) {
                 var xhr = new XMLHttpRequest();
                 xhr.onload = downloaded
-                xhr.open('GET', 'https://e.3d3.ca/i/' + ident.ident)
+                xhr.open('GET', 'i/' + ident.ident)
                 xhr.responseType = 'blob'
                 
                 xhr.addEventListener('progress', downloadprogress, false)
