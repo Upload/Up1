@@ -37,9 +37,8 @@ $(function () {
             progressbg.css('width', 0);
             pastearea.removeClass('hidden')
             uploadprogress.addClass('hidden')
-            window.location = '#' + data.seed
-            alert(response)
             localStorage.setItem('delete-' + data.seed, response.delkey)
+            window.location = '#' + data.seed
         })
     }
 
