@@ -27,8 +27,8 @@ $(function () {
         }
     })
 
-    $(document).on('mousedown', '.dragresize', function(e) {
-        if (e.which != 1) {
+    $(document).on('mousedown touchstart', '.dragresize', function (e) {
+        if (e.which && e.which != 1) {
             return
         }
         e.preventDefault();
@@ -53,7 +53,7 @@ $(function () {
         lasty = e.pageY
     })
 
-    $(document).on('mousemove', function (e) {
+    $(document).on('mousemove touchmove', function (e) {
         if (!dragging) {
             return
         }
@@ -80,7 +80,7 @@ $(function () {
 
     })
 
-    $(document).on('mouseup', function (e) {
+    $(document).on('mouseup touchend', function (e) {
         if (!dragging) {
             return
         }
