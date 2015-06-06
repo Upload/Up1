@@ -4,6 +4,9 @@ $(function () {
     var lastx
     var lasty
 
+    var dragsizew
+    var dragsizeh
+
     $(document).on('dblclick', '.dragresize', function (e) {
         var target = $(e.target)
         target.toggleClass('full')
@@ -25,6 +28,17 @@ $(function () {
         e.preventDefault();
         dragging = $(e.target)
         dragging.addClass('dragging')
+        dragsizew = e.target.naturalWidth
+        dragsizeh = e.target.naturalHeight
+
+        if (dragsizew > dragsizeh) {
+            minw = 100
+            minh = 100 * (dragsizeh / dragsizew)
+        } else {
+            minh = 100
+            minw = 100 * (dragsizew / dragsizeh)
+        }
+
         lastx = e.pageX
         lasty = e.pageY
     })
@@ -45,11 +59,9 @@ $(function () {
         dragging.addClass('dragged')
 
         if (Math.abs(newx) > Math.abs(newy)) {
-            dragging.width(width + newx)
-            dragging.height('auto')
+            dragging.css({ 'width': Math.max(width + newx, minw) + 'px', 'height': 'auto' })
         } else {
-            dragging.height(height + newy)
-            dragging.width('auto')
+            dragging.css({ 'height': Math.max(height + newy, minh) + 'px', 'width': 'auto' })
         }
 
 
