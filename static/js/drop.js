@@ -93,19 +93,16 @@ $(function () {
 
     g.focusPaste = function () {
         setTimeout(function () {
-            pasteCatcher.focus();
-            pasteCatcher.click()
+            pasteCatcher.focus()
         }, 100);
     }
 
     $(document).on('click', function (e) {
-        if (e.target == document.body) {
+        if (e.target == document.body && pastearea.is(':visible')) {
             e.preventDefault()
             g.focusPaste();
         }
     })
-
-    g.focusPaste();
 
 
     $(document).on('paste', function (e) {
