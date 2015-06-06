@@ -67,6 +67,10 @@ $(function () {
                 $('#downloadprogress').text(Math.floor(percent) + '%')
             }
 
+            function failed() {
+                window.location = '#'
+            }
+
             function downloadfromident(ident) {
 
 
@@ -76,11 +80,11 @@ $(function () {
                     deletebtn.show().prop('href', (g.config.server ? g.config.server : '') + 'del?delkey=' + stored + '&ident=' + ident.ident)
                 }
 
-                var xhr = new XMLHttpRequest();
+                var xhr = new XMLHttpRequest()
                 xhr.onload = downloaded
                 xhr.open('GET', (g.config.server ? g.config.server : '') + 'i/' + ident.ident)
                 xhr.responseType = 'blob'
-                
+                xhr.onerror = failed
                 xhr.addEventListener('progress', downloadprogress, false)
                 xhr.send()
             }
