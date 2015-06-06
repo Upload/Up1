@@ -19,11 +19,7 @@ $(function () {
             var seed = window.location.hash.substring(1)
 
             function embed(data) {
-                details.find('.preview').addClass('hidden')
-                details.find('video.preview').prop('src', '')
-                details.find('audio.preview').prop('src', '')
-                previewimg.prop('src', '')
-                previewtext.find('code').empty()
+               
 
                 previewfilename.text(data.header.name)
                
@@ -55,22 +51,38 @@ $(function () {
                 } else {
                     // Unknown, todo
                 }
-
+                $('#downloadprogress').text('').hide()
                 details.removeClass('hidden')
             }
 
             function downloaded() {
+                $('#downloadprogress').text('Decrypting')
                 crypt.decrypt(this.response, seed).done(embed)
+            }
+
+            function downloadprogress(e) {
+                var percent = (e.loaded / e.total) * 100
+                $('#downloadprogress').text(Math.floor(percent) + '%')
             }
 
             function downloadfromident(ident) {
                 var xhr = new XMLHttpRequest();
                 xhr.onload = downloaded
-                xhr.open('GET', 'https://e.3d3.ca/i/' + ident.ident);
-                xhr.responseType = 'blob';
-                xhr.send();
+                xhr.open('GET', 'https://e.3d3.ca/i/' + ident.ident)
+                xhr.responseType = 'blob'
+                
+                xhr.addEventListener('progress', downloadprogress, false)
+                xhr.send()
             }
 
+            details.find('.preview').addClass('hidden')
+            details.find('video.preview').prop('src', '')
+            details.find('audio.preview').prop('src', '')
+            previewimg.prop('src', '')
+            previewtext.find('code').empty()
+            details.addClass('hidden')
+            upview.addClass('hidden')
+            $('#downloadprogress').show().text('Loading')
             crypt.ident(seed).done(downloadfromident)
         } else {
             upview.removeClass('hidden')

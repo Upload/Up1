@@ -20,9 +20,9 @@ $(function () {
 
     function str2ab(str) {
         var buf = new ArrayBuffer(str.length * 2);
-        var bufView = new Uint16Array(buf);
+        var bufView = new DataView(buf);
         for (var i = 0, strLen = str.length; i < strLen; i++) {
-            bufView[i] = str.charCodeAt(i);
+            bufView.setUint16(i * 2, str.charCodeAt(i), false)
         }
         return buf;
     }
@@ -50,7 +50,9 @@ $(function () {
             'name': file.name ? file.name : ('Pasted ' + (file.type.startsWith('text/') ? 'text' : 'file'))
         })
 
-        var length = new Uint16Array([header.length])
+        var length = new ArrayBuffer(2);
+
+        var dv = new DataView(length).setUint16(0, header.length, false)
 
         var blob = new Blob([length, str2ab(header), file])
 

@@ -34,6 +34,9 @@ function encrypt(file, seed, id) {
     })
 }
 
+function decode_utf8(s) {
+    return decodeURIComponent(escape(s));
+}
 
 function decrypt(file, seed, id) {
     var params = parameters(seed)
@@ -43,9 +46,19 @@ function decrypt(file, seed, id) {
     var after = sjcl.mode.ccm.decrypt(prp, before, params.iv);
     var afterarray = new Uint8Array(sjcl.codec.bytes.fromBits(after));
 
-    var headerlength = new Uint16Array([afterarray[0], afterarray[1]])[0];
+    var headerlengthbuffer = new Uint8Array(Array.prototype.slice.call(afterarray, 0, 2)).buffer
 
-    var header = String.fromCharCode.apply(null, new Uint16Array(new Uint8Array(Array.prototype.slice.call(afterarray, 2, (headerlength + 1) * 2)).buffer));
+    var headerlength = new DataView(headerlengthbuffer).getUint16(0)
+
+    var headerbuffer = new Uint8Array(Array.prototype.slice.call(afterarray, 2, (headerlength + 1) * 2)).buffer
+
+    var header = ''
+
+    var headerview = new DataView(headerbuffer)
+
+    for (var i = 0; i < headerlength; i++) {
+        header += String.fromCharCode(headerview.getUint16(i * 2, false));
+    }
 
     var header = JSON.parse(header)
 

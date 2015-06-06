@@ -84,9 +84,10 @@
                 margin: 0 auto;
             }
 
-        #previewimg, audio.preview, video.preview {
+        #previewimg, audio.preview, video.preview, #downloadprogress {
             position: relative;
             top: 50%;
+            text-align: center;
             transform: translateY(-50%);
         }
 
@@ -162,6 +163,11 @@
             -moz-box-sizing: border-box;
         }
 
+
+        #downloadprogress {
+            color: white;
+        }
+
             .btn:hover {
                 opacity: 1;
             }
@@ -192,7 +198,11 @@
     </div>
 
 
+    
+
     <div id="downloadview" class="hidden">
+
+        <h1 id="downloadprogress"></h1>
         <div id="downloaddetails" class="hidden">
             <h1 id="filename">Filename</h1>
             <img src="" class="hidden preview" id="previewimg" />
