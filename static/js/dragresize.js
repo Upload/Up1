@@ -22,6 +22,7 @@ $(function () {
         if (e.which != 1) {
             return
         }
+        e.preventDefault();
         dragging = $(e.target)
         dragging.addClass('dragging')
         lastx = e.pageX
