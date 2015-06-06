@@ -69,7 +69,7 @@ $(function () {
             downview.addClass('hidden')
             details.addClass('hidden')
             previewimg.prop('src', '')
-            previewtext.empty()
+            previewtext.find('code').empty()
             g.focusPaste()
         }
     }

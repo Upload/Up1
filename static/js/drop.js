@@ -35,7 +35,7 @@ $(function () {
             progressbg.css('width', 0);
             pastearea.removeClass('hidden')
             uploadprogress.addClass('hidden')
-            window.location  = '#' + data.seed
+            window.location = '#' + data.seed
         })
     }
 
@@ -91,7 +91,7 @@ $(function () {
     pasteCatcher.prop('contenteditable', true)
     $('body').append(pasteCatcher)
 
-    g.focusPaste = function() {
+    g.focusPaste = function () {
         setTimeout(function () {
             pasteCatcher.focus();
             pasteCatcher.click()
@@ -115,34 +115,28 @@ $(function () {
         }
         var items = e.originalEvent.clipboardData.items
 
-        if (typeof items == 'undefined') {
-            var text = e.originalEvent.clipboardData.getData('text/plain')
-            if (!text) {
-                setTimeout(function () {
-                    if (pasteCatcher.find('img').length) {
-                        var src = pasteCatcher.find('img').prop('src')
-                        if (src.startsWith('data:')) {
-                            doupload(dataURItoBlob(src))
-                        } else {
-                            alert("Firefox (I assume) basically pasted that as a direct embed to the image, we could download then upload it maybe like imgur does")
-                        }
+
+        var text = e.originalEvent.clipboardData.getData('text/plain')
+
+        if (text) {
+            doupload(new Blob([text], { type: 'text/plain' }))
+        } else if (typeof items == 'undefined') {
+            setTimeout(function () {
+                if (pasteCatcher.find('img').length) {
+                    var src = pasteCatcher.find('img').prop('src')
+                    if (src.startsWith('data:')) {
+                        doupload(dataURItoBlob(src))
+                    } else {
+                        alert("Firefox (I assume) basically pasted that as a direct embed to the image, we could download then upload it maybe like imgur does")
                     }
-                }, 0)
-            } else {
-                doupload(new Blob([text], { type: 'text/plain' }))
-            }
+                }
+            }, 0)
         } else if (items.length >= 1) {
             e.preventDefault()
 
             for (var i = 0; i < items.length; i++) {
                 var blob = items[i].getAsFile()
-
-                if (!blob && i == items.length - 1) {
-                    items[0].getAsString(function (d) {
-                        doupload(new Blob([d], { type: 'text/plain' }))
-                    })
-                    break
-                } else if (blob) {
+                if (blob) {
                     doupload(blob)
                     break;
                 }
