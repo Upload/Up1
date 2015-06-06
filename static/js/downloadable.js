@@ -44,6 +44,15 @@ $(function () {
                         previewtext.removeClass('hidden')
                         previewtext.find('code').text(text)
                         hljs.highlightBlock(previewtext.find('code')[0])
+
+                        var linenumbers = $('#linenos')
+
+                        var length = text.split(/\r\n|\r|\n/).length
+
+                        for (var i = 0; i < length; i++) {
+                            linenumbers.append((i + 1) + '<br>')
+                        }
+
                     }
                     fr.readAsText (data.decrypted)
                 } else if (data.header.mime.startsWith('video/')) {

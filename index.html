@@ -101,18 +101,25 @@
             overflow: hidden;
         }
 
-        #previewtext code {
-            background: none;
-            width: 100%;
-            height: calc(100% - 110px);
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
+        #previewtext {
             position: absolute;
             top: 47px;
-            border: 0;
-            padding-bottom: 0;
-            overflow-y: auto;
-            resize: none;
+            
+            width: 100%;
+            height: calc(100% - 110px);
+            
+            overflow: auto;
+        }
+
+            #previewtext pre {
+                margin: 0;
+                padding-left: 50px;
+            }
+
+        #previewtext code {
+            background: none;
+            margin: 0;
+            overflow: visible;
         }
 
         .hidden {
@@ -175,6 +182,19 @@
             .btn:hover {
                 opacity: 1;
             }
+
+        #linenos {
+            color: #7d7d7d;
+            position: absolute;
+            top: 6.5px;
+            font-family: monospace;
+            left: 5px;
+            float: left;
+            z-index: -1;
+            text-align: right;
+            width: 30px;
+            overflow: hidden;
+        }
     </style>
     <script src="/static/deps/jquery-2.1.4.min.js"></script>
     <script src="/static/js/shims.js"></script>
@@ -212,10 +232,10 @@
         <div id="downloaddetails" class="hidden">
             <h1 id="filename">Filename</h1>
             <img src="" class="hidden preview" id="previewimg" />
-            <pre class="hidden preview" id="previewtext">
-                <code>
-                </code>
-            </pre>
+            <div id="previewtext" class="hidden preview">
+                <div id="linenos"></div>
+                <pre><code></code></pre>
+            </div>
             <video class="hidden preview" controls autoplay></video>
             <audio class="hidden preview" controls autoplay></audio>
             <div id="btnarea">
