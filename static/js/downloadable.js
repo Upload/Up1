@@ -19,7 +19,12 @@ $(function () {
             var seed = window.location.hash.substring(1)
 
             function embed(data) {
-               
+                details.find('.preview').addClass('hidden')
+                details.find('video.preview').prop('src', '')
+                details.find('audio.preview').prop('src', '')
+                previewimg.prop('src', '')
+                previewtext.find('code').empty()
+
                 previewfilename.text(data.header.name)
                
                 var url = URL.createObjectURL(data.decrypted)
