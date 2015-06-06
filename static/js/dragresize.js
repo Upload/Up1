@@ -40,13 +40,13 @@ $(function () {
         if (dragsizew > dragsizeh) {
             minw = 100
             minh = 100 * (dragsizeh / dragsizew)
-            maxw = dragsizew * 10
-            maxh = (dragsizew * 10) * (dragsizeh / dragsizew)
+            maxw = dragsizew * 100
+            maxh = (dragsizew * 100) * (dragsizeh / dragsizew)
         } else {
             minh = 100
             minw = 100 * (dragsizew / dragsizeh)
-            maxh = dragsizeh * 10
-            maxw = (dragsizeh * 10) * (dragsizew / dragsizeh)
+            maxh = dragsizeh * 100
+            maxw = (dragsizeh * 100) * (dragsizew / dragsizeh)
         }
 
         lastx = e.pageX
