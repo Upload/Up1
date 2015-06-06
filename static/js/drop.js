@@ -25,18 +25,21 @@ $(function () {
             cache: false,
             processData: false,
             contentType: false,
+            dataType: 'json',
             xhr: function () {
                 var xhr = new XMLHttpRequest()
                 xhr.upload.addEventListener('progress', progressdo, false)
                 return xhr
             },
             type: 'POST'
-        }).done(function () {
+        }).done(function (response) {
             progress.text('Encrypting')
             progressbg.css('width', 0);
             pastearea.removeClass('hidden')
             uploadprogress.addClass('hidden')
             window.location = '#' + data.seed
+            alert(response)
+            localStorage.setItem('delete-' + data.seed, response.delkey)
         })
     }
 

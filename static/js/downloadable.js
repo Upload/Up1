@@ -7,6 +7,7 @@ $(function () {
     var details = $('#downloaddetails')
 
     var dlbtn = $('#dlbtn')
+    var deletebtn = $('#deletebtn')
     var viewbtn = $('#inbrowserbtn')
     
     function hashchanged() {
@@ -15,6 +16,7 @@ $(function () {
             previewtext.addClass('hidden')
             previewimg.addClass('hidden')
             downview.removeClass('hidden')
+            deletebtn.hide()
 
             var seed = window.location.hash.substring(1)
 
@@ -66,6 +68,14 @@ $(function () {
             }
 
             function downloadfromident(ident) {
+
+
+                var stored = localStorage.getItem('delete-' + seed)
+
+                if (stored) {
+                    deletebtn.show().prop('href', (g.config.server ? g.config.server : '') + 'del?delkey=' + stored + '&ident=' + ident.ident)
+                }
+
                 var xhr = new XMLHttpRequest();
                 xhr.onload = downloaded
                 xhr.open('GET', (g.config.server ? g.config.server : '') + 'i/' + ident.ident)
@@ -83,6 +93,7 @@ $(function () {
             details.addClass('hidden')
             upview.addClass('hidden')
             $('#downloadprogress').show().text('Loading')
+
             crypt.ident(seed).done(downloadfromident)
         } else {
             upview.removeClass('hidden')
