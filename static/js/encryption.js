@@ -34,10 +34,6 @@ function encrypt(file, seed, id) {
     })
 }
 
-function decode_utf8(s) {
-    return decodeURIComponent(escape(s));
-}
-
 function decrypt(file, seed, id) {
     var params = parameters(seed)
     var uarr = new Uint8Array(file)
