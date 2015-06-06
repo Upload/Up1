@@ -2,7 +2,7 @@ var crypt = {}
 
 $(function () {
     function getEntropy() {
-        var entropy = new Uint32Array(64)
+        var entropy = new Uint32Array(256)
         window.crypto.getRandomValues(entropy)
         return entropy
     }
