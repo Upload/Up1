@@ -61,9 +61,6 @@ $(function () {
         if (!dragging) {
             return
         }
-        if (e.which != 1) {
-            return
-        }
         dragging.removeClass('dragging')
         dragging = undefined
     });
