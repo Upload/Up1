@@ -101,6 +101,10 @@ $(function () {
     }
 
     $(document).on('click', function (e) {
+        if (event.which != 1) {
+            return
+        }
+
         if (e.target == document.body && pastearea.is(':visible')) {
             e.preventDefault()
             g.focusPaste();
