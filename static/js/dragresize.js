@@ -27,6 +27,9 @@ $(function () {
         }
     })
 
+    var MIN_WIDTH_PX = 100
+    var MAX_WIDTH_RATIO = 100
+
     $(document).on('mousedown', '.dragresize', function (e) {
         if (e.which && e.which != 1) {
             return
@@ -38,15 +41,15 @@ $(function () {
         dragsizeh = e.target.naturalHeight
 
         if (dragsizew > dragsizeh) {
-            minw = 100
-            minh = 100 * (dragsizeh / dragsizew)
-            maxw = dragsizew * 100
-            maxh = (dragsizew * 100) * (dragsizeh / dragsizew)
+            minw = MIN_WIDTH_PX
+            minh = MIN_WIDTH_PX * (dragsizeh / dragsizew)
+            maxw = dragsizew * MAX_WIDTH_RATIO
+            maxh = (dragsizew * MAX_WIDTH_RATIO) * (dragsizeh / dragsizew)
         } else {
-            minh = 100
-            minw = 100 * (dragsizew / dragsizeh)
-            maxh = dragsizeh * 100
-            maxw = (dragsizeh * 100) * (dragsizew / dragsizeh)
+            minh = MIN_WIDTH_PX
+            minw = MIN_WIDTH_PX * (dragsizew / dragsizeh)
+            maxh = dragsizeh * MAX_WIDTH_RATIO
+            maxw = (dragsizeh * MAX_WIDTH_RATIO) * (dragsizew / dragsizeh)
         }
 
         lastx = e.pageX
