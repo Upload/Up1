@@ -85,7 +85,7 @@ Any contributions, whether to our existing code or as separate applications, are
 
 We don't ask for any CLAs - you don't have to give up copyright on your code - however we prefer that you contribute under the MIT license, just for consistency.
 
-Some of us idle on FreeNode in `#upload`, if you would like to chat!
+Some of us idle on Freenode in `#upload`, if you would like to chat!
 
 Thank you for you contributions!
 
