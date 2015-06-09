@@ -66,6 +66,8 @@ Technologies
 
 The browser-side is written in plain Javascript using SJCL for the AES-CCM encryption, with entropy obtained using the WebCrypto APIs and encryption performed within a Web Worker. The video and audio players just use the HTML5 players hopefully built into the browser. The paste viewer uses highlight.js for the syntax highlighting and line numbers.
 
+Additionally, the repository copy of SJCL comes from the source at https://github.com/bitwiseshiftleft/sjcl, commit `fb1ba931a46d41a7c238717492b66201b2995840` (Version 1.0.3), built with the command line `./configure --without-all --with-aes --with-sha512 --with-codecBytes --with-random --with-codecBase64 --with-ccm`, and compressed using Closure Compiler. If all goes well, a self-built copy should match up byte-for-byte to the contents of `static/deps/sjcl.min.js`.
+
 The server-side is written in Go and uses no dependencies outside of the standard library. The only cryptography it uses is for generating deletion keys, using HMAC and SHA256 in the built-in `crypto/hmac` and `crypto/sha256` packages, respectively.
 
 Caveats
