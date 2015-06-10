@@ -56,13 +56,14 @@ $(function() {
     
     uploadprogress.removeClass('hidden');
     progress.text('Encrypting');
-    crypt.encrypt(file).done(encrypted);
+    crypt.encrypt(file, filename.val() || "Pasted text.txt").done(encrypted);
   }
   
   viewswitcher.click(function() {
+    console.log(filename.val());
     if (vs_text.hasClass("hidden")) {
       if (textarea.val() != "")
-        doupload(new Blob([textarea.val()], { type: 'text/plain', name: filename.val() || "Pasted Text.txt" }))
+        doupload(new Blob([textarea.val()], { type: 'text/plain' }))
     } else {
       vs_text.addClass("hidden");
       uploadview.addClass("hidden");

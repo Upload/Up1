@@ -12,6 +12,8 @@ $(function () {
     var dlbtn = $('#dlbtn')
     var deletebtn = $('#deletebtn')
     var viewbtn = $('#inbrowserbtn')
+
+    var duplicatebtn = $('#duplicate')
     
     function hashchanged() {
         if (window.location.hash && window.location.hash != '#') {
@@ -26,8 +28,6 @@ $(function () {
             var seed = window.location.hash.substring(1)
 
             function embed(data) {
-                console.log("bbb");
-
                 previewfilename.text(data.header.name)
                 
                 console.log(data.header.name)
@@ -41,6 +41,7 @@ $(function () {
                 if (data.header.mime.startsWith('image/')) {
                     previewimg.find('img').prop('src', url)
                     previewimg.removeClass('hidden')
+		    duplicatebtn.addClass('hidden')
                 } else if (data.header.mime.startsWith('text/')) {
                     var fr = new FileReader()
 
@@ -48,6 +49,7 @@ $(function () {
                         
                         var text = fr.result
 
+		        duplicatebtn.removeClass('hidden')
                         previewtext.removeClass('hidden')
                         previewtext.find('code').text(text)
                         hljs.highlightBlock(previewtext.find('code')[0])
@@ -74,7 +76,6 @@ $(function () {
             }
 
             function downloaded() {
-              console.log("aaa");
                 $('#downloadprogress').text('Decrypting')
                 crypt.decrypt(this.response, seed).done(embed)
             }
@@ -133,6 +134,10 @@ $(function () {
             g.focusPaste()
         }
     }
+
+    duplicatebtn.click( function() {
+        console.log("duplicate");
+    })
 
     $(window).on('hashchange', hashchanged)
     hashchanged();

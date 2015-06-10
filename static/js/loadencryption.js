@@ -43,13 +43,13 @@ $(function () {
         return promise
     }
 
-    crypt.encrypt = function (file) {
+    crypt.encrypt = function (file, name) {
 
         var extension = file.type.split('/')
 
         var header = JSON.stringify({
             'mime': file.type,
-            'name': file.name ? file.name : ('Pasted ' + extension[0] + '.' + (extension[1] == 'plain' ? 'txt' : extension[1]))
+            'name': name ? name : (file.name ? file.name : ('Pasted ' + extension[0] + '.' + (extension[1] == 'plain' ? 'txt' : extension[1])))
         })
 
         var zero = new Uint8Array([0, 0]);
