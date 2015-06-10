@@ -29,9 +29,9 @@ $(function () {
 
             function embed(data) {
                 previewfilename.text(data.header.name)
-                
+
                 console.log(data.header.name)
-               
+
                 var url = URL.createObjectURL(data.decrypted)
 
                 viewbtn.prop('href', url)
@@ -46,7 +46,7 @@ $(function () {
                     var fr = new FileReader()
 
                     fr.onload = function () {
-                        
+
                         var text = fr.result
 
 		        duplicatebtn.removeClass('hidden')
@@ -63,7 +63,7 @@ $(function () {
                         }
 
                     }
-                    fr.readAsText (data.decrypted)
+                    fr.readAsText(data.decrypted)
                 } else if (data.header.mime.startsWith('video/')) {
                     details.find('video.preview').removeClass('hidden').prop('src', url)
                 } else if (data.header.mime.startsWith('audio/')) {
