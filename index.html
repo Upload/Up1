@@ -61,36 +61,16 @@
             }
 
         #viewswitcher {
-            width: 90px;
             height: 40px;
             position: absolute;
             top: 10px;
             right: 10px;
-            cursor: pointer;
-            border: 2px solid white;
         }
 
             #viewswitcher h3 {
                 color: white;
-                text-align: center;
-                vertical-align: middle;
-                line-height: 40px;
-                margin: 0;
-                -webkit-transition: background-color 400ms ease-out;
-                -moz-transition: background-color 400ms ease-out;
-                -o-transition: background-color 400ms ease-out;
-                -ms-transition: background-color 400ms ease-out;
-                transition: background-color 400ms ease-out;
-            }
 
-                #viewswitcher h3:hover {
-                    background-color: #313538;
-                    -webkit-transition: background-color 100ms ease-in;
-                    -moz-transition: background-color 100ms ease-in;
-                    -o-transition: background-color 100ms ease-in;
-                    -ms-transition: background-color 100ms ease-in;
-                    transition: background-color 100ms ease-in;
-                }
+            }
 
         #footer {
             position: absolute;
@@ -101,8 +81,10 @@
         }
 
             #footer a {
-                color: #aaa;
+                color: white;
+                opacity: .5;
                 font-size: 14px;
+                text-decoration: none;
             }
 
         progress {
@@ -269,20 +251,22 @@
         }
 
         .btn {
+            vertical-align: middle;
+            line-height: 40px;
+            margin: 0;
             height: 40px;
+            padding: 10px;
             border: 2px solid white;
-            display: inline-block;
             cursor: pointer;
             vertical-align: middle;
-            display: table-cell;
             margin-right: 5px;
             color: white !important;
             text-decoration: none;
             opacity: .75;
-            padding: 5px;
             background-color: rgba(0, 0, 0, .5);
             box-sizing: border-box;
             -moz-box-sizing: border-box;
+            transition: all 400ms ease-out;
         }
 
 
@@ -292,6 +276,8 @@
 
         .btn:hover {
             opacity: 1;
+            background-color: #313538;
+            transition: all 100ms ease-in;
         }
 
         #linenos {
@@ -327,8 +313,8 @@
 </head>
 <body>
     <div id="viewswitcher">
-        <h3 id="text">Text</h3>
-        <h3 id="save" class="hidden">Save</h3>
+        <a id="text" class="btn">New Paste</a>
+        <a id="save" class="btn hidden">Save</a>
     </div>
 
     <div class="contentarea" id="uploadview">
