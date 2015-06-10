@@ -83,7 +83,7 @@ $(function () {
             function downloadfromident(ident) {
 
 
-                var stored = localStorage.getItem('delete-' + seed)
+                var stored = localStorage.getItem('delete-' + ident.ident)
 
                 if (stored) {
                     deletebtn.show().prop('href', (g.config.server ? g.config.server : '') + 'del?delkey=' + stored + '&ident=' + ident.ident)
