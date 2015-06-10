@@ -12,7 +12,7 @@ $(function () {
     var dlbtn = $('#dlbtn')
     var deletebtn = $('#deletebtn')
     var viewbtn = $('#inbrowserbtn')
-    
+
     function hashchanged() {
         if (window.location.hash && window.location.hash != '#') {
             upview.addClass('hidden')
@@ -29,9 +29,9 @@ $(function () {
                 console.log("bbb");
 
                 previewfilename.text(data.header.name)
-                
+
                 console.log(data.header.name)
-               
+
                 var url = URL.createObjectURL(data.decrypted)
 
                 viewbtn.prop('href', url)
@@ -45,7 +45,7 @@ $(function () {
                     var fr = new FileReader()
 
                     fr.onload = function () {
-                        
+
                         var text = fr.result
 
                         previewtext.removeClass('hidden')
@@ -61,7 +61,7 @@ $(function () {
                         }
 
                     }
-                    fr.readAsText (data.decrypted)
+                    fr.readAsText(data.decrypted)
                 } else if (data.header.mime.startsWith('video/')) {
                     details.find('video.preview').removeClass('hidden').prop('src', url)
                 } else if (data.header.mime.startsWith('audio/')) {
@@ -74,7 +74,7 @@ $(function () {
             }
 
             function downloaded() {
-              console.log("aaa");
+                console.log("aaa");
                 $('#downloadprogress').text('Decrypting')
                 crypt.decrypt(this.response, seed).done(embed)
             }

@@ -60,12 +60,12 @@ $(function () {
         if (!dragging) {
             return
         }
-        
+
         e.preventDefault();
         var newx = e.pageX - lastx
         var newy = e.pageY - lasty
 
-        
+
         var width = dragging.width()
         var height = dragging.height()
 
