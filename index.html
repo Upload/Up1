@@ -160,7 +160,7 @@
             overflow: hidden;
         }
 
-        #previewtext {
+        .previewtext {
             position: absolute;
             top: 50px;
             width: 100%;
@@ -168,18 +168,18 @@
             overflow: auto;
         }
 
-            #previewtext pre {
+            .previewtext pre {
                 margin: 0;
                 padding-left: 50px;
             }
 
-            #previewtext code {
+            .previewtext code {
                 background: none;
                 margin: 0;
                 overflow: visible;
             }
 
-            #previewtext > textarea {
+            .previewtext > textarea {
                 background: transparent none repeat scroll 0% 0%;
                 border: 0px none;
                 padding: 0px;
@@ -204,7 +204,7 @@
             display: none !important;
         }
 
-        #filename {
+        #downloaded_filename {
             position: fixed;
             top: 0;
             left: 0;
@@ -222,7 +222,7 @@
             overflow: hidden;
         }
 
-        input#filename {
+        #create_filename {
             position: fixed;
             font-size: 16px;
             top: 10px;
@@ -339,8 +339,8 @@
     </div>
 
     <div id="textview" class="hidden">
-        <input id="filename" type="text" value="Pasted Text.txt">
-        <div id="previewtext" class="preview">
+        <input id="create_filename" type="text" value="Pasted Text.txt">
+        <div id="create_text" class="previewtext preview">
             <div id="linenos">
                 &gt;
             </div>
@@ -353,11 +353,11 @@
 
         <h1 id="downloadprogress"></h1>
         <div id="downloaddetails" class="hidden">
-            <h1 id="filename">Filename</h1>
+            <h1 id="downloaded_filename">Filename</h1>
             <div class="preview hidden" id="previewimg">
                 <img src="" class="dragresize" />
             </div>
-            <div id="previewtext" class="hidden preview">
+            <div id="downloaded_text" class="previewtext hidden preview">
                 <div id="linenos"></div>
                 <pre><code></code></pre>
             </div>

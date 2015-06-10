@@ -4,8 +4,8 @@ $(function () {
     var footer = $('#footer')
     var downview = $('#downloadview')
     var previewimg = $('#previewimg')
-    var previewtext = $('#downloaddetails>#previewtext')
-    var previewfilename = $('#downloaddetails>#filename')
+    var previewtext = $('#downloaded_text')
+    var previewfilename = $('#downloaded_filename')
     var details = $('#downloaddetails')
     var linenos = $('#downloaddetails #linenos')
 

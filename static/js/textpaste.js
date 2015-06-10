@@ -5,8 +5,8 @@ $(function () {
 
     var uploadview = $('#uploadview');
     var textview = $('#textview');
-    var textarea = $('#previewtext>textarea');
-    var filename = $('input#filename');
+    var textarea = $('#create_text textarea');
+    var filename = $('#create_filename');
 
     var pastearea = $('#pastearea')
     var uploadprogress = $('#uploadprogress')
@@ -62,6 +62,7 @@ $(function () {
   viewswitcher.click(function() {
     console.log(filename.val());
     if (vs_text.hasClass("hidden")) {
+        alert(textarea.val())
       if (textarea.val() != "")
         doupload(new Blob([textarea.val()], { type: 'text/plain' }))
     } else {
