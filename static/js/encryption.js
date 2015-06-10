@@ -57,7 +57,6 @@ function decrypt(file, seed, id) {
         header += String.fromCharCode(num);
     }
 
-    console.log(header)
 
     var header = JSON.parse(header)
 

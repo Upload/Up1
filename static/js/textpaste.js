@@ -60,9 +60,7 @@ $(function () {
   }
   
   viewswitcher.click(function() {
-    console.log(filename.val());
     if (vs_text.hasClass("hidden")) {
-        alert(textarea.val())
       if (textarea.val() != "")
         doupload(new Blob([textarea.val()], { type: 'text/plain' }))
     } else {

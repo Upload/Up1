@@ -29,9 +29,6 @@ $(function () {
 
             function embed(data) {
                 previewfilename.text(data.header.name)
-
-                console.log(data.header.name)
-
                 var url = URL.createObjectURL(data.decrypted)
 
                 viewbtn.prop('href', url)
