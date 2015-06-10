@@ -25,6 +25,20 @@
             vertical-align: middle;
             line-height: 200px;
             margin: 0;
+            -webkit-transition: background-color 400ms ease-out;
+            -moz-transition: background-color 400ms ease-out;
+            -o-transition: background-color 400ms ease-out;
+            -ms-transition: background-color 400ms ease-out;
+            transition: background-color 400ms ease-out;
+        }
+
+        .contentarea h1:hover {
+            background-color: #313538;
+            -webkit-transition: background-color 100ms ease-in;
+            -moz-transition: background-color 100ms ease-in;
+            -o-transition: background-color 100ms ease-in;
+            -ms-transition: background-color 100ms ease-in;
+            transition: background-color 100ms ease-in;
         }
 
         .contentarea {
@@ -47,7 +61,50 @@
                 background-color: rgba(255, 255, 255, .2);
             }
 
-
+        #viewswitcher {
+          width: 90px;
+          height: 40px;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+          border: 2px solid white;
+        }
+        
+        #viewswitcher h3 {
+          color: white;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 40px;
+          margin: 0;
+          -webkit-transition: background-color 400ms ease-out;
+          -moz-transition: background-color 400ms ease-out;
+          -o-transition: background-color 400ms ease-out;
+          -ms-transition: background-color 400ms ease-out;
+          transition: background-color 400ms ease-out;
+        }
+        
+        #viewswitcher h3:hover {
+            background-color: #313538;
+            -webkit-transition: background-color 100ms ease-in;
+            -moz-transition: background-color 100ms ease-in;
+            -o-transition: background-color 100ms ease-in;
+            -ms-transition: background-color 100ms ease-in;
+            transition: background-color 100ms ease-in;
+        }
+        
+        #footer {
+          position: absolute;
+          width: 100%;
+          bottom: 10px;
+          margin: auto;
+          text-align: center;
+        }
+        
+        #footer a {
+          color: #aaa;
+          font-size: 14px;
+        }
 
         progress {
             width: 100%;
@@ -142,6 +199,22 @@
             margin: 0;
             overflow: visible;
         }
+        
+        #previewtext>textarea {
+          background: transparent none repeat scroll 0% 0%;
+          border: 0px none;
+          padding: 0px;
+          font-family: monospace;
+          outline: medium none;
+          resize: none;
+          margin: 0;
+          padding-top: 5px;
+          padding-left: 50px;
+          font-size: 13px;
+          width: calc(100% - 50px);
+          height: calc(100% - 5px);
+          color: white;
+        }
 
         .hidden {
             display: none !important;
@@ -154,6 +227,26 @@
             padding: 5px;
             background-color: rgba(0, 0, 0, .5);
             border-bottom-right-radius: 5px;
+            margin: 0;
+            color: white;
+            opacity: .75;
+            z-index: 1;
+            max-width: 100%;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        input#filename {
+            position: fixed;
+            font-size: 16px;
+            top: 10px;
+            left: 10px;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, .5);
+            border-bottom-right-radius: initial;
+            border: 1px solid white;
             margin: 0;
             color: white;
             opacity: .75;
@@ -224,6 +317,7 @@
     <script src="/static/deps/jquery-2.1.4.min.js"></script>
     <script src="/static/js/shims.js"></script>
     <script src="/static/js/drop.js"></script>
+    <script src="/static/js/textpaste.js"></script>
     <script src="/static/js/loadencryption.js"></script>
     <script src="/static/js/downloadable.js"></script>
     <script src="/static/js/config.js"></script>
@@ -235,6 +329,11 @@
     <script src="/static/deps/highlight.min.js"></script>
 </head>
 <body>
+    <div id="viewswitcher">
+      <h3 id="text">Text</h3>
+      <h3 id="save" class="hidden">Save</h3>
+    </div>
+    
     <div class="contentarea" id="uploadview">
         <div id="pastearea">
             <h1>Upload</h1>
@@ -251,7 +350,15 @@
         </form>
     </div>
 
-
+    <div id="textview" class="hidden">
+      <input id="filename" type="text" value="Pasted Text.txt">
+      <div id="previewtext" class="preview">
+        <div id="linenos">
+          &gt;
+        </div>
+        <textarea></textarea>
+      </div>
+    </div>
     
 
     <div id="downloadview" class="hidden">
@@ -279,6 +386,10 @@
                 <a class="btn" id="newupload" href="#">New Upload</a>
             </div>
         </div>
+    </div>
+    
+    <div id="footer">
+        <a href="https://github.com/Upload/Upload" target="_blank">Source Code</a>
     </div>
 </body>
 </html>

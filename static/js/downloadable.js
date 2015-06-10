@@ -1,10 +1,13 @@
 $(function () {
     var upview = $('#uploadview')
+    var viewswitcher = $('#viewswitcher')
+    var footer = $('#footer')
     var downview = $('#downloadview')
     var previewimg = $('#previewimg')
-    var previewtext = $('#previewtext')
-    var previewfilename = $('#filename')
+    var previewtext = $('#downloaddetails>#previewtext')
+    var previewfilename = $('#downloaddetails>#filename')
     var details = $('#downloaddetails')
+    var linenos = $('#downloaddetails #linenos')
 
     var dlbtn = $('#dlbtn')
     var deletebtn = $('#deletebtn')
@@ -13,6 +16,8 @@ $(function () {
     function hashchanged() {
         if (window.location.hash && window.location.hash != '#') {
             upview.addClass('hidden')
+            viewswitcher.addClass('hidden')
+            footer.addClass('hidden')
             previewtext.addClass('hidden')
             previewimg.addClass('hidden')
             downview.removeClass('hidden')
@@ -21,9 +26,11 @@ $(function () {
             var seed = window.location.hash.substring(1)
 
             function embed(data) {
-               
+                console.log("bbb");
 
                 previewfilename.text(data.header.name)
+                
+                console.log(data.header.name)
                
                 var url = URL.createObjectURL(data.decrypted)
 
@@ -45,7 +52,7 @@ $(function () {
                         previewtext.find('code').text(text)
                         hljs.highlightBlock(previewtext.find('code')[0])
 
-                        var linenumbers = $('#linenos').empty()
+                        var linenumbers = linenos.empty()
 
                         var length = text.split(/\r\n|\r|\n/).length
 
@@ -67,6 +74,7 @@ $(function () {
             }
 
             function downloaded() {
+              console.log("aaa");
                 $('#downloadprogress').text('Decrypting')
                 crypt.decrypt(this.response, seed).done(embed)
             }
@@ -106,11 +114,15 @@ $(function () {
             previewtext.find('code').empty()
             details.addClass('hidden')
             upview.addClass('hidden')
+            viewswitcher.addClass('hidden')
+            footer.addClass('hidden')
             $('#downloadprogress').show().text('Loading')
 
             crypt.ident(seed).done(downloadfromident)
         } else {
             upview.removeClass('hidden')
+            viewswitcher.removeClass('hidden')
+            footer.removeClass('hidden')
             details.find('.preview').addClass('hidden')
             details.addClass('hidden')
             downview.addClass('hidden')
