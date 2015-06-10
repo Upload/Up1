@@ -6,15 +6,15 @@ It has the ability to view images, text with syntax highlighting, short videos, 
 
 Demo
 ---
-We currently run a public demo server at https://d0x.ca.
+We currently run a public demo server at https://up1.ca.
 
-Example image: https://d0x.ca/#blah - [(source)](http://www.fanpop.com/clubs/colors/images/29701480/title/colourful-stripes-wallpaper). Try dragging around the image to zoom in and out, RES-style!
+Example image: https://up1.ca/#blah - [(source)](http://www.fanpop.com/clubs/colors/images/29701480/title/colourful-stripes-wallpaper). Try dragging around the image to zoom in and out, RES-style!
 
-Example text paste: https://d0x.ca/#blah - [(source)](https://github.com/Upload/Upload/server.go)
+Example text paste: https://up1.ca/#blah - [(source)](https://github.com/Upload/Upload/server.go)
 
-Example short video: https://d0x.ca/#blah - [(source)](https://youtu.be/O6Xo21L0ybE)
+Example short video: https://up1.ca/#blah - [(source)](https://youtu.be/O6Xo21L0ybE)
 
-Example download file: https://d0x.ca/#blah - [(source)](https://github.com/Upload/Upload/archive/master.zip)
+Example download file: https://up1.ca/#blah - [(source)](https://github.com/Upload/Upload/archive/master.zip)
 
 This server is open to all users, so feel free to upload your own files.
 
