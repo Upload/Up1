@@ -114,7 +114,6 @@ $(function () {
 
     $(document).on('paste', function (e) {
         if (!pastearea.is(':visible')) {
-            e.preventDefault()
             return
         }
         var items = e.originalEvent.clipboardData.items
