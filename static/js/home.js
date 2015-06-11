@@ -42,7 +42,9 @@ upload.modules.addmodule({
     drop: function (e) {
         e.preventDefault()
         this._.pastearea.removeClass('dragover')
-        this.doupload(e.originalEvent.dataTransfer.files[0])
+        if (e.originalEvent.dataTransfer.files.length > 0) {
+            this.doupload(e.originalEvent.dataTransfer.files[0])
+        }
     },
     dragover: function (e) {
         e.preventDefault()
