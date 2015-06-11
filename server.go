@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"sync"
 	"io"
 	"log"
 	"net/http"
@@ -19,12 +20,17 @@ type Config struct {
 	DeleteKey   string `json:"static_delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
 
-	Ssl struct {
+	Http struct {
+		Enabled bool `json:"enabled"`
+		Listen string `json:"listen"`
+	} `json:"http"`
+
+	Https struct {
 		Enabled bool `json:"enabled"`
 		Listen string `json:"listen"`
 		Cert string `json:"cert"`
 		Key string `json:"key"`
-	} `json:"ssl"`
+	} `json:"https"`
 
 	CfCacheInvalidate struct {
 		Enabled bool `json:"enabled"`
@@ -53,8 +59,19 @@ func readConfig() Config {
 	if err != nil {
 		fmt.Println("Error reading config: ", err)
 	}
-	fmt.Printf("%+v\n", config)
 	return config
+}
+
+func validateConfig(config Config) {
+	if (!config.Http.Enabled && !config.Https.Enabled) {
+		log.Fatal("At least one of http or https must be enabled!")
+	}
+	if (len(config.StaticKey) == 0) {
+		log.Fatal("A static key must be defined in the configuration!")
+	}
+	if (len(config.DeleteKey) == 0) {
+		log.Fatal("A static delete key must be defined in the configuration!")
+	}
 }
 
 func makeDelkey(ident string) string {
@@ -171,6 +188,22 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
 	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir("i"))))
 	config = readConfig()
-	fmt.Printf("Listening on %s\n", config.Listen)
-	log.Fatal(http.ListenAndServe(config.Listen, nil))
+	validateConfig(config)
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		log.Printf("Starting HTTP server on %s\n", config.Http.Listen)
+		log.Println(http.ListenAndServe(config.Http.Listen, nil))
+	}()
+
+	go func() {
+		defer wg.Done()
+		log.Printf("Starting HTTPS server on %s\n", config.Https.Listen)
+		log.Println(http.ListenAndServeTLS(config.Https.Listen, config.Https.Cert, config.Https.Key, nil))
+	}()
+
+	wg.Wait()
 }
