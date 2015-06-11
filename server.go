@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 	"sync"
@@ -37,6 +38,7 @@ type Config struct {
 		Token   string `json:"token"`
 		Email   string `json:"email"`
 		Domain  string `json:"domain"`
+		Url     string `json:"url"`
 	} `json:"cloudflare-cache-invalidate"`
 }
 
@@ -177,8 +179,37 @@ func delfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if config.CfCacheInvalidate.Enabled {
+		if config.Http.Enabled {
+			cfInvalidate(ident, false)
+		}
+		if config.Https.Enabled {
+			cfInvalidate(ident, true)
+		}
+	}
+
 	os.Remove(identPath)
 	http.Redirect(w, r, "/", 301)
+}
+
+func cfInvalidate(ident string, https bool) {
+	var invUrl string
+	if https {
+		invUrl = "https://" + config.CfCacheInvalidate.Url
+	} else {
+		invUrl = "http://" + config.CfCacheInvalidate.Url
+	}
+	invUrl += "/i/" + ident
+
+	if _, err := http.PostForm("https://www.cloudflare.com/api_json.html", url.Values{
+		"a":     {"zone_file_purge"},
+		"tkn":   {config.CfCacheInvalidate.Token},
+		"email": {config.CfCacheInvalidate.Email},
+		"z":     {config.CfCacheInvalidate.Domain},
+		"url":   {invUrl},
+	}); err != nil {
+		log.Printf("Cache invalidate failed for '%s': '%s'", ident, err.Error())
+	}
 }
 
 func main() {
@@ -187,6 +218,7 @@ func main() {
 	http.HandleFunc("/del", delfile)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
 	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir("i"))))
+
 	config = readConfig()
 	validateConfig(config)
 
