@@ -129,7 +129,6 @@ upload.modules.addmodule({
         }
         this._.filename.show()
         this._.btns.show()
-        this._.globalbtns.show()
     },
     closepaste: function() {
       this._.dlarea.show()
