@@ -9,8 +9,10 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
+	"sync"
 )
 
 type Config struct {
@@ -18,6 +20,26 @@ type Config struct {
 	StaticKey   string `json:"static_key"`
 	DeleteKey   string `json:"static_delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
+
+	Http struct {
+		Enabled bool   `json:"enabled"`
+		Listen  string `json:"listen"`
+	} `json:"http"`
+
+	Https struct {
+		Enabled bool   `json:"enabled"`
+		Listen  string `json:"listen"`
+		Cert    string `json:"cert"`
+		Key     string `json:"key"`
+	} `json:"https"`
+
+	CfCacheInvalidate struct {
+		Enabled bool   `json:"enabled"`
+		Token   string `json:"token"`
+		Email   string `json:"email"`
+		Domain  string `json:"domain"`
+		Url     string `json:"url"`
+	} `json:"cloudflare-cache-invalidate"`
 }
 
 var config Config
@@ -40,6 +62,18 @@ func readConfig() Config {
 		fmt.Println("Error reading config: ", err)
 	}
 	return config
+}
+
+func validateConfig(config Config) {
+	if !config.Http.Enabled && !config.Https.Enabled {
+		log.Fatal("At least one of http or https must be enabled!")
+	}
+	if len(config.StaticKey) == 0 {
+		log.Fatal("A static key must be defined in the configuration!")
+	}
+	if len(config.DeleteKey) == 0 {
+		log.Fatal("A static delete key must be defined in the configuration!")
+	}
 }
 
 func makeDelkey(ident string) string {
@@ -145,8 +179,37 @@ func delfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if config.CfCacheInvalidate.Enabled {
+		if config.Http.Enabled {
+			cfInvalidate(ident, false)
+		}
+		if config.Https.Enabled {
+			cfInvalidate(ident, true)
+		}
+	}
+
 	os.Remove(identPath)
 	http.Redirect(w, r, "/", 301)
+}
+
+func cfInvalidate(ident string, https bool) {
+	var invUrl string
+	if https {
+		invUrl = "https://" + config.CfCacheInvalidate.Url
+	} else {
+		invUrl = "http://" + config.CfCacheInvalidate.Url
+	}
+	invUrl += "/i/" + ident
+
+	if _, err := http.PostForm("https://www.cloudflare.com/api_json.html", url.Values{
+		"a":     {"zone_file_purge"},
+		"tkn":   {config.CfCacheInvalidate.Token},
+		"email": {config.CfCacheInvalidate.Email},
+		"z":     {config.CfCacheInvalidate.Domain},
+		"url":   {invUrl},
+	}); err != nil {
+		log.Printf("Cache invalidate failed for '%s': '%s'", ident, err.Error())
+	}
 }
 
 func main() {
@@ -155,7 +218,28 @@ func main() {
 	http.HandleFunc("/del", delfile)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
 	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir("i"))))
+
 	config = readConfig()
-	fmt.Printf("Listening on %s\n", config.Listen)
-	log.Fatal(http.ListenAndServe(config.Listen, nil))
+	validateConfig(config)
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		if config.Http.Enabled {
+			log.Printf("Starting HTTP server on %s\n", config.Http.Listen)
+			log.Println(http.ListenAndServe(config.Http.Listen, nil))
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if config.Https.Enabled {
+			log.Printf("Starting HTTPS server on %s\n", config.Https.Listen)
+			log.Println(http.ListenAndServeTLS(config.Https.Listen, config.Https.Cert, config.Https.Key, nil))
+		}
+	}()
+
+	wg.Wait()
 }
