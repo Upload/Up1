@@ -4,17 +4,17 @@ Upload: A Client-side Encrypted Image Host
 Upload is a simple host that client-side encrypts images, text, and other data, and stores them, with the server knowing nothing about the contents.
 It has the ability to view images, text with syntax highlighting, short videos, and arbitrary binaries as downloadables.
 
-Demo
+Public Server
 ---
-We currently run a public demo server at https://up1.ca.
+We currently run a public, free to use server at https://up1.ca.
 
-Example image: https://up1.ca/#blah - [(source)](http://www.fanpop.com/clubs/colors/images/29701480/title/colourful-stripes-wallpaper). Try dragging around the image to zoom in and out, RES-style!
+Example image: https://up1.ca/#hsd2mdSuIkzTUR6saZpn1Q - [(source)](https://www.ashleymills.com/node/8). *Hint: Try double-clicking on the image, and dragging around the image to zoom in and out, RES-style!*
 
-Example text paste: https://up1.ca/#blah - [(source)](https://github.com/Upload/Upload/server.go)
+Example text paste: https://up1.ca/#\_H7Wy9atfl2CW\_cYx6Xh9A - [(source)](http://www.publicdomainpoems.com/ocaptainmycaptain.html)
 
-Example short video: https://up1.ca/#blah - [(source)](https://youtu.be/O6Xo21L0ybE)
+Example short video: https://up1.ca/#55s3dQnPjtcgstvspdYT5g - [(source)](https://youtu.be/O6Xo21L0ybE)
 
-Example download file: https://up1.ca/#blah - [(source)](https://github.com/Upload/Upload/archive/master.zip)
+Example download file: https://up1.ca/#FzZfbBm8ryG-o-yodh2k-g - [(source)](https://github.com/Upload/ShareX/releases/tag/v9.10.1)
 
 This server is open to all users, so feel free to upload your own files.
 
@@ -28,22 +28,19 @@ To install and run the server with default settings:
     go build server.go
     ./server
 
-Configuration is done through the `server.conf` file:
+Configuration is done through the [`server.conf`](https://github.com/Upload/Upload/server.conf.example) file. For a quick start, simply move `server.conf.example` to `server.conf`.
 
-    {
-      "listen": ":9000",
-      "static_key": "c61540b5ceecd05092799f936e27755f",
-      "static_delete_key": "bb77e727aefe632fb21ab857b98577c6",
-      "maximum_file_size": 50000000
-    }
-
-`listen` is an address:port-formatted string, where either one are optional. Some examples include `":9000"` to listen on any interface, port 9000; `"1.2.3.4"` to listen on localhost port 80; `"1.1.1.1:8080"` to listen on 1.1.1.1 port 8080; or even `""` to listen on any interface, port 80.
+`listen` is an `address:port`-formatted string, where either one are optional. Some examples include `":9000"` to listen on any interface, port 9000; `"1.2.3.4"` to listen on localhost port 80; `"1.1.1.1:8080"` to listen on 1.1.1.1 port 8080; or even `""` to listen on any interface, port 80.
 
 `static_key` is a very basic security measure, requiring any client making an upload to know this key. This doesn't seem very useful and should be revamped; replace it with HTTP auth maybe?
 
 `static_delete_key` is a key used to secure the deletion keys. Set this to something that only the server knows.
 
 `maximum_file_size` is the largest file, in bytes, that's allowed to be uploaded to the server. The default here is a decimal 50MB.
+
+There are three additional sections in the configuration file: `http`, `https` and `cloudflare-cache-invalidate`. The first two are fairly self-explanitory (and at least one must be enabled).
+
+`cloudflare-cache-invalidate` is disabled by default and only useful if you choose to run the Upload server behind Cloudflare. When this section is enabled, it ensures that when an upload is deleted, Cloudflare doesn't hold on to copies of the upload on its edge servers by sending an API call to invalidate it.
 
 External Tools
 ---
@@ -73,13 +70,17 @@ The server-side is written in Go and uses no dependencies outside of the standar
 Caveats
 ---
 
-* **Encryption/Decryption are not streamed or chunked.** This means that (at the time) any download must fit fully in memory, or the browser may crash. This is not a problem with sub-10MB images, but may be a problem if you want to share an hour-long game video. We would love help and contributions, even if they break backwards compatibilty. As this project is still relatively new, the API is not sacred, so break away!
+* **Encryption/Decryption are not streamed or chunked.** This means that (at the time) any download must fit fully in memory, or the browser may crash. This is not a problem with sub-10MB images, but may be a problem if you want to share a long gameplay video or recorded meeting minutes. We would love help and contributions, even if they break backwards compatibilty. As this project is still relatively new, the API is not sacred, so break away!
 
 * **CCM is kinda slow.** Compared to other authenticated encryption modes out there such as GCM or OCB, CCM is considered one of the slower modes (slightly slower than GCM, and almost twice as slow as OCB), isn't parallelizable and [didn't make the best design decisions](http://crypto.stackexchange.com/a/19446). The reason that we chose this algorithm, however, is twofold: primarily, this is the most-audited, oldest and most commonly used algorithm contained in SJCL; as this is used for viewing data, security there is important - and secondly, the other two mentioned algorithms in SJCL were actually *slower* than CCM. There are other crypto libraries which may be allegedly faster, such as [asmcrypto.js](https://github.com/vibornoff/asmcrypto.js/), but it seems new, we don't know anything about it and currently prefer SJCL for its familiarity. With an audit from a trusted party, we may take a second look at asmcrypto.js.
 
 * **By its very nature, this uses cryptography in Javascript.** There have been many reasons given as to why it's bad to use cryptography in Javascript, and some may be more valid than others. We're working on browser extensions to mitigate some of these reasons (and non-Javascript clients are always welcome!), but safe to say that if you unconditionally believe that Javascript crypto is bad, you probably won't want to use this.
 
 * **As a new project, this code hasn't been audited by a trusted party.** Since this is brand new, there have been (to date) very few eyes on the code, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk. 
+
+* **The server will, in most cases, receive referrer headers.** If a server decides to log requests, they will also be able to receive `Referer` headers. For private/protected websites and direct links sent via IM or email, this isn't a big deal. If the link is on a public website however, it means the server owner might be able to find the original image. Unfortunately there's nothing that the software or server owner can do about this (apart from hosting behind a CDN and offloading the Referer header to the edge), however when posting a link you have a few options:
+  1. Put `rel="noreferrer"` into any `<a>` links that are directed at the Upload server.
+  2. If you don't have control over the link attributes, you can use a referrer breaker such as https://anon.click/ or https://href.li/, amongst many.
 
 Contributing
 ---
