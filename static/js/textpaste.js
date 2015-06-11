@@ -64,5 +64,7 @@ upload.modules.addmodule({
 
 
         area.val(data).focus()[0].setSelectionRange(0, 0)
+
+        area.scrollTop(0)
     }
 })

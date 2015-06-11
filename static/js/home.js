@@ -137,8 +137,8 @@ upload.modules.addmodule({
         var text = e.originalEvent.clipboardData.getData('text/plain')
 
         if (text) {
-            this.dopasteupload(text)
             e.preventDefault()
+            this.dopasteupload(text)
         } else if (typeof items == 'undefined') {
             setTimeout(function () {
                 if (pasteCatcher.find('img').length) {
