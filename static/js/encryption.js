@@ -64,6 +64,7 @@ function decrypt(file, seed, id) {
 
     postMessage({
         'id': id,
+        'ident': sjcl.codec.base64url.fromBits(params.ident),
         'header': header,
         'decrypted': data.slice((i * 2) + 2, data.size, header.mime)
     })

@@ -74,10 +74,10 @@
 
         #footer {
             position: absolute;
-            width: 100%;
             bottom: 10px;
             margin: auto;
             text-align: center;
+            width: 100%;
         }
 
             #footer a {
@@ -110,14 +110,14 @@
         }
 
 
-        #downloadview, #downloaddetails {
+        #module_download, #downloaddetails {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
         }
 
-            #downloadview .preview {
+            #module_download .preview {
                 max-width: 100%;
                 max-height: 100%;
             }
@@ -132,7 +132,7 @@
                 max-height: 100vh;
             }
 
-        #downloadview .preview {
+        #module_download .preview {
             display: block;
             margin: 0 auto;
         }
@@ -248,6 +248,7 @@
             height: 40px;
             display: table;
             border-collapse: separate;
+            z-index: 1;
             border-spacing: 5px;
         }
 
@@ -301,13 +302,22 @@
         .dragresize.dragging {
             cursor: nwse-resize;
         }
+        .viewcontent {
+            width: 100%;
+            height: 100%;
+        }
+        .loadingtext {
+            color: white;
+            text-align: center;
+        }
     </style>
     <script src="/static/deps/jquery-2.1.4.min.js"></script>
     <script src="/static/js/shims.js"></script>
-    <script src="/static/js/drop.js"></script>
-    <script src="/static/js/textpaste.js"></script>
     <script src="/static/js/loadencryption.js"></script>
-    <script src="/static/js/downloadable.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/home.js"></script>
+    <script src="/static/js/updown.js"></script>
+    <script src="/static/js/download.js"></script>
     <script src="/static/js/config.js"></script>
     <script src="/static/js/dragresize.js"></script>
     <script>
@@ -317,65 +327,7 @@
     <script src="/static/deps/highlight.min.js"></script>
 </head>
 <body>
-    <div id="viewswitcher">
-        <a id="text" class="btn">New Paste</a>
-        <a id="save" class="btn hidden">Save</a>
-    </div>
-
-    <div class="contentarea" id="uploadview">
-        <div id="pastearea">
-            <h1>Upload</h1>
-        </div>
-        <div class="hidden" id="uploadprogress">
-            <h1 id="progressamount"></h1>
-            <div id="progressamountbg"></div>
-        </div>
-        <div class="hidden" id="uploadfinish">
-            <h1><a href="" id="finallink">Link</a></h1>
-        </div>
-        <form>
-            <input type="file" id="filepicker" class="hidden" />
-        </form>
-    </div>
-
-    <div id="textview" class="hidden">
-        <input id="create_filename" type="text" value="Pasted Text.txt">
-        <div id="create_text" class="previewtext preview">
-            <div id="linenos">
-                &gt;
-            </div>
-            <textarea></textarea>
-        </div>
-    </div>
-
-
-    <div id="downloadview" class="hidden">
-
-        <h1 id="downloadprogress"></h1>
-        <div id="downloaddetails" class="hidden">
-            <h1 id="downloaded_filename">Filename</h1>
-            <div class="preview hidden" id="previewimg">
-                <img src="" class="dragresize" />
-            </div>
-            <div id="downloaded_text" class="previewtext hidden preview">
-                <div id="linenos"></div>
-                <pre><code></code></pre>
-            </div>
-            <video class="hidden preview" controls autoplay></video>
-            <audio class="hidden preview" controls autoplay></audio>
-            <div id="btnarea">
-
-                <a class="btn" id="dlbtn" href="#">Download</a>
-                <a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a>
-                <a class="btn" id="deletebtn" href="#">Delete</a>
-            </div>
-
-            <div id="globalbtnarea">
-                <a class="btn" id="duplicate" href="#">Duplicate</a>
-                <a class="btn" id="newupload" href="#">New Upload</a>
-            </div>
-        </div>
-    </div>
+    <div class="modulecontent"></div>
 
     <div id="footer">
         <a href="https://github.com/Upload/Upload" target="_blank">Source Code</a>

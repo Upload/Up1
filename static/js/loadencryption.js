@@ -101,7 +101,7 @@ $(function () {
                 'id': promise.id
             })
         }
-
+        
         fr.readAsArrayBuffer(file)
 
         return promise
