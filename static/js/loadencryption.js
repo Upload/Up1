@@ -1,15 +1,17 @@
 var crypt = {}
 
 $(function () {
+    var crypto = window.crypto || window.msCrypto;
+
     function getEntropy() {
         var entropy = new Uint32Array(256)
-        window.crypto.getRandomValues(entropy)
+        crypto.getRandomValues(entropy)
         return entropy
     }
 
     function getSeed() {
         var seed = new Uint8Array(16)
-        window.crypto.getRandomValues(seed)
+        crypto.getRandomValues(seed)
         return seed
     }
 
@@ -101,7 +103,7 @@ $(function () {
                 'id': promise.id
             })
         }
-        
+
         fr.readAsArrayBuffer(file)
 
         return promise
