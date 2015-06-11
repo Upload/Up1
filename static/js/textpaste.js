@@ -1,76 +1,70 @@
-$(function () {
-    var viewswitcher = $('#viewswitcher');
-    var vs_text = $('#viewswitcher>#text');
-    var vs_save = $('#viewswitcher>#save');
+upload.modules.addmodule({
+    name: 'textpaste',
+    init: function () {
+      $(document).on('submit', '#textview', this.save.bind(this))
+      $(document).on('click', '#retbtn', this.closethis.bind(this))
+      $(document).on('keydown', this.keypress.bind(this))
+    },
+    keypress: function(e) {
+      if (!this.current) {
+        return
+      }
 
-    var uploadview = $('#uploadview');
-    var textview = $('#textview');
-    var textarea = $('#create_text textarea');
-    var filename = $('#create_filename');
+      if (!(e.keyCode == 83 && (e.ctrlKey || e.metaKey))) {
+        return
+      }
 
-    var pastearea = $('#pastearea')
-    var uploadprogress = $('#uploadprogress')
-    var filepicker = $('#filepicker')
-    var progress = $('#progressamount')
-    var progressbg = $('#progressamountbg')
+      this.save()
+      event.preventDefault()
+    },
+    save: function(e) {
+      e ? e.preventDefault() : undefined
+      upload.route.setroute(upload.home)
+      upload.home.doupload(new File([this.current.find('textarea').val()],
+      this.current.find('#create_filename').val(),
+        {
+          type: this.current.find('#create_mime').val()
+        }
+      ))
+    },
+    closethis: function(closeback) {
+      var closeback = this.closeback
+      delete this['closeback']
+      this.current.remove()
+      delete this['current']
+      closeback()
+    },
+    render: function(view, filename, data, mime, closeback) {
+      var main = $('<form>').prop('id', 'textview').prop('autocomplete', 'off')
 
-    function progressdo(e) {
-        var percent = (e.loaded / e.total) * 100
-        progressbg.css('width', percent + '%');
-        progress.text(Math.floor(percent) + '%')
+      main.appendTo(view)
+
+      this.closeback = closeback
+      this.current = main
+
+      main.append($('<div>').addClass('viewswitcher').append(
+        $('<button>').prop('type', 'submit').text('Save').addClass('btn')
+      ).append(
+        $('<a>').prop('id', 'retbtn').text('Return').addClass('btn')
+      ))
+
+      var filenamefield = $('<input>').prop('id', 'create_filename').val(filename)
+
+      var mimefield = $('<input>').prop('hidden', true).prop('id', 'create_mime').val(mime)
+
+      main.append(filenamefield).append(mimefield)
+
+      var area = $('<textarea>')
+
+      var text  = $('<div>').prop('id', 'create_text').addClass('previewtext preview')
+        .append($('<div>').prop('id', 'create_linenos').append("&gt;"))
+        .append(area)
+
+        main.append(text)
+
+
+        area.val(data).focus()[0].setSelectionRange(0, 0)
+
+        area.scrollTop(0)
     }
-
-    function encrypted(data) {
-        var formdata = new FormData()
-        formdata.append('privkey', 'c61540b5ceecd05092799f936e27755f')
-        formdata.append('ident', data.ident)
-        formdata.append('file', data.encrypted)
-        $.ajax({
-            url: (g.config.server ? g.config.server : '') + 'up',
-            data: formdata,
-            cache: false,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            xhr: function () {
-                var xhr = new XMLHttpRequest()
-                xhr.upload.addEventListener('progress', progressdo, false)
-                return xhr
-            },
-            type: 'POST'
-    }).done(function (response) {
-      progressbg.css('width', 0);
-      pastearea.removeClass('hidden')
-      uploadprogress.addClass('hidden')
-      localStorage.setItem('delete-' + data.ident, response.delkey)
-      window.location = '#' + data.seed
-    })
-  }
-  
-  function doupload(file) {
-    viewswitcher.addClass('hidden');
-    textview.addClass('hidden');
-    vs_save.addClass("hidden");
-    vs_text.removeClass("hidden");
-    textarea.val('');
-    
-    uploadprogress.removeClass('hidden');
-    progress.text('Encrypting');
-    crypt.encrypt(file, filename.val() || "Pasted text.txt").done(encrypted);
-  }
-  
-  viewswitcher.click(function() {
-    if (vs_text.hasClass("hidden")) {
-      if (textarea.val() != "")
-        doupload(new Blob([textarea.val()], { type: 'text/plain' }))
-    } else {
-      vs_text.addClass("hidden");
-      uploadview.addClass("hidden");
-      
-      vs_save.removeClass("hidden");
-      textview.removeClass("hidden");
-      
-      textarea.select();
-    }
-  });
 })
