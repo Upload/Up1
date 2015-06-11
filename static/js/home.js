@@ -142,13 +142,14 @@ upload.modules.addmodule({
             e.preventDefault()
             this.dopasteupload(text)
         } else if (typeof items == 'undefined') {
+            self = this
             setTimeout(function () {
-                if (pasteCatcher.find('img').length) {
-                    var src = pasteCatcher.find('img').prop('src')
+                if (self.pastecatcher.find('img').length) {
+                    var src = self.pastecatcher.find('img').prop('src')
                     if (src.startsWith('data:')) {
-                        this.doupload(dataURItoBlob(src))
+                        self.doupload(dataURItoBlob(src))
                     } else {
-                        alert("Firefox (I assume) basically pasted that as a direct embed to the image, we could download then upload it maybe like imgur does")
+                        // TODO: Firefox
                     }
                 }
             }, 0)
