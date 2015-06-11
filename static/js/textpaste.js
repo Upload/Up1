@@ -46,11 +46,11 @@ upload.modules.addmodule({
       this.closeback = closeback
       this.current = main
 
-      main.append($('<div>').addClass('viewswitcher').append(
+      main.append($('<div>').addClass('topbar').append($('<div>').addClass('viewswitcher').append(
         $('<button>').prop('type', 'submit').text('Save').addClass('btn')
       ).append(
         $('<a>').prop('id', 'retbtn').text('Return').addClass('btn')
-      ))
+      )))
 
       var filenamefield = $('<input>').prop('id', 'create_filename').val(filename)
 

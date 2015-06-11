@@ -3,17 +3,19 @@ upload.modules.addmodule({
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
     template: '\
       <div class="modulecontent" id="dlarea">\
+        <div class="topbar">\
+        <h1 id="downloaded_filename"></h1>\
         <div class="viewswitcher">\
-          <a id="editpaste" class="btn">Edit Paste</a>\
-          <a class="btn" id="newupload" href="#">New Upload</a>\
+          <a id="editpaste" class="btn">Edit Paste</a\
+          ><a class="btn" id="newupload" href="#">New Upload</a>\
+        </div>\
         </div>\
         <div id="downloaddetails"></div>\
-        <h1 id="downloaded_filename"></h1>\
         <div id="btnarea">\
-                <a class="btn" id="dlbtn" href="#">Download</a>\
-                <a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a>\
-                <a class="btn" id="deletebtn" href="#">Delete</a>\
-            </div>\
+                <a class="btn" id="dlbtn" href="#">Download</a\
+                ><a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a\
+                ><a class="btn" id="deletebtn" href="#">Delete</a>\
+        </div>\
       </div>\
     ',
     init: function () {

@@ -2,8 +2,10 @@ upload.modules.addmodule({
     name: 'home',
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
     template: '\
+        <div class="topbar">\
         <div class="viewswitcher">\
             <a id="newpaste" class="btn">New Paste</a>\
+        </div>\
         </div>\
         <div class="contentarea" id="uploadview">\
             <div id="pastearea">\
