@@ -142,7 +142,7 @@ upload.modules.addmodule({
             this._.content.loading.text('Decrypting')
         } else if (e == 'error') {
           this._.content.loading.text('File not found or corrupt')
-          this._.globalbtns.show()
+          this._.newupload.show()
         } else {
             var percent = (e.loaded / e.total) * 100
             this._.content.loading.text(Math.floor(percent) + '%')
