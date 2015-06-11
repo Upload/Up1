@@ -18,14 +18,15 @@ upload.modules.addmodule({
       e.preventDefault()
     },
     save: function(e) {
-      e ? e.preventDefault() : undefined
-      upload.route.setroute(upload.home)
-      upload.home.doupload(new File([this.current.find('textarea').val()],
-      this.current.find('#create_filename').val(),
+        e ? e.preventDefault() : undefined
+        var blob = new Blob([this.current.find('textarea').val()],
         {
-          type: this.current.find('#create_mime').val()
+            type: this.current.find('#create_mime').val()
         }
-      ))
+      )
+      blob.name = this.current.find('#create_filename').val()
+      upload.route.setroute(upload.home)
+      upload.home.doupload(blob)
     },
     cleanup: function() {
       delete this['closeback']
