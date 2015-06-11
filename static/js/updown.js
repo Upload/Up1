@@ -45,7 +45,7 @@ upload.modules.addmodule({
     },
     cache: function(seed, data) {
       this.cached = data
-      this.cached_seed = data.seed
+      this.cached_seed = seed
     },
     cacheresult: function(data) {
       this.cache(data.seed, data.encrypted)
