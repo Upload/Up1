@@ -61,10 +61,17 @@ $(function () {
             return
         }
 
-        e.preventDefault();
-        var newx = e.pageX - lastx
-        var newy = e.pageY - lasty
+        var px = e.pageX
+        var py = e.pageY
 
+        var newx = px - lastx
+        var newy = py - lasty
+
+        if (Math.abs(newx) < 1 && Math.abs(newy) < 1) {
+            return;
+        }
+
+        e.preventDefault();
 
         var width = dragging.width()
         var height = dragging.height()
@@ -78,8 +85,8 @@ $(function () {
         }
 
 
-        lastx = e.pageX
-        lasty = e.pageY
+        lastx = px
+        lasty = py
 
     })
 
