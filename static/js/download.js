@@ -5,12 +5,10 @@ upload.modules.addmodule({
       <div class="modulecontent" id="dlarea">\
         <div class="viewswitcher">\
           <a id="editpaste" class="btn">Edit Paste</a>\
+          <a class="btn" id="newupload" href="#">New Upload</a>\
         </div>\
         <div id="downloaddetails"></div>\
         <h1 id="downloaded_filename"></h1>\
-        <div id="globalbtnarea">\
-            <a class="btn" id="newupload" href="#">New Upload</a>\
-        </div>\
         <div id="btnarea">\
                 <a class="btn" id="dlbtn" href="#">Download</a>\
                 <a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a>\
@@ -34,17 +32,18 @@ upload.modules.addmodule({
         this._.deletebtn = view.find('#deletebtn')
         this._.dlbtn = view.find('#dlbtn')
         this._.viewbtn = view.find('#inbrowserbtn')
-        this._.globalbtns = view.find('#globalbtnarea')
         this._.viewswitcher = view.find('.viewswitcher')
+        this._.newupload = view.find('#newupload')
+        this._.editpaste = view.find('#editpaste')
         this._.dlarea = view.find('#dlarea')
         $('#footer').hide()
     },
     initroute: function (content) {
         delete this._['text']
-        this._.viewswitcher.hide()
         this._.filename.hide()
         this._.btns.hide()
-        this._.globalbtns.hide()
+        this._.editpaste.hide()
+        this._.newupload.hide()
         this._.content = {}
         this._.content.main = this._.content.loading = $('<h1>').prop('id', 'downloadprogress').text('Downloading')
         this._.detailsarea.empty().append(this._.content.main)
@@ -67,6 +66,8 @@ upload.modules.addmodule({
         if (stored) {
             this._.deletebtn.show().prop('href', (upload.config.server ? upload.config.server : '') + 'del?delkey=' + stored + '&ident=' + data.ident)
         }
+
+        this._.newupload.show()
 
         var url = URL.createObjectURL(data.decrypted)
 
@@ -118,7 +119,7 @@ upload.modules.addmodule({
             }.bind(this)
             fr.readAsText(data.decrypted)
 
-            this._.viewswitcher.show()
+            this._.editpaste.show()
         } else if (data.header.mime.startsWith('video/')) {
             $('<video>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else if (data.header.mime.startsWith('audio/')) {
