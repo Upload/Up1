@@ -18,6 +18,20 @@ type Config struct {
 	StaticKey   string `json:"static_key"`
 	DeleteKey   string `json:"static_delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
+
+	Ssl struct {
+		Enabled bool `json:"enabled"`
+		Listen string `json:"listen"`
+		Cert string `json:"cert"`
+		Key string `json:"key"`
+	} `json:"ssl"`
+
+	CfCacheInvalidate struct {
+		Enabled bool `json:"enabled"`
+		Token string `json:"token"`
+		Email string `json:"email"`
+		Domain string `json:"domain"`
+	} `json:"cloudflare-cache-invalidate"`
 }
 
 var config Config
@@ -39,6 +53,7 @@ func readConfig() Config {
 	if err != nil {
 		fmt.Println("Error reading config: ", err)
 	}
+	fmt.Printf("%+v\n", config)
 	return config
 }
 
