@@ -19,8 +19,9 @@ upload.modules.addmodule({
         if (response.target.status != 200) {
           this.onerror(progress)
         } else {
+          this.cache(seed, response.target.response)
           progress('decrypting')
-          crypt.decrypt(response.target.response, seed).done(done).done(this.cache.bind(this, seed))
+          crypt.decrypt(response.target.response, seed).done(done)
         }
     },
     encrypted: function(progress, done, data) {
