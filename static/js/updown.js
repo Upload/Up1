@@ -20,7 +20,7 @@ upload.modules.addmodule({
           this.onerror(progress)
         } else {
           progress('decrypting')
-          crypt.decrypt(response.target.response, seed).done(done)
+          crypt.decrypt(response.target.response, seed).done(done).done(this.cache.bind(this, seed))
         }
     },
     encrypted: function(progress, done, data) {
@@ -43,10 +43,23 @@ upload.modules.addmodule({
             type: 'POST'
         }).done(done.bind(undefined, data))
     },
+    cache: function(seed, data) {
+      this.cached = data
+      this.cached_seed = data.seed
+    },
+    cacheresult: function(data) {
+      this.cached = data.encrypted
+      this.cached_seed = data.seed
+    },
     download: function (seed, progress, done) {
-        crypt.ident(seed).done(this.downloadfromident.bind(this, seed, progress, done))
+        if (this.cached_seed == seed) {
+          progress('decrypting')
+          crypt.decrypt(this.cached, seed).done(done)
+        } else {
+          crypt.ident(seed).done(this.downloadfromident.bind(this, seed, progress, done))
+        }
     },
     upload: function (blob, progress, done) {
-        crypt.encrypt(blob).done(this.encrypted.bind(this, progress, done))
+        crypt.encrypt(blob).done(this.encrypted.bind(this, progress, done)).done(this.cacheresult.bind(this))
     }
 })
