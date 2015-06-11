@@ -6,12 +6,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"sync"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path"
+	"sync"
 )
 
 type Config struct {
@@ -21,22 +21,22 @@ type Config struct {
 	MaxFileSize int64  `json:"maximum_file_size"`
 
 	Http struct {
-		Enabled bool `json:"enabled"`
-		Listen string `json:"listen"`
+		Enabled bool   `json:"enabled"`
+		Listen  string `json:"listen"`
 	} `json:"http"`
 
 	Https struct {
-		Enabled bool `json:"enabled"`
-		Listen string `json:"listen"`
-		Cert string `json:"cert"`
-		Key string `json:"key"`
+		Enabled bool   `json:"enabled"`
+		Listen  string `json:"listen"`
+		Cert    string `json:"cert"`
+		Key     string `json:"key"`
 	} `json:"https"`
 
 	CfCacheInvalidate struct {
-		Enabled bool `json:"enabled"`
-		Token string `json:"token"`
-		Email string `json:"email"`
-		Domain string `json:"domain"`
+		Enabled bool   `json:"enabled"`
+		Token   string `json:"token"`
+		Email   string `json:"email"`
+		Domain  string `json:"domain"`
 	} `json:"cloudflare-cache-invalidate"`
 }
 
@@ -63,13 +63,13 @@ func readConfig() Config {
 }
 
 func validateConfig(config Config) {
-	if (!config.Http.Enabled && !config.Https.Enabled) {
+	if !config.Http.Enabled && !config.Https.Enabled {
 		log.Fatal("At least one of http or https must be enabled!")
 	}
-	if (len(config.StaticKey) == 0) {
+	if len(config.StaticKey) == 0 {
 		log.Fatal("A static key must be defined in the configuration!")
 	}
-	if (len(config.DeleteKey) == 0) {
+	if len(config.DeleteKey) == 0 {
 		log.Fatal("A static delete key must be defined in the configuration!")
 	}
 }
@@ -195,14 +195,18 @@ func main() {
 
 	go func() {
 		defer wg.Done()
-		log.Printf("Starting HTTP server on %s\n", config.Http.Listen)
-		log.Println(http.ListenAndServe(config.Http.Listen, nil))
+		if config.Http.Enabled {
+			log.Printf("Starting HTTP server on %s\n", config.Http.Listen)
+			log.Println(http.ListenAndServe(config.Http.Listen, nil))
+		}
 	}()
 
 	go func() {
 		defer wg.Done()
-		log.Printf("Starting HTTPS server on %s\n", config.Https.Listen)
-		log.Println(http.ListenAndServeTLS(config.Https.Listen, config.Https.Cert, config.Https.Key, nil))
+		if config.Https.Enabled {
+			log.Printf("Starting HTTPS server on %s\n", config.Https.Listen)
+			log.Println(http.ListenAndServeTLS(config.Https.Listen, config.Https.Cert, config.Https.Key, nil))
+		}
 	}()
 
 	wg.Wait()
