@@ -1,20 +1,27 @@
 upload.modules.addmodule({
     name: 'updown',
     init: function () {
-        
+
     },
     downloadfromident: function(seed, progress, done, ident) {
         var xhr = new XMLHttpRequest()
         xhr.onload = this.downloaded.bind(this, seed, progress, done)
         xhr.open('GET', (upload.config.server ? upload.config.server : '') + 'i/' + ident.ident)
         xhr.responseType = 'blob'
-        //TODO: xhr.onerror = failed
+        xhr.onerror = this.onerror.bind(this, progress)
         xhr.addEventListener('progress', progress, false)
         xhr.send()
     },
+    onerror: function(progress) {
+      progress('error')
+    },
     downloaded: function (seed, progress, done, response) {
-        progress('decrypting')
-        crypt.decrypt(response.target.response, seed).done(done)
+        if (response.target.status != 200) {
+          this.onerror(progress)
+        } else {
+          progress('decrypting')
+          crypt.decrypt(response.target.response, seed).done(done)
+        }
     },
     encrypted: function(progress, done, data) {
         var formdata = new FormData()

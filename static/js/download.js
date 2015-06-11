@@ -21,7 +21,7 @@ upload.modules.addmodule({
     render: function (view) {
         view.html(this.template)
         this._ = {}
-       
+
         this._.detailsarea = view.find('#downloaddetails')
         this._.filename = view.find('#downloaded_filename')
         this._.btns = view.find('#btnarea')
@@ -109,6 +109,8 @@ upload.modules.addmodule({
     progress: function (e) {
         if (e == 'decrypting') {
             this._.content.loading.text('Decrypting')
+        } else if (e == 'error') {
+            window.location.hash = '#'
         } else {
             var percent = (e.loaded / e.total) * 100
             this._.content.loading.text(Math.floor(percent) + '%')
