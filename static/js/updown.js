@@ -48,8 +48,7 @@ upload.modules.addmodule({
       this.cached_seed = data.seed
     },
     cacheresult: function(data) {
-      this.cached = data.encrypted
-      this.cached_seed = data.seed
+      this.cache(data.seed, data.encrypted)
     },
     download: function (seed, progress, done) {
         if (this.cached_seed == seed) {
