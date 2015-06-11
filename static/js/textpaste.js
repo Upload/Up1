@@ -3,19 +3,19 @@ upload.modules.addmodule({
     init: function () {
       $(document).on('submit', '#textview', this.save.bind(this))
       $(document).on('click', '#retbtn', this.closethis.bind(this))
-      $(document).on('keypress', this.keypress.bind(this))
+      $(document).on('keydown', this.keypress.bind(this))
     },
     keypress: function(e) {
       if (!this.current || !this.current.is(':visible')) {
         return
       }
-      
-      if (!(e.which == 115 && (e.ctrlKey || e.metaKey)) && !(e.which == 19)) {
+
+      if (!(e.which == 83 && (e.ctrlKey || e.metaKey))) {
         return
       }
 
       this.save()
-      event.preventDefault()
+      e.preventDefault()
     },
     save: function(e) {
       e ? e.preventDefault() : undefined
