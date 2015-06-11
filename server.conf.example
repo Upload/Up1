@@ -1,20 +1,24 @@
 {
-  "listen": ":9080",
   "static_key": "",
   "static_delete_key": "",
   "maximum_file_size": 50000000,
   
-  "ssl": {
+  "http": {
+    "enabled": true,
+    "listen": ":80"
+  },
+
+  "https": {
     "enabled": false,
-    "listen": ":9443",
+    "listen": ":443",
     "cert": "./cert.pem",
     "key": "./key.pem"
   },
 
   "cloudflare-cache-invalidate": {
     "enabled": false,
-    "token": "cloudflare-token-here",
-    "email": "cloudflare-login-email-here",
-    "domain: "domain.com"
+    "token": "Cloudflare API token here",
+    "email": "Cloudflare login email here",
+    "domain": "Domain to invalidate cache on"
   }
 }
