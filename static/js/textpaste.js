@@ -3,14 +3,14 @@ upload.modules.addmodule({
     init: function () {
       $(document).on('submit', '#textview', this.save.bind(this))
       $(document).on('click', '#retbtn', this.closethis.bind(this))
-      $(document).on('keydown', this.keypress.bind(this))
+      $(document).on('keypress', this.keypress.bind(this))
     },
     keypress: function(e) {
-      if (!this.current) {
+      if (!this.current || !this.current.is(':visible')) {
         return
       }
-
-      if (!(e.keyCode == 83 && (e.ctrlKey || e.metaKey))) {
+      
+      if (!(e.which == 115 && (e.ctrlKey || e.metaKey)) && !(e.which == 19)) {
         return
       }
 
@@ -27,11 +27,14 @@ upload.modules.addmodule({
         }
       ))
     },
-    closethis: function(closeback) {
-      var closeback = this.closeback
+    cleanup: function() {
       delete this['closeback']
-      this.current.remove()
       delete this['current']
+    },
+    closethis: function() {
+      var closeback = this.closeback
+      this.current.remove()
+      this.cleanup()
       closeback()
     },
     render: function(view, filename, data, mime, closeback) {
