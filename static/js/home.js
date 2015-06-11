@@ -2,9 +2,8 @@ upload.modules.addmodule({
     name: 'home',
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
     template: '\
-        <div id="viewswitcher">\
-            <a id="text" class="btn hidden">New Paste</a>\
-            <a id="save" class="btn hidden">Save</a>\
+        <div class="viewswitcher">\
+            <a id="newpaste" class="btn">New Paste</a>\
         </div>\
         <div class="contentarea" id="uploadview">\
             <div id="pastearea">\
@@ -28,6 +27,7 @@ upload.modules.addmodule({
         $(document).on('dragover', '#pastearea', this.dragover.bind(this))
         $(document).on('dragleave', '#pastearea', this.dragleave.bind(this))
         $(document).on('drop', '#pastearea', this.drop.bind(this))
+        $(document).on('click', '#newpaste', this.newpaste.bind(this))
         $(document).on('click', this.triggerfocuspaste.bind(this))
         this.initpastecatcher()
         $(document).on('paste', this.pasted.bind(this))
@@ -64,6 +64,7 @@ upload.modules.addmodule({
     render: function (view) {
         view.html(this.template)
         this._ = {}
+        this._.view = view
         this._.filepicker = view.find('#filepicker')
         this._.pastearea = view.find('#pastearea')
         this._.progress = {}
@@ -110,9 +111,21 @@ upload.modules.addmodule({
         this._.progress.bg.css('width', 0)
         upload.updown.upload(blob, this.progress.bind(this), this.uploaded.bind(this))
     },
+    closepaste: function() {
+      this._.view.find('#uploadview').show()
+      this._.view.find('.viewswitcher').show()
+    },
+    dopasteupload: function (data) {
+        this._.view.find('#uploadview').hide()
+        this._.view.find('.viewswitcher').hide()
+        upload.textpaste.render(this._.view, 'Pasted text.txt', data, 'text/plain', this.closepaste.bind(this))
+    },
     uploaded: function (data, response) {
         localStorage.setItem('delete-' + data.ident, response.delkey)
         window.location = '#' + data.seed
+    },
+    newpaste: function() {
+        this.dopasteupload('')
     },
     pasted: function (e) {
         if (!this._ || !this._.pastearea.is(':visible')) {
@@ -124,7 +137,8 @@ upload.modules.addmodule({
         var text = e.originalEvent.clipboardData.getData('text/plain')
 
         if (text) {
-            this.doupload(new Blob([text], { type: 'text/plain' }))
+            this.dopasteupload(text)
+            e.preventDefault()
         } else if (typeof items == 'undefined') {
             setTimeout(function () {
                 if (pasteCatcher.find('img').length) {

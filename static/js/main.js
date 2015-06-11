@@ -26,15 +26,15 @@ upload.modules.addmodule({
         this.hashchange()
     },
     setroute: function (module, routeroot, route) {
-        view = $('.modulecontent')
+        view = $('.modulecontent.modulearea')
         if (!this.currentmodule || this.currentmodule != module) {
             // TODO: better
             if (this.currentmodule) {
                 this.currentmodule.unrender()
             }
             this.currentmodule = module
-            module.render(view)
             view.prop('id', 'module_' + module.name)
+            module.render(view)
         }
         module.initroute(route, routeroot)
     },

@@ -2,6 +2,10 @@ upload.modules.addmodule({
     name: 'download',
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
     template: '\
+      <div class="modulecontent" id="dlarea">\
+        <div class="viewswitcher">\
+          <a id="editpaste" class="btn">Edit Paste</a>\
+        </div>\
         <div id="downloaddetails"></div>\
         <h1 id="downloaded_filename"></h1>\
         <div id="globalbtnarea">\
@@ -12,8 +16,10 @@ upload.modules.addmodule({
                 <a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a>\
                 <a class="btn" id="deletebtn" href="#">Delete</a>\
             </div>\
+      </div>\
     ',
     init: function () {
+      $(document).on('click', '#editpaste', this.editpaste.bind(this))
     },
     route: function (route, content) {
         return this
@@ -21,7 +27,7 @@ upload.modules.addmodule({
     render: function (view) {
         view.html(this.template)
         this._ = {}
-
+        this._.view = view
         this._.detailsarea = view.find('#downloaddetails')
         this._.filename = view.find('#downloaded_filename')
         this._.btns = view.find('#btnarea')
@@ -29,9 +35,13 @@ upload.modules.addmodule({
         this._.dlbtn = view.find('#dlbtn')
         this._.viewbtn = view.find('#inbrowserbtn')
         this._.globalbtns = view.find('#globalbtnarea')
+        this._.viewswitcher = view.find('.viewswitcher')
+        this._.dlarea = view.find('#dlarea')
         $('#footer').hide()
     },
     initroute: function (content) {
+        delete this._['text']
+        this._.viewswitcher.hide()
         this._.filename.hide()
         this._.btns.hide()
         this._.globalbtns.hide()
@@ -43,6 +53,11 @@ upload.modules.addmodule({
     },
     unrender: function () {
         delete this['_']
+    },
+    assocations: {
+      'application/javascript': 'text',
+      'application/x-javascript': 'text',
+      'application/xml': 'text',
     },
     downloaded: function (data) {
         this._.filename.text(data.header.name)
@@ -62,13 +77,14 @@ upload.modules.addmodule({
         delete this._['content']
         this._.detailsarea.empty()
 
+        association = this.assocations[data.header.mime]
+
         if (data.header.mime.startsWith('image/')) {
 
             var imgcontent = $('<div>').prop('id', 'previewimg').addClass('preview').appendTo(this._.detailsarea)
 
             var previewimg = $('<img>').addClass('dragresize').appendTo(imgcontent).prop('src', url)
-
-        } else if (data.header.mime.startsWith('text/')) {
+      } else if (data.header.mime.startsWith('text/') || association == 'text') {
             var textcontent = $('<div>').prop('id', 'downloaded_text').addClass('preview').addClass('previewtext').appendTo(this._.detailsarea)
 
             var linenos = $('<div>').prop('id', 'linenos').appendTo(textcontent)
@@ -83,6 +99,12 @@ upload.modules.addmodule({
 
                 var text = fr.result
 
+                this._.text = {}
+
+                this._.text.header = data.header
+
+                this._.text.data = text
+
                 code.text(text)
 
                 hljs.highlightBlock(code[0])
@@ -93,8 +115,10 @@ upload.modules.addmodule({
                     linenos.append((i + 1) + '<br>')
                 }
 
-            }
+            }.bind(this)
             fr.readAsText(data.decrypted)
+
+            this._.viewswitcher.show()
         } else if (data.header.mime.startsWith('video/')) {
             $('<video>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else if (data.header.mime.startsWith('audio/')) {
@@ -105,6 +129,13 @@ upload.modules.addmodule({
         this._.filename.show()
         this._.btns.show()
         this._.globalbtns.show()
+    },
+    closepaste: function() {
+      this._.dlarea.show()
+    },
+    editpaste: function() {
+      this._.dlarea.hide()
+      upload.textpaste.render(this._.view, this._.text.header.name, this._.text.data, this._.text.header.mime, this.closepaste.bind(this))
     },
     progress: function (e) {
         if (e == 'decrypting') {

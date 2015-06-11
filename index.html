@@ -60,17 +60,13 @@
                 background-color: rgba(255, 255, 255, .2);
             }
 
-        #viewswitcher {
+        .viewswitcher {
             height: 40px;
             position: absolute;
             top: 10px;
             right: 10px;
+            z-index: 1;
         }
-
-            #viewswitcher h3 {
-                color: white;
-
-            }
 
         #footer {
             position: absolute;
@@ -259,16 +255,18 @@
         }
 
         .btn {
-            vertical-align: middle;
-            line-height: 40px;
+            display: inline-block;
             margin: 0;
-            height: 40px;
+            text-align: center;
+            font: inherit;
             padding: 10px;
+            font-size: 16px;
             border: 2px solid white;
             cursor: pointer;
             vertical-align: middle;
             margin-right: 5px;
             color: white !important;
+            height: 40px;
             text-decoration: none;
             opacity: .75;
             background-color: rgba(0, 0, 0, .5);
@@ -288,7 +286,7 @@
             transition: all 100ms ease-in;
         }
 
-        #linenos {
+        #linenos, #create_linenos {
             color: #7d7d7d;
             position: absolute;
             top: 6.5px;
@@ -320,6 +318,7 @@
     <script src="/static/js/home.js"></script>
     <script src="/static/js/updown.js"></script>
     <script src="/static/js/download.js"></script>
+    <script src="/static/js/textpaste.js"></script>
     <script src="/static/js/config.js"></script>
     <script src="/static/js/dragresize.js"></script>
     <script>
@@ -329,7 +328,7 @@
     <script src="/static/deps/highlight.min.js"></script>
 </head>
 <body>
-    <div class="modulecontent"></div>
+    <div class="modulecontent modulearea"></div>
 
     <div id="footer">
         <a href="https://github.com/Upload/Upload" target="_blank">Source Code</a>
