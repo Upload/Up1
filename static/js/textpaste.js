@@ -14,16 +14,16 @@ upload.modules.addmodule({
         return
       }
 
-      this.current[0].submit()
+      this.save()
       event.preventDefault()
     },
     save: function(e) {
       e ? e.preventDefault() : undefined
       upload.route.setroute(upload.home)
-      upload.home.doupload(new File([$(e.target).find('textarea').val()],
-      $(e.target).find('#create_filename').val(),
+      upload.home.doupload(new File([this.current.find('textarea').val()],
+      this.current.find('#create_filename').val(),
         {
-          type: $(e.target).find('#create_mime').val()
+          type: this.current.find('#create_mime').val()
         }
       ))
     },
