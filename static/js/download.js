@@ -41,11 +41,13 @@ upload.modules.addmodule({
         this._.newupload = view.find('#newupload')
         this._.editpaste = view.find('#editpaste')
         this._.dlarea = view.find('#dlarea')
+        this._.title = $('title')
         $('#footer').hide()
     },
     initroute: function (content) {
         delete this._['text']
         this._.filename.hide()
+        this._.title.text("Up1")
         this._.btns.hide()
         this._.editpaste.hide()
         this._.newupload.hide()
@@ -56,6 +58,7 @@ upload.modules.addmodule({
         upload.updown.download(content, this.progress.bind(this), this.downloaded.bind(this))
     },
     unrender: function () {
+        this._.title.text('Up1')
         delete this['_']
     },
     assocations: {
@@ -65,6 +68,7 @@ upload.modules.addmodule({
     },
     downloaded: function (data) {
         this._.filename.text(data.header.name)
+        this._.title.text(data.header.name + ' - Up1')
 
         var stored = localStorage.getItem('delete-' + data.ident)
 
