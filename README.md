@@ -1,7 +1,7 @@
-Upload: A Client-side Encrypted Image Host
+Up1: A Client-side Encrypted Image Host
 ===
 
-Upload is a simple host that client-side encrypts images, text, and other data, and stores them, with the server knowing nothing about the contents.
+Up1 is a simple host that client-side encrypts images, text, and other data, and stores them, with the server knowing nothing about the contents.
 It has the ability to view images, text with syntax highlighting, short videos, and arbitrary binaries as downloadables.
 
 Public Server
@@ -23,12 +23,12 @@ Quick start
 To install and run the server with default settings:
 
     apt-get install golang
-    git clone https://github.com/upload/upload
+    git clone https://github.com/Upload/Up1
     cd upload
     go build server.go
     ./server
 
-Configuration is done through the [`server.conf`](https://github.com/Upload/Upload/server.conf.example) file. For a quick start, simply move `server.conf.example` to `server.conf`.
+Configuration is done through the [`server.conf`](https://github.com/Upload/Up1/server.conf.example) file. For a quick start, simply move `server.conf.example` to `server.conf`.
 
 `listen` is an `address:port`-formatted string, where either one are optional. Some examples include `":9000"` to listen on any interface, port 9000; `"1.2.3.4"` to listen on localhost port 80; `"1.1.1.1:8080"` to listen on 1.1.1.1 port 8080; or even `""` to listen on any interface, port 80.
 
@@ -40,16 +40,16 @@ Configuration is done through the [`server.conf`](https://github.com/Upload/Uplo
 
 There are three additional sections in the configuration file: `http`, `https` and `cloudflare-cache-invalidate`. The first two are fairly self-explanitory (and at least one must be enabled).
 
-`cloudflare-cache-invalidate` is disabled by default and only useful if you choose to run the Upload server behind Cloudflare. When this section is enabled, it ensures that when an upload is deleted, Cloudflare doesn't hold on to copies of the upload on its edge servers by sending an API call to invalidate it.
+`cloudflare-cache-invalidate` is disabled by default and only useful if you choose to run the Up1 server behind Cloudflare. When this section is enabled, it ensures that when an upload is deleted, Cloudflare doesn't hold on to copies of the upload on its edge servers by sending an API call to invalidate it.
 
 External Tools
 ---
 
-Currently, there are two external programs adapted to work with Upload: [ShareX](https://github.com/Upload/ShareX) [(relevant code changes)](https://github.com/Upload/ShareX/commits/uploadcrypt), and [upclient](https://github.com/Upload/upclient).
+Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/Upload/ShareX) [(relevant code changes)](https://github.com/Upload/ShareX/commits/uploadcrypt), and [upclient](https://github.com/Upload/upclient).
 
-ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. This adapted version of ShareX includes a service which can send files to any Upload server. It uses .NET BouncyCastle for the crypto.
+ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. This adapted version of ShareX includes a service which can send files to any Up1 server. It uses .NET BouncyCastle for the crypto.
 
-Upclient is a CLI tool which can send files or data to Upload servers either via unix pipe (`ps aux | up`), or via argument (`up image.png`), and returns a URL to the uploaded file on stdout. It runs on nodejs and uses SJCL for the crypto.
+Upclient is a CLI tool which can send files or data to Up1 servers either via unix pipe (`ps aux | up`), or via argument (`up image.png`), and returns a URL to the uploaded file on stdout. It runs on nodejs and uses SJCL for the crypto.
 
 How it works
 ---
@@ -79,7 +79,7 @@ Caveats
 * **As a new project, this code hasn't been audited by a trusted party.** Since this is brand new, there have been (to date) very few eyes on the code, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk. 
 
 * **The server will, in most cases, receive referrer headers.** If a server decides to log requests, they will also be able to receive `Referer` headers. For private/protected websites and direct links sent via IM or email, this isn't a big deal. If the link is on a public website however, it means the server owner might be able to find the original image. Unfortunately there's nothing that the software or server owner can do about this (apart from hosting behind a CDN and offloading the Referer header to the edge), however when posting a link you have a few options:
-  1. Put `rel="noreferrer"` into any `<a>` links that are directed at the Upload server.
+  1. Put `rel="noreferrer"` into any `<a>` links that are directed at the Up1 server.
   2. If you don't have control over the link attributes, you can use a referrer breaker such as https://anon.click/ or https://href.li/, amongst many.
 
 Contributing
@@ -95,7 +95,7 @@ Thank you for you contributions!
 License
 ---
 
-The Upload server and browser code are both licensed under MIT.
+The Up1 server and browser code are both licensed under MIT.
 
 ShareX's base code is licensed under GPLv2, however the modifications (namely, the C# encryption code) is licensed under MIT.
 
