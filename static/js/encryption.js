@@ -39,15 +39,12 @@ function decrypt(file, seed, id) {
     var uarr = new Uint8Array(file)
     var before = sjcl.codec.bytes.toBits(uarr);
     var prp = new sjcl.cipher.aes(params.key);
-
     var after = sjcl.mode.ccm.decrypt(prp, before, params.iv);
-
     var afterarray = new Uint8Array(sjcl.codec.bytes.fromBits(after));
 
+    // Parse the header, which is a null-terminated UTF-16 string containing JSON
     var header = ''
-
     var headerview = new DataView(afterarray.buffer)
-
     var i = 0;
     for (; ; i++) {
         var num = headerview.getUint16(i * 2, false)
@@ -56,12 +53,9 @@ function decrypt(file, seed, id) {
         }
         header += String.fromCharCode(num);
     }
-
-
     var header = JSON.parse(header)
 
     var data = new Blob([afterarray])
-
     postMessage({
         'id': id,
         'ident': sjcl.codec.base64url.fromBits(params.ident),
