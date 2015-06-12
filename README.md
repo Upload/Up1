@@ -14,7 +14,7 @@ Example text paste: https://up1.ca/#_H7Wy9atfl2CW_cYx6Xh9A - [(source)](http://w
 
 Example short video: https://up1.ca/#55s3dQnPjtcgstvspdYT5g - [(source)](https://youtu.be/O6Xo21L0ybE)
 
-Example download file: https://up1.ca/#FzZfbBm8ryG-o-yodh2k-g - [(source)](https://github.com/Upload/ShareX/releases/tag/v9.10.1)
+Example download file: https://up1.ca/#u0wEriLR64kQPglwudov5Q - [(source)](https://github.com/Upload/ShareX/releases/tag/v9.10.1)
 
 This server is open to all users, so feel free to upload your own files.
 
