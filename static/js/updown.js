@@ -26,7 +26,7 @@ upload.modules.addmodule({
     },
     encrypted: function(progress, done, data) {
         var formdata = new FormData()
-        formdata.append('privkey', 'c61540b5ceecd05092799f936e27755f')
+        formdata.append('api_key', upload.config.api_key)
         formdata.append('ident', data.ident)
         formdata.append('file', data.encrypted)
         $.ajax({
