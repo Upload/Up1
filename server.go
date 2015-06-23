@@ -86,6 +86,8 @@ func makeDelkey(ident string) string {
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		http.ServeFile(w, r, "index.html")
+	} else if r.URL.Path == "/config.js" {
+		http.ServeFile(w, r, "config.js")
 	} else {
 		http.NotFound(w, r)
 	}
