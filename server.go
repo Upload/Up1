@@ -17,8 +17,8 @@ import (
 
 type Config struct {
 	Listen      string `json:"listen"`
-	StaticKey   string `json:"static_key"`
-	DeleteKey   string `json:"static_delete_key"`
+	ApiKey      string `json:"api_key"`
+	DeleteKey   string `json:"delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
 
 	Http struct {
@@ -68,7 +68,7 @@ func validateConfig(config Config) {
 	if !config.Http.Enabled && !config.Https.Enabled {
 		log.Fatal("At least one of http or https must be enabled!")
 	}
-	if len(config.StaticKey) == 0 {
+	if len(config.ApiKey) == 0 {
 		log.Fatal("A static key must be defined in the configuration!")
 	}
 	if len(config.DeleteKey) == 0 {
@@ -112,7 +112,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	apikey := r.FormValue("api_key")
-	if apikey != config.StaticKey {
+	if apikey != config.ApiKey {
 		msg, _ := json.Marshal(&ErrorMessage{Error: "API key doesn't match", Code: 2})
 		w.Write(msg)
 		return
