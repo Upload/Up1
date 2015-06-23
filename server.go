@@ -109,9 +109,9 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 	defer file.Close()
 
-	privkey := r.FormValue("privkey")
-	if privkey != config.StaticKey {
-		msg, _ := json.Marshal(&ErrorMessage{Error: "Static key doesn't match", Code: 2})
+	apikey := r.FormValue("api_key")
+	if apikey != config.StaticKey {
+		msg, _ := json.Marshal(&ErrorMessage{Error: "API key doesn't match", Code: 2})
 		w.Write(msg)
 		return
 	}
