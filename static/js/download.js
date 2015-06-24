@@ -131,7 +131,7 @@ upload.modules.addmodule({
         } else if (data.header.mime.startsWith('audio/')) {
             $('<audio>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else {
-            // Unknown, todo
+            $('<div>').addClass('preview').text("Click the Download link in the bottom-left to download this file.").appendTo(this._.detailsarea)
         }
         this._.filename.show()
         this._.btns.show()
