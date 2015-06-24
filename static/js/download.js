@@ -147,14 +147,21 @@ upload.modules.addmodule({
       upload.textpaste.render(this._.view, this._.text.header.name, this._.text.data, this._.text.header.mime, this.closepaste.bind(this))
     },
     progress: function (e) {
+        console.log(e)
         if (e == 'decrypting') {
             this._.content.loading.text('Decrypting')
         } else if (e == 'error') {
           this._.content.loading.text('File not found or corrupt')
           this._.newupload.show()
         } else {
+            var text = ''
+            if (e.eventsource != 'encrypt') {
+                text = 'Downloading'
+            } else {
+                text = 'Decrypting'
+            }
             var percent = (e.loaded / e.total) * 100
-            this._.content.loading.text(Math.floor(percent) + '%')
+            this._.content.loading.text(text + ' ' + Math.floor(percent) + '%')
         }
     }
 })

@@ -54,12 +54,12 @@ upload.modules.addmodule({
     download: function (seed, progress, done) {
         if (this.cached_seed == seed) {
           progress('decrypting')
-          crypt.decrypt(this.cached, seed).done(done)
+          crypt.decrypt(this.cached, seed).done(done).progress(progress)
         } else {
           crypt.ident(seed).done(this.downloadfromident.bind(this, seed, progress, done))
         }
     },
     upload: function (blob, progress, done) {
-        crypt.encrypt(blob).done(this.encrypted.bind(this, progress, done)).done(this.cacheresult.bind(this))
+        crypt.encrypt(blob).done(this.encrypted.bind(this, progress, done)).done(this.cacheresult.bind(this)).progress(progress)
     }
 })

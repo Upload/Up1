@@ -8,10 +8,11 @@ upload.modules.addmodule({
         </div>\
         </div>\
         <div class="contentarea" id="uploadview">\
-            <div id="pastearea">\
+            <div id="pastearea" class="boxarea">\
                 <h1>Upload</h1>\
             </div>\
-            <div class="hidden" id="uploadprogress">\
+            <div class="hidden boxarea" id="uploadprogress">\
+                <h1 id="progresstype"></h1>\
                 <h1 id="progressamount"></h1>\
                 <div id="progressamountbg"></div>\
             </div>\
@@ -71,8 +72,10 @@ upload.modules.addmodule({
         this._.view = view
         this._.filepicker = view.find('#filepicker')
         this._.pastearea = view.find('#pastearea')
+        this._.newpaste = view.find('#newpaste')
         this._.progress = {}
         this._.progress.main = view.find('#uploadprogress')
+        this._.progress.type = view.find('#progresstype')
         this._.progress.amount = view.find('#progressamount')
         this._.progress.bg = view.find('#progressamountbg')
         $('#footer').show()
@@ -104,15 +107,21 @@ upload.modules.addmodule({
         }
     },
     progress: function(e) {
+        if (e.eventsource != 'encrypt') {
+            this._.progress.type.text('Uploading')
+        } else {
+            this._.progress.type.text('Encrypting')
+        }
         var percent = (e.loaded / e.total) * 100
-        this._.progress.bg.css('width', percent + '%');
+        this._.progress.bg.css('width', percent + '%')
         this._.progress.amount.text(Math.floor(percent) + '%')
     },
     doupload: function (blob) {
         this._.pastearea.addClass('hidden')
         this._.progress.main.removeClass('hidden')
-        this._.progress.amount.text('Encrypting')
+        this._.progress.type.text('Encrypting')
         this._.progress.bg.css('width', 0)
+        this._.newpaste.addClass('hidden')
         upload.updown.upload(blob, this.progress.bind(this), this.uploaded.bind(this))
     },
     closepaste: function() {

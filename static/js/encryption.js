@@ -72,14 +72,26 @@ function ident(seed, id) {
     })
 }
 
+function onprogress(id, progress) {
+    postMessage({
+        'id': id,
+        'eventsource': 'encrypt',
+        'loaded': progress,
+        'total': 1,
+        'type': 'progress'
+    })
+}
 
 onmessage = function (e) {
+    var progress = onprogress.bind(undefined, e.data.id)
+    sjcl.mode.ccm.listenProgress(progress)
     if (e.data.action == 'decrypt') {
         decrypt(e.data.data, e.data.seed, e.data.id)
     } else if (e.data.action == 'ident') {
-        ident(e.data.seed, e.data.id);
+        ident(e.data.seed, e.data.id)
     } else {
         sjcl.random.addEntropy(e.data.entropy, 2048, 'runtime')
         encrypt(e.data.data, e.data.seed, e.data.id)
     }
+    sjcl.mode.ccm.unListenProgress(progress)
 }

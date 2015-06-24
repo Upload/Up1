@@ -30,8 +30,12 @@ $(function () {
     }
 
     worker.onmessage = function (e) {
-        promises[e.data.id].resolve(e.data)
-        delete promises[e.data.id]
+        if (e.data.type == 'progress') {
+            promises[e.data.id].notify(e.data)
+        } else {
+            promises[e.data.id].resolve(e.data)
+            delete promises[e.data.id]
+        }
     }
 
     var counter = 0
