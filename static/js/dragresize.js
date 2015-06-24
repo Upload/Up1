@@ -52,8 +52,8 @@ $(function () {
             maxw = (dragsizeh * MAX_WIDTH_RATIO) * (dragsizew / dragsizeh)
         }
 
-        lastx = e.pageX
-        lasty = e.pageY
+        lastx = e.clientX
+        lasty = e.clientY
     })
 
     $(document).on('mousemove', function (e) {
@@ -61,8 +61,8 @@ $(function () {
             return
         }
 
-        var px = e.pageX
-        var py = e.pageY
+        var px = e.clientX
+        var py = e.clientY
 
         var newx = px - lastx
         var newy = py - lasty
