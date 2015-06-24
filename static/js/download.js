@@ -16,9 +16,6 @@ upload.modules.addmodule({
                 ><a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a\
                 ><a class="btn" id="deletebtn" href="#">Delete</a>\
         </div>\
-        <div id="dlfooter" class="footer">\
-            <a href="mailto:contact@up1.ca" target="_blank">Contact</a>\
-        </div>\
       </div>\
     ',
     init: function () {

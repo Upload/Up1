@@ -20,6 +20,13 @@ upload.modules = {
 }
 
 upload.modules.addmodule({
+    name: 'contactlink',
+    init: function() {
+        $('#contact').prop('href', upload.config.contact_link)
+    }
+})
+
+upload.modules.addmodule({
     name: 'route',
     init: function () {
         $(window).on('hashchange', this.hashchange.bind(this))
