@@ -147,7 +147,6 @@ upload.modules.addmodule({
       upload.textpaste.render(this._.view, this._.text.header.name, this._.text.data, this._.text.header.mime, this.closepaste.bind(this))
     },
     progress: function (e) {
-        console.log(e)
         if (e == 'decrypting') {
             this._.content.loading.text('Decrypting')
         } else if (e == 'error') {
