@@ -20,6 +20,10 @@ Example download file: https://up1.ca/#u0wEriLR64kQPglwudov5Q - [(source)](https
 
 This server is open to all users, so feel free to upload your own files.
 
+####Client Utilities:
+* [ShareX](https://github.com/Upload/ShareX), a popular screenshot and image uploader, forked with Up1 support
+* [upclient](https://github.com/Upload/upclient), a command-line tool for uploading to Up1 servers
+
 Quick start
 ---
 To install and run the server with default settings:
@@ -44,7 +48,7 @@ There are three additional sections in the configuration file: `http`, `https` a
 
 `cloudflare-cache-invalidate` is disabled by default and only useful if you choose to run the Up1 server behind Cloudflare. When this section is enabled, it ensures that when an upload is deleted, Cloudflare doesn't hold on to copies of the upload on its edge servers by sending an API call to invalidate it.
 
-For the web application configuration, a `config.js.example` file is provided. Make sure the `api_key` here matches the one in `server.conf`.
+For the web application configuration, a [`config.js.example`](https://github.com/Upload/Up1/config.js.example) file is provided. Make sure the `api_key` here matches the one in `server.conf`.
 
 External Tools
 ---
