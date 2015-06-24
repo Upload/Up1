@@ -125,7 +125,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	identPath := path.Join("i", ident)
+	identPath := path.Join("i", path.Base(ident))
 	if _, err := os.Stat(identPath); err == nil {
 		msg, _ := json.Marshal(&ErrorMessage{Error: "Ident is already taken.", Code: 4})
 		w.Write(msg)
