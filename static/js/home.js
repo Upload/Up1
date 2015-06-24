@@ -8,6 +8,7 @@ upload.modules.addmodule({
         </div>\
         </div>\
         <div class="contentarea" id="uploadview">\
+            <div class="centerview">\
             <div id="pastearea" class="boxarea">\
                 <h1>Upload</h1>\
             </div>\
@@ -22,6 +23,7 @@ upload.modules.addmodule({
             <form>\
                 <input type="file" id="filepicker" class="hidden" />\
             </form>\
+            </div>\
         </div>',
     init: function () {
         upload.modules.setdefault(this)
