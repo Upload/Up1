@@ -1,4 +1,4 @@
-#![Logo](https://avatars2.githubusercontent.com/u/12774718?s=200)
+![Logo](https://avatars2.githubusercontent.com/u/12774718?s=150)
 
 Up1: A Client-side Encrypted Image Host
 ===
