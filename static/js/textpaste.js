@@ -60,7 +60,7 @@ upload.modules.addmodule({
 
       var area = $('<textarea>')
 
-      var text  = $('<div>').prop('id', 'create_text').addClass('previewtext preview')
+      var text  = $('<div>').prop('id', 'create_text').addClass('previewtext')
         .append($('<div>').prop('id', 'create_linenos').append("&gt;"))
         .append(area)
 
