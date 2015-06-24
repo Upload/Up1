@@ -1,4 +1,4 @@
-Up1: A Client-side Encrypted Image Host
+![Up1 Logo](https://avatars2.githubusercontent.com/u/12774718?s=200) Up1: A Client-side Encrypted Image Host
 ===
 
 Up1 is a simple host that client-side encrypts images, text, and other data, and stores them, with the server knowing nothing about the contents.
