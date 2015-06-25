@@ -58,10 +58,30 @@ upload.modules.addmodule({
         this._.title.text('Up1')
         delete this['_']
     },
+    // Only mimes in this assocation list will end up with a "View in browser" button
     assocations: {
       'application/javascript': 'text',
       'application/x-javascript': 'text',
       'application/xml': 'text',
+      'image/': 'image',
+      // PDF for now only offers 'view in browser'
+      'application/pdf': 'pdf',
+      'application/x-pdf': 'pdf',
+      'text/': 'text',
+      'audio/': 'audio',
+      'video/': 'video'
+    },
+    // Mime types to use for "View in browser" for safety reasons such as html we use text/plain
+    // Other display types such as PDF and images you want native viewing so we leave those
+    safeassocations: {
+        'text': 'text/plain'
+    },
+    getassociation: function(mime) {
+        for (var key in this.assocations) {
+            if (mime.startsWith(key)) {
+                return this.assocations[key]
+            }
+        }
     },
     downloaded: function (data) {
         this._.filename.text(data.header.name)
@@ -75,23 +95,30 @@ upload.modules.addmodule({
 
         this._.newupload.show()
 
-        var url = URL.createObjectURL(data.decrypted)
+        var association = this.getassociation(data.header.mime)
 
-        this._.viewbtn.prop('href', url)
+        var safemime = this.safeassocations[association]
+
+        var decrypted = new Blob([data.decrypted], { type: safemime ? safemime : data.header.mime })
+
+        var url = URL.createObjectURL(decrypted)
+
+        this._.viewbtn.prop('href', url).hide()
         this._.dlbtn.prop('href', url)
         this._.dlbtn.prop('download', data.header.name)
 
         delete this._['content']
         this._.detailsarea.empty()
 
-        association = this.assocations[data.header.mime]
+        if (!!association) {
+            this._.viewbtn.show()
+        }
 
-        if (data.header.mime.startsWith('image/')) {
-
+        if (association == 'image') {
             var imgcontent = $('<div>').prop('id', 'previewimg').addClass('preview').appendTo(this._.detailsarea)
 
             var previewimg = $('<img>').addClass('dragresize').appendTo(imgcontent).prop('src', url)
-      } else if (data.header.mime.startsWith('text/') || association == 'text') {
+      } else if (association == 'text') {
             var textcontent = $('<div>').prop('id', 'downloaded_text').addClass('preview').addClass('previewtext').appendTo(this._.detailsarea)
 
             var linenos = $('<div>').prop('id', 'linenos').appendTo(textcontent)
@@ -126,9 +153,9 @@ upload.modules.addmodule({
             fr.readAsText(data.decrypted)
 
             this._.editpaste.show()
-        } else if (data.header.mime.startsWith('video/')) {
+      } else if (association == 'video') {
             $('<video>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
-        } else if (data.header.mime.startsWith('audio/')) {
+      } else if (association == 'audio') {
             $('<audio>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else {
             $('<div>').addClass('preview').addClass('downloadexplain').text("Click the Download link in the bottom-left to download this file.").appendTo(this._.detailsarea)
