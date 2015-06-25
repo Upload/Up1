@@ -22,7 +22,9 @@ upload.modules.addmodule({
       $(document).on('click', '#editpaste', this.editpaste.bind(this))
     },
     route: function (route, content) {
-        return this
+        if (content != 'noref') {
+            return this
+        }
     },
     render: function (view) {
         view.html(this.template)

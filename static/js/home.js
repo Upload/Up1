@@ -63,7 +63,7 @@ upload.modules.addmodule({
         }
     },
     route: function (route, content) {
-        if (content) {
+        if (content && content != 'noref') {
             return upload.download
         }
         return this
@@ -137,7 +137,12 @@ upload.modules.addmodule({
     },
     uploaded: function (data, response) {
         localStorage.setItem('delete-' + data.ident, response.delkey)
-        window.location = '#' + data.seed
+        if (window.location.hash == '#noref') {
+            history.replaceState(undefined, undefined, '#' + data.seed)
+            upload.route.setroute(upload.download, undefined, data.seed)
+        } else {
+            window.location = '#' + data.seed
+        }
     },
     newpaste: function() {
         this.dopasteupload('')
