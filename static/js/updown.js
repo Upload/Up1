@@ -1,10 +1,14 @@
 upload.modules.addmodule({
     name: 'updown',
     init: function () {
-
+        // We do this to try to hide the fragment from the referral in IE
+        this.requestframe = document.createElement('iframe')
+        this.requestframe.src = 'about:blank'
+        this.requestframe.style.visibility = 'hidden'
+        document.body.appendChild(this.requestframe)
     },
     downloadfromident: function(seed, progress, done, ident) {
-        var xhr = new XMLHttpRequest()
+        var xhr = new this.requestframe.contentWindow.XMLHttpRequest()
         xhr.onload = this.downloaded.bind(this, seed, progress, done)
         xhr.open('GET', (upload.config.server ? upload.config.server : '') + 'i/' + ident.ident)
         xhr.responseType = 'blob'
