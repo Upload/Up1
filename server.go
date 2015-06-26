@@ -135,6 +135,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	out, err := os.Create(identPath)
 	if err != nil {
 		msg, _ := json.Marshal(&ErrorMessage{Error: err.Error(), Code: 6})
+		w.Write([]byte{'U', 'P', '!', 0})
 		w.Write(msg)
 		return
 	}
