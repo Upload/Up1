@@ -35,7 +35,7 @@ function encrypt(file, seed, id) {
 }
 
 var fileheader = [
-    85, 80, 33, 0
+    85, 80, 49, 0
 ]
 
 function decrypt(file, seed, id) {

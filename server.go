@@ -141,7 +141,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 	defer out.Close()
 
-	out.Write([]byte{'U', 'P', '!', 0})
+	out.Write([]byte{'U', 'P', '1', 0})
 	_, err = io.Copy(out, file)
 	if err != nil {
 		msg, _ := json.Marshal(&ErrorMessage{Error: err.Error(), Code: 7})
