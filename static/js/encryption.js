@@ -34,9 +34,26 @@ function encrypt(file, seed, id) {
     })
 }
 
+var fileheader = [
+    85, 80, 33, 0
+]
+
 function decrypt(file, seed, id) {
     var params = parameters(seed)
     var uarr = new Uint8Array(file)
+
+    // We support the servers jamming a header in to deter direct linking
+    var hasheader = true
+    for (var i = 0; i < fileheader.length; i++) {
+        if (uarr[i] != fileheader[i]) {
+            hasheader = false
+            break
+        }
+    }
+    if (hasheader) {
+        uarr = uarr.subarray(fileheader.length)
+    }
+
     var before = sjcl.codec.bytes.toBits(uarr);
     var prp = new sjcl.cipher.aes(params.key);
     var after = sjcl.mode.ccm.decrypt(prp, before, params.iv);
