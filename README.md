@@ -98,7 +98,7 @@ We don't ask for any CLAs - you don't have to give up copyright on your code - h
 
 If you find serious security issues, please email us at `security@up1.ca`.
 
-Some of us idle on `irc.freenode.net` in the `#upload` channel, if you would like to chat!
+Some of us idle on `irc.freenode.net` in the `#up1` channel, if you would like to chat!
 
 Thank you for you contributions!
 
