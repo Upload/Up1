@@ -21,7 +21,7 @@ Example download file: https://up1.ca/#Nmo7tW7Qi8ga0UORVZ-zUw - [(source)](https
 This server is open to all users, so feel free to upload your own files.
 
 ####Client Utilities:
-* [ShareX](https://github.com/ShareX/ShareX), a popular screenshot and image uploader, now merged with Up1 support (Older development test release available at https://github.com/Upload/ShareX/releases/tag/v9.10.1)
+* [ShareX](https://github.com/ShareX/ShareX), a popular screenshot and image uploader, now merged with Up1 support
 * [upclient](https://github.com/Upload/upclient), a command-line tool for uploading to Up1 servers
 
 Quick start
