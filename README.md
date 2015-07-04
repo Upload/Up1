@@ -53,9 +53,9 @@ For the web application configuration, a [`config.js.example`](https://github.co
 External Tools
 ---
 
-Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/Upload/ShareX) [(relevant code changes)](https://github.com/Upload/ShareX/commits/uploadcrypt), and [upclient](https://github.com/Upload/upclient).
+Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/ShareX/ShareX) [(relevant code](https://github.com/ShareX/ShareX/pull/751), and [upclient](https://github.com/Upload/upclient).
 
-ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. This adapted version of ShareX includes a service which can send files to any Up1 server. It uses .NET BouncyCastle for the crypto.
+ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. ShareX includes a service which can send files to any Up1 server. It uses .NET BouncyCastle for the crypto.
 
 Upclient is a CLI tool which can send files or data to Up1 servers either via unix pipe (`ps aux | up`), or via argument (`up image.png`), and returns a URL to the uploaded file on stdout. It runs on nodejs and uses SJCL for the crypto.
 
