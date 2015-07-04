@@ -79,6 +79,6 @@ $(function () {
     if (typeof upload.config.api_key != 'undefined') {
         upload.modules.init()
     } else {
-        alert("Please configure with config.js - No API key")
+        alert("Please configure with config.js (see config.js.example) - No API key")
     }
 })
