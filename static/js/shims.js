@@ -22,3 +22,11 @@ function dataURItoBlob(dataURI) {
     // write the ArrayBuffer to a blob, and you're done
     return new Blob([ab], { type: mimeString });
 }
+
+function isiframed() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
