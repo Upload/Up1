@@ -91,7 +91,7 @@ upload.modules.addmodule({
 
         var stored = localStorage.getItem('delete-' + data.ident)
 
-        if (stored) {
+        if (stored && !isiframed()) {
             this._.deletebtn.show().prop('href', (upload.config.server ? upload.config.server : '') + 'del?delkey=' + stored + '&ident=' + data.ident)
         }
 
