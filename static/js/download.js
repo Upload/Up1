@@ -1,5 +1,6 @@
 upload.modules.addmodule({
     name: 'download',
+    delkeys: {},
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
     template: '\
       <div class="modulecontent" id="dlarea">\
@@ -89,7 +90,13 @@ upload.modules.addmodule({
         this._.filename.text(data.header.name)
         this._.title.text(data.header.name + ' - Up1')
 
-        var stored = localStorage.getItem('delete-' + data.ident)
+        var stored = this.delkeys[data.ident]
+
+        if (!stored) {
+            try {
+                stored = localStorage.getItem('delete-' + data.ident)
+            } catch (e) {}
+        }
 
         if (stored && !isiframed()) {
             this._.deletebtn.show().prop('href', (upload.config.server ? upload.config.server : '') + 'del?delkey=' + stored + '&ident=' + data.ident)
