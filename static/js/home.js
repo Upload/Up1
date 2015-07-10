@@ -136,7 +136,14 @@ upload.modules.addmodule({
         upload.textpaste.render(this._.view, 'Pasted text.txt', data, 'text/plain', this.closepaste.bind(this))
     },
     uploaded: function (data, response) {
-        localStorage.setItem('delete-' + data.ident, response.delkey)
+        upload.download.delkeys[data.ident] = response.delkey
+        
+        try {
+            localStorage.setItem('delete-' + data.ident, response.delkey)
+        } catch (e) {
+            console.log(e)
+        }
+
         if (window.location.hash == '#noref') {
             history.replaceState(undefined, undefined, '#' + data.seed)
             upload.route.setroute(upload.download, undefined, data.seed)
