@@ -140,7 +140,9 @@ upload.modules.addmodule({
         
         try {
             localStorage.setItem('delete-' + data.ident, response.delkey)
-        } catch (e) {}
+        } catch (e) {
+            console.log(e)
+        }
 
         if (window.location.hash == '#noref') {
             history.replaceState(undefined, undefined, '#' + data.seed)

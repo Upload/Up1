@@ -95,7 +95,9 @@ upload.modules.addmodule({
         if (!stored) {
             try {
                 stored = localStorage.getItem('delete-' + data.ident)
-            } catch (e) {}
+            } catch (e) {
+                console.log(e)
+            }
         }
 
         if (stored && !isiframed()) {
