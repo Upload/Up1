@@ -1,3 +1,8 @@
+upload.load.need('js/download.js', function() { return upload.download })
+upload.load.need('js/textpaste.js', function() { return upload.textpaste })
+upload.load.need('js/loadencryption.js', function() { return window.crypt })
+upload.load.need('js/updown.js', function() { return upload.updown })
+
 upload.modules.addmodule({
     name: 'home',
     // Dear santa, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
@@ -103,7 +108,7 @@ upload.modules.addmodule({
             return
         }
 
-        if (e.target == document.body && this._ && this._.pastearea.is(':visible')) {
+        if (e.target == document.body && this._ && this._.pastearea.hasClass('hidden')) {
             e.preventDefault()
             this.focuspaste()
         }
@@ -137,7 +142,7 @@ upload.modules.addmodule({
     },
     uploaded: function (data, response) {
         upload.download.delkeys[data.ident] = response.delkey
-        
+
         try {
             localStorage.setItem('delete-' + data.ident, response.delkey)
         } catch (e) {
@@ -155,7 +160,7 @@ upload.modules.addmodule({
         this.dopasteupload('')
     },
     pasted: function (e) {
-        if (!this._ || !this._.pastearea.is(':visible')) {
+        if (!this._ || !this._.pastearea.hasClass('visible')) {
             return
         }
 
