@@ -108,7 +108,7 @@ upload.modules.addmodule({
             return
         }
 
-        if (e.target == document.body && this._ && this._.pastearea.hasClass('hidden')) {
+        if (e.target == document.body && this._ && !this._.pastearea.hasClass('hidden')) {
             e.preventDefault()
             this.focuspaste()
         }
