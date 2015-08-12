@@ -1,4 +1,6 @@
 $(function () {
+    window.dragresize = true
+
     var dragging
 
     var lastx

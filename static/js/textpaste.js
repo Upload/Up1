@@ -6,7 +6,7 @@ upload.modules.addmodule({
       $(document).on('keydown', this.keypress.bind(this))
     },
     keypress: function(e) {
-      if (!this.current || !this.current.is(':visible')) {
+      if (!this.current) {
         return
       }
 
