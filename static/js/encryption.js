@@ -1,4 +1,4 @@
-importScripts('/static/deps/sjcl.min.js')
+importScripts('../deps/sjcl.min.js')
 
 function parametersfrombits(seed) {
     var out = sjcl.hash.sha512.hash(seed)
