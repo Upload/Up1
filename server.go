@@ -219,14 +219,12 @@ func cfInvalidate(ident string, https bool) {
 func main() {
 	config = readConfig()
         validateConfig(config)
+        
 	http.HandleFunc(config.WebRoot + "/", index)
 	http.HandleFunc(config.WebRoot + "/up", upload)
 	http.HandleFunc(config.WebRoot + "/del", delfile)
 	http.Handle(config.WebRoot + "/static/", http.StripPrefix(config.WebRoot + "/static", http.FileServer(http.Dir("static"))))
 	http.Handle(config.WebRoot + "/i/", http.StripPrefix(config.WebRoot + "/i", http.FileServer(http.Dir("i"))))
-
-	config = readConfig()
-	validateConfig(config)
 
 	var wg sync.WaitGroup
 	wg.Add(2)
