@@ -20,6 +20,7 @@ type Config struct {
 	ApiKey      string `json:"api_key"`
 	DeleteKey   string `json:"delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
+	WebRoot	    string `json:"webroot"`
 
 	Http struct {
 		Enabled bool   `json:"enabled"`
@@ -84,9 +85,9 @@ func makeDelkey(ident string) string {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/" {
+	if r.URL.Path == config.WebRoot + "/" {
 		http.ServeFile(w, r, "index.html")
-	} else if r.URL.Path == "/config.js" {
+	} else if r.URL.Path == config.WebRoot + "/config.js" {
 		http.ServeFile(w, r, "config.js")
 	} else {
 		http.NotFound(w, r)
@@ -192,7 +193,7 @@ func delfile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	os.Remove(identPath)
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, config.WebRoot + "/", 301)
 }
 
 func cfInvalidate(ident string, https bool) {
@@ -216,14 +217,14 @@ func cfInvalidate(ident string, https bool) {
 }
 
 func main() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/up", upload)
-	http.HandleFunc("/del", delfile)
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
-	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir("i"))))
-
 	config = readConfig()
-	validateConfig(config)
+        validateConfig(config)
+        
+	http.HandleFunc(config.WebRoot + "/", index)
+	http.HandleFunc(config.WebRoot + "/up", upload)
+	http.HandleFunc(config.WebRoot + "/del", delfile)
+	http.Handle(config.WebRoot + "/static/", http.StripPrefix(config.WebRoot + "/static", http.FileServer(http.Dir("static"))))
+	http.Handle(config.WebRoot + "/i/", http.StripPrefix(config.WebRoot + "/i", http.FileServer(http.Dir("i"))))
 
 	var wg sync.WaitGroup
 	wg.Add(2)

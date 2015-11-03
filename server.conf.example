@@ -2,6 +2,7 @@
   "api_key": "c61540b5ceecd05092799f936e27755f",
   "delete_key": "",
   "maximum_file_size": 50000000,
+  "webroot": "",
   
   "http": {
     "enabled": true,

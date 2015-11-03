@@ -15,7 +15,7 @@ $(function () {
         return seed
     }
 
-    var worker = new Worker("/static/js/encryption.js")
+    var worker = new Worker("static/js/encryption.js")
 
 
     var promises = {}
