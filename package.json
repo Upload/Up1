@@ -1,0 +1,18 @@
+{
+  "name": "Up1",
+  "version": "0.2.0",
+  "description": "Client-side encrypted host for images, text, and other forms of data.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/upload/up1"
+  },
+  "author": "The Up1 Authors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/upload/up1/issues"
+  },
+  "dependencies": {
+    "express": "~4.13.3"
+  }
+}

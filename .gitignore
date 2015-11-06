@@ -1,4 +1,6 @@
-i/
+node_modules/
+
+public/i/
 server
 server.conf
 config.js
