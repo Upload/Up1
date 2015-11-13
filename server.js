@@ -9,19 +9,15 @@ var https = require('https');
 var request = require('request');
 var tmp = require('tmp');
 
-var app = express();
 
 // Different headers can be pushed depending on data format
 // to allow for changes with backwards compatibility
-var header = {
+var UP1_HEADERS = {
     v1: new Buffer("UP1\0", 'binary')
 }
 
-var config = JSON.parse(fs.readFileSync('./server.conf'));
-
-app.use('', express.static('public'));
-
-app.post('/up', function(req, res) {
+function handleupload(req, res) {
+    var config = req.app.locals.config
     var busboy = new Busboy({
         headers: req.headers,
         limits: {
@@ -44,10 +40,10 @@ app.post('/up', function(req, res) {
             tmpfname = ftmp.name;
 
             var fstream = fs.createWriteStream('', {fd: ftmp.fd, defaultEncoding: 'binary'});
-            fstream.write(header.v1);
+            fstream.write(UP1_HEADERS.v1);
             file.pipe(fstream);
         } catch (err) {
-            console.log("Error on file:", err);
+            console.error("Error on file:", err);
             res.send("Internal Server Error");
             req.unpipe(busboy);
             res.close();
@@ -56,7 +52,9 @@ app.post('/up', function(req, res) {
 
     busboy.on('finish', function() {
         try {
-            if (fields.api_key !== config['api_key']) {
+            if (!tmpfname) {
+                res.send("Internal Server Error");
+            } else if (fields.api_key !== config['api_key']) {
                 res.send('{"error": "API key doesn\'t match", "code": 2}');
             } else if (!fields.ident) {
                 res.send('{"error": "Ident not provided", "code": 11}');
@@ -73,16 +71,17 @@ app.post('/up', function(req, res) {
                 });
             }
         } catch (err) {
-            console.log("Error on finish:", err);
+            console.error("Error on finish:", err);
             res.send("Internal Server Error");
         }
     });
 
     return req.pipe(busboy);
-});
+};
 
-app.get('/del', function(req, res) {
-    var d = fields[blah];
+
+function handledelete(req, res) {
+    var config = req.app.locals.config
     if (!req.query.ident) {
         res.send('{"error": "Ident not provided", "code": 11}');
         return;
@@ -102,11 +101,11 @@ app.get('/del', function(req, res) {
         res.send('{"error": "Ident does not exist", "code": 9}');
     } else {
         fs.unlink(ident_path(req.query.ident), function() {
-            cf_invalidate(req.query.ident);
-            res.send('success');
+            cf_invalidate(req.query.ident, config);
+            res.redirect('/');
         });
     }
-});
+};
 
 function ident_path(ident) {
     return 'public/i/' + path.basename(ident);
@@ -121,43 +120,53 @@ function ident_exists(ident) {
     }
 }
 
-function cf_invalidate(ident) {
-    function cf_do_invalidate(ident, https) {
-        if (https)
-            var inv_url = 'https://' + config['cloudflare-cache-invalidate'].Url;
-        else
-            var inv_url = 'http://' + config['cloudflare-cache-invalidate'].Url;
-        inv_url += '/i/' + ident;
+function cf_do_invalidate(ident, mode, cfconfig) {
+    var inv_url = mode + '://' + cfconfig.Url + '/i/' + ident;
 
-        request.post({
-            url: 'https://www.cloudflare.com/api_json.html',
-            form: {
-                a: 'zone_file_purge',
-                tkn: config['cloudflare-cache-invalidate'].token,
-                email: config['cloudflare-cache-invalidate'].email,
-                z: config['cloudflare-cache-invalidate'].domain,
-                url: inv_url
+    request.post({
+        url: 'https://www.cloudflare.com/api_json.html',
+        form: {
+            a: 'zone_file_purge',
+            tkn: cfconfig.token,
+            email: cfconfig.email,
+            z: cfconfig.domain,
+            url: inv_url
+        }
+    }, function(err, response, body) {
+        if (err) {
+            console.error("Cache invalidate failed for", ident);
+            console.error("Body:", body);
+            return;
+        }
+        try {
+            var result = JSON.parse(body)
+            if (result.result === 'error') {
+                console.error("Cache invalidate failed for", ident);
+                console.error("Message:", msg);
             }
-        }, function(err, response, body) {
-            if (err) {
-                console.log("Cache invalidate failed for", ident);
-                console.log("Body:", body);
-                return;
-            }
-            try {
-                var result = JSON.parse(body)
-                if (result.result === 'error') {
-                    console.log("Cache invalidate failed for", ident);
-                    console.log("Message:", msg);
-                }
-            } catch(err) {}
-        });
+        } catch(err) {}
+    });
+}
+
+function cf_invalidate(ident, config) {
+    var cfconfig = config['cloudflare-cache-invalidate']
+    if (!cfconfig.enabled) {
+      return;
     }
-
     if (config.http.enabled)
-        cf_do_invalidate(ident, false);
+        cf_do_invalidate(ident, 'http', cfconfig);
     if (config.https.enabled)
-        cf_do_invalidate(ident, true);
+        cf_do_invalidate(ident, 'https', cfconfig);
+}
+
+function createapp(config) {
+  var app = express();
+  app.locals.config = config
+  app.use('/config.js', express.static('./config.js'));
+  app.use('', express.static('public'));
+  app.post('/up', handleupload);
+  app.get('/del', handledelete);
+  return app
 }
 
 /* Convert an IP:port string to a split IP and port */
@@ -171,23 +180,33 @@ function addrport(s) {
         return { host: spl[0], port: parseInt(spl[1]) };
 }
 
-if (config.http.enabled) {
-    var ap = addrport(config.http.listen);
-    var server = http.createServer(app).listen(ap.port, ap.host, function() {
-        var host = server.address().address;
-        var port = server.address().port;
-        console.log('Started server at http://%s:%s', host, port);
-    });
+function serv(server, serverconfig, callback) {
+  var ap = addrport(serverconfig.listen);
+  return server.listen(ap.port, ap.host, callback);
 }
-if (config.https.enabled) {
-    var sec_ap = addrport(config.https.listen);
-    var sec_creds = {
-        key: fs.readFileSync(config.https.key),
-        cert: fs.readFileSync(config.https.cert)
-    };
-    var sec_server = https.createServer(sec_creds, app).listen(sec_ap.port, sec_ap.host, function() {
-        var host = server.address().address;
-        var port = server.address().port;
-        console.log('Started server at https://%s:%s', host, port);
+
+function init(config) {
+  var app = createapp(config);
+
+  if (config.http.enabled) {
+    serv(http.createServer(app), config.http, function() {
+      console.info('Started server at http://%s:%s', this.address().address, this.address().port);
     });
+  }
+
+  if (config.https.enabled) {
+      var sec_creds = {
+          key: fs.readFileSync(config.https.key),
+          cert: fs.readFileSync(config.https.cert)
+      };
+      serv(https.createServer(sec_creds, app), config.https, function() {
+        console.info('Started server at https://%s:%s', this.address().address, this.address().port);
+      });
+  }
 }
+
+function main(configpath) {
+  init(JSON.parse(fs.readFileSync(configpath)));
+}
+
+main('./server.conf')
