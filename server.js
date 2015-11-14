@@ -16,7 +16,7 @@ var UP1_HEADERS = {
     v1: new Buffer("UP1\0", 'binary')
 }
 
-function handleupload(req, res) {
+function handle_upload(req, res) {
     var config = req.app.locals.config
     var busboy = new Busboy({
         headers: req.headers,
@@ -80,7 +80,7 @@ function handleupload(req, res) {
 };
 
 
-function handledelete(req, res) {
+function handle_delete(req, res) {
     var config = req.app.locals.config
     if (!req.query.ident) {
         res.send('{"error": "Ident not provided", "code": 11}');
@@ -159,18 +159,18 @@ function cf_invalidate(ident, config) {
         cf_do_invalidate(ident, 'https', cfconfig);
 }
 
-function createapp(config) {
+function create_app(config) {
   var app = express();
   app.locals.config = config
   app.use('/config.js', express.static('./config.js'));
   app.use('', express.static('public'));
-  app.post('/up', handleupload);
-  app.get('/del', handledelete);
+  app.post('/up', handle_upload);
+  app.get('/del', handle_delete);
   return app
 }
 
 /* Convert an IP:port string to a split IP and port */
-function addrport(s) {
+function get_addr_port(s) {
     var spl = s.split(":");
     if (spl.length === 1)
         return { host: spl[0], port: 80 };
@@ -181,12 +181,12 @@ function addrport(s) {
 }
 
 function serv(server, serverconfig, callback) {
-  var ap = addrport(serverconfig.listen);
+  var ap = get_addr_port(serverconfig.listen);
   return server.listen(ap.port, ap.host, callback);
 }
 
 function init(config) {
-  var app = createapp(config);
+  var app = create_app(config);
 
   if (config.http.enabled) {
     serv(http.createServer(app), config.http, function() {
