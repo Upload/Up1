@@ -115,8 +115,7 @@ upload.modules.addmodule({
         var url = URL.createObjectURL(decrypted)
 
         this._.viewbtn.prop('href', url).hide()
-        this._.dlbtn.prop('href', url)
-        this._.dlbtn.prop('download', data.header.name)
+        this._.dlbtn.prop('href', url).hide()
 
         delete this._['content']
         this._.detailsarea.empty()
