@@ -178,7 +178,7 @@ upload.modules.addmodule({
         this._.filename.show()
         this._.btns.show()
     },
-    cldivsepaste: function() {
+    closepaste: function() {
       this._.dlarea.show()
     },
     editpaste: function() {
