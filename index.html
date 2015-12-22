@@ -1,4 +1,4 @@
-﻿<!doctype html>
+  <!doctype html>
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
@@ -140,8 +140,7 @@
             margin: 0 auto;
         }
 
-
-        audio.preview, video.preview, .downloadexplain, #downloadprogress, #previewimg {
+        audio.preview, video.preview, .downloadarea, #downloadprogress, #previewimg {
             position: relative;
             top: 50%;
             text-align: center;
@@ -150,9 +149,17 @@
             margin: 0 auto;
         }
 
-        .downloadexplain {
+        .downloadarea {
             color: #fff;
-            font-size: 30px;
+            border: 2px solid white;
+            height: auto;
+            width: 40%;
+            word-wrap: break-word;
+        }
+
+        .downloadarea h2 {
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
         body {
@@ -305,6 +312,27 @@
             margin-left: 5px;
         }
 
+        .bigbtn {
+        	text-decoration: none;
+        	display: inline-block;
+            margin: 0;
+            -webkit-box-align: start;
+            font: inherit;
+            -webkit-transition: background-color 400ms ease-out;
+            -moz-transition: background-color 400ms ease-out;
+            -o-transition: background-color 400ms ease-out;
+            -ms-transition: background-color 400ms ease-out;
+            transition: background-color 400ms ease-out;
+			background-color: #1d1f21;
+        	color: white;
+			height: auto;
+			width: 160px;
+            font-size: 26px;
+            border: 2px solid white;
+            font-weight: 110;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
 
         #downloadprogress {
             color: white;
@@ -314,6 +342,15 @@
             opacity: 1;
             background-color: #313538;
             transition: all 100ms ease-in;
+        }
+
+        .bigbtn:hover {
+        	-webkit-transition: background-color 200ms ease-in;
+            -moz-transition: background-color 200ms ease-in;
+            -o-transition: background-color 200ms ease-in;
+            -ms-transition: background-color 200ms ease-in;
+            transition: background-color 200ms ease-in;
+            background-color: #313538;
         }
 
         #linenos, #create_linenos {
@@ -378,4 +415,4 @@
         <a href="#" id="contact" target="_blank">Contact</a>
     </div>
 </body>
-</html>
+</html>      

@@ -169,7 +169,10 @@ upload.modules.addmodule({
       } else if (association == 'audio') {
             $('<audio>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else {
-            $('<div>').addClass('preview').addClass('downloadexplain').text("Click the Download link in the bottom-left to download this file.").appendTo(this._.detailsarea)
+            var dlarea = $('<div>').addClass('preview').addClass('downloadarea').appendTo(this._.detailsarea)
+            $('<h2>').text(data.header.name).appendTo(dlarea)
+            $('<p>').text('No preview available').appendTo(dlarea)
+			$('<a>').addClass('bigbtn').text('Download').prop('href', url).appendTo(dlarea)
         }
         this._.filename.show()
         this._.btns.show()
