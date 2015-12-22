@@ -115,7 +115,8 @@ upload.modules.addmodule({
         var url = URL.createObjectURL(decrypted)
 
         this._.viewbtn.prop('href', url).hide()
-        this._.dlbtn.prop('href', url).hide()
+        this._.dlbtn.prop('href', url)
+        this._.dlbtn.prop('download', data.header.name)
 
         delete this._['content']
         this._.detailsarea.empty()
@@ -169,10 +170,9 @@ upload.modules.addmodule({
             $('<audio>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
         } else {
             var dlarea = $('<div>').addClass('preview').addClass('downloadarea').appendTo(this._.detailsarea)
-            $('<h1>').text(data.header.name).appendTo(dlarea)
+            $('<h2>').text(data.header.name).appendTo(dlarea)
             $('<p>').text('No preview available').appendTo(dlarea)
-			var bigdlbtn = $('<a>').addClass('bigbtn').prop('href', url).appendTo(dlarea)
-			$('<a>').addClass('linebrBefore').text('Download').appendTo(bigdlbtn)
+			$('<a>').addClass('bigbtn').text('Download').prop('href', url).appendTo(dlarea)
         }
         this._.filename.show()
         this._.btns.show()
