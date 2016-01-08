@@ -1,336 +1,310 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: Sans-Serif;
-    overflow: auto;
-}
-
-body {
-    background-color: #1d1f21;
-}
-
-.contentarea h1 {
-    margin: 0;
-}
-
-.contentarea .boxarea {
-    text-align: center;
-    vertical-align: middle;
-    display: table-cell;
-}
-
-.contentarea {
-    color: white;
-    margin: 0;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.boxarea {
-    -webkit-transition: background-color 400ms ease-out;
-    -moz-transition: background-color 400ms ease-out;
-    -o-transition: background-color 400ms ease-out;
-    -ms-transition: background-color 400ms ease-out;
-    transition: background-color 400ms ease-out;
-}
-
-.noscript {
-    color: white;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0;
-}
-
-    #pastearea:hover {
-        background-color: #313538;
-        -webkit-transition: background-color 100ms ease-in;
-        -moz-transition: background-color 100ms ease-in;
-        -o-transition: background-color 100ms ease-in;
-        -ms-transition: background-color 100ms ease-in;
-        transition: background-color 100ms ease-in;
-    }
-
-.contentarea {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border: 2px solid white;
-}
-
-#pastearea {
-    cursor: pointer;
-}
-
-    #pastearea.dragover {
-        background-color: rgba(255, 255, 255, .2);
-    }
-
-.footer {
-    position: fixed;
-    bottom: 10px;
-    margin: auto;
-    text-align: center;
-    width: 100%;
-}
-
-    .footer a {
-        color: white;
-        opacity: .5;
-        font-size: 14px;
-        text-decoration: none;
-    }
-
-#progressamountbg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 10, 0, .5);
-    width: 0;
-    height: 100%;
-    z-index: -1;
-}
-
-#finallink {
-    color: white;
-}
-
-
-#module_download, #downloaddetails {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-}
-
-    #module_download .preview {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-#previewimg img {
-    display: block;
-    margin: 0 auto;
-}
-
-    #previewimg img:not(.dragged) {
-        max-width: 100vw;
-        max-height: 100vh;
-    }
-
-#module_download .preview {
-    display: block;
-    margin: 0 auto;
-}
-
-
-audio.preview, video.preview, .downloadexplain, #downloadprogress, #previewimg {
-    position: relative;
-    top: 50%;
-    text-align: center;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    margin: 0 auto;
-}
-
-.downloadexplain {
-    color: #fff;
-    font-size: 30px;
-}
-
-body {
-    overflow: auto;
-}
-
-#pastecatcher {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-}
-
-.previewtext {
-    position: absolute;
-    top: 55px;
-    width: 100%;
-    height: calc(100% - 110px);
-    overflow: auto;
-}
-
-    .previewtext pre {
-        margin: 0;
-        padding-left: 50px;
-    }
-
-    .previewtext code {
-        background: none;
-        margin: 0;
-        overflow: visible;
-    }
-
-    .previewtext > textarea {
-        background: transparent none repeat scroll 0% 0%;
-        border: 0px none;
-        padding: 0px;
-        position: absolute;
-        font-family: monospace;
-        outline: medium none;
-        resize: none;
-        margin: 0;
-        padding-top: 6.5px;
-        padding-left: 50px;
-        font-family: monospace !important;
-        font-size: 13px;
-        color: #c5c8c6 !important;
-        width: 100%;
-        height: calc(100% - 5px);
-        box-sizing: border-box;
-        color: white;
-    }
-
-.hidden {
-    display: none !important;
-}
-
-.topbar {
+#btnarea {
+  bottom: 5px;
   position: fixed;
   z-index: 1;
-  width: 100%;
-  height: 40px;
-  padding: 5px;
-  box-sizing: border-box;
-  display: -webkit-flex;
-  display: flex;
-}
-
-#downloaded_filename {
-    padding: 5px;
-    background-color: rgba(0, 0, 0, .5);
-    border-radius: 5px;
-    margin: 0;
-    color: white;
-    height: 40px;
-    opacity: .75;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    vertical-align: middle;
-    text-align: middle;
-    z-index: 1;
-    line-height: 30px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 #create_filename {
-    position: fixed;
-    font-size: 16px;
-    top: 10px;
-    left: 10px;
-    padding: 5px;
-    background-color: rgba(0, 0, 0, .5);
-    border-bottom-right-radius: initial;
-    border: 1px solid white;
-    margin: 0;
-    width: 170px;
-    color: white;
-    opacity: .75;
-    z-index: 1;
-    max-width: 100%;
-    box-sizing: border-box;
-    white-space: nowrap;
-    overflow: hidden;
+  background-color: rgba(0,0,0,.5);
+  border: 1px solid #FFF;
+  border-bottom-right-radius: initial;
+  box-sizing: border-box;
+  color: #FFF;
+  font-size: 16px;
+  left: 10px;
+  margin: 0;
+  max-width: 100%;
+  opacity: .75;
+  overflow: hidden;
+  padding: 5px;
+  position: fixed;
+  top: 10px;
+  white-space: nowrap;
+  width: 170px;
+  z-index: 1;
 }
 
-#btnarea {
-    position: fixed;
-    bottom: 5px;
+#downloaded_filename {
+  background-color: rgba(0,0,0,.5);
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #FFF;
+  display: block;
+  height: 40px;
+  line-height: 30px;
+  margin: 0;
+  opacity: .75;
+  overflow: hidden;
+  padding: 5px;
+  text-align: middle;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+  z-index: 1;
 }
 
-.viewswitcher {
-    margin-left: auto;
-    vertical-align: top;
-    white-space: nowrap;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-shrink: 0;
-    flex-shrink: 0;
+#finallink,#downloadprogress {
+  color: #FFF;
 }
 
-#btnarea {
-    z-index: 1;
+#linenos,#create_linenos {
+  color: #7d7d7d;
+  float: left;
+  font-family: monospace;
+  left: 5px;
+  overflow: hidden;
+  position: absolute;
+  text-align: right;
+  top: 6.5px;
+  width: 30px;
+  z-index: -1;
 }
 
-.btn {
-    display: inline-block;
-    height: 40px;
-    margin: 0;
-    -webkit-box-align: start;
-    font: inherit;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid white;
-    cursor: pointer;
-    color: white !important;
-    text-decoration: none;
-    line-height: 16px;
-    text-align: center;
-    vertical-align: middle;
-    opacity: .75;
-    background-color: rgba(0, 0, 0, .5);
-    box-sizing: border-box;
-    white-space: nowrap;
-    transition: all 400ms ease-out;
-    margin-left: 5px;
+#module_download .preview {
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
 }
 
-
-#downloadprogress {
-    color: white;
+#module_download,#downloaddetails {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
-.btn:hover {
-    opacity: 1;
-    background-color: #313538;
-    transition: all 100ms ease-in;
+#pastearea {
+  cursor: pointer;
 }
 
-#linenos, #create_linenos {
-    color: #7d7d7d;
-    position: absolute;
-    top: 6.5px;
-    font-family: monospace;
-    left: 5px;
-    float: left;
-    z-index: -1;
-    text-align: right;
-    width: 30px;
-    overflow: hidden;
+#pastearea.dragover {
+  background-color: rgba(255,255,255,.2);
 }
 
-.dragresize.dragging {
-    cursor: nwse-resize;
+#pastearea:hover {
+  -moz-transition: background-color 100ms ease-in;
+  -ms-transition: background-color 100ms ease-in;
+  -o-transition: background-color 100ms ease-in;
+  -webkit-transition: background-color 100ms ease-in;
+  background-color: #313538;
+  transition: background-color 100ms ease-in;
 }
-.viewcontent {
-    width: 100%;
-    height: 100%;
+
+#pastecatcher {
+  height: 0;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 0;
 }
-.loadingtext {
-    color: white;
-    text-align: center;
+
+#previewimg img {
+  display: block;
+  margin: 0 auto;
+}
+
+#previewimg img:not(.dragged) {
+  max-height: 100vh;
+  max-width: 100vw;
+}
+
+#progressamountbg {
+  background-color: rgba(0,10,0,.5);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 0;
+  z-index: -1;
 }
 
 #uploadview .centerview {
-    display: table;
-    width: 100%;
-    height: 100%;
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.boxarea {
+  -moz-transition: background-color 400ms ease-out;
+  -ms-transition: background-color 400ms ease-out;
+  -o-transition: background-color 400ms ease-out;
+  -webkit-transition: background-color 400ms ease-out;
+  transition: background-color 400ms ease-out;
+}
+
+.btn {
+  -webkit-box-align: start;
+  background-color: rgba(0,0,0,.5);
+  border: 2px solid #FFF;
+  box-sizing: border-box;
+  color: #FFF!important;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  font-size: 16px;
+  height: 40px;
+  line-height: 16px;
+  margin: 0 0 0 5px;
+  opacity: .75;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 400ms ease-out;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background-color: #313538;
+  opacity: 1;
+  transition: all 100ms ease-in;
+}
+
+.contentarea {
+  border: 2px solid #FFF;
+  bottom: 0;
+  color: #FFF;
+  height: 200px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  vertical-align: middle;
+  width: 200px;
+}
+
+.contentarea .boxarea {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.contentarea h1 {
+  margin: 0;
+}
+
+.downloadexplain {
+  color: #fff;
+  font-size: 30px;
+}
+
+.dragresize.dragging {
+  cursor: nwse-resize;
+}
+
+.footer {
+  bottom: 10px;
+  margin: auto;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+.footer a {
+  color: #FFF;
+  font-size: 14px;
+  opacity: .5;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.loadingtext {
+  color: #FFF;
+  text-align: center;
+}
+
+.noscript {
+  color: #FFF;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.previewtext {
+  height: calc(100% - 110px);
+  overflow: auto;
+  position: absolute;
+  top: 55px;
+  width: 100%;
+}
+
+.previewtext > textarea {
+  background: transparent none repeat scroll 0 0;
+  border: 0 none;
+  box-sizing: border-box;
+  color: #c5c8c6!important;
+  font-family: monospace!important;
+  font-size: 13px;
+  height: calc(100% - 5px);
+  margin: 0;
+  outline: medium none;
+  padding: 6.5px 0 0 50px;
+  position: absolute;
+  resize: none;
+  width: 100%;
+}
+
+.previewtext code {
+  background: none;
+  margin: 0;
+  overflow: visible;
+}
+
+.previewtext pre {
+  margin: 0;
+  padding-left: 50px;
+}
+
+.topbar {
+  box-sizing: border-box;
+  display: flex;
+  height: 40px;
+  padding: 5px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+.viewcontent {
+  height: 100%;
+  width: 100%;
+}
+
+.viewswitcher {
+  -webkit-flex-shrink: 0;
+  display: flex;
+  flex-shrink: 0;
+  margin-left: auto;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+audio.preview,video.preview,.downloadexplain,#downloadprogress,#previewimg {
+  -webkit-transform: translateY(-50%);
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+body {
+  background-color: #1d1f21;
+  overflow: auto;
+}
+
+body,html {
+  font-family: Sans-Serif;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
 }
