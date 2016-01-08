@@ -1,0 +1,24 @@
+{
+  "api_key": "c61540b5ceecd05092799f936e27755f",
+  "delete_key": "",
+  "maximum_file_size": 50000000,
+
+  "http": {
+    "enabled": true,
+    "listen": ":80"
+  },
+
+  "https": {
+    "enabled": false,
+    "listen": ":443",
+    "cert": "./cert.pem",
+    "key": "./key.pem"
+  },
+
+  "cloudflare-cache-invalidate": {
+    "enabled": false,
+    "token": "Cloudflare API token here",
+    "email": "Cloudflare login email here",
+    "domain": "Domain to invalidate cache on"
+  }
+}
