@@ -36,7 +36,7 @@ function handle_upload(req, res) {
 
     busboy.on('file', function(fieldname, file, filename) {
         try {
-            var ftmp = tmp.fileSync({ postfix: '.tmp', dir: 'public/i/', keep: true });
+            var ftmp = tmp.fileSync({ postfix: '.tmp', dir: '../i/', keep: true });
             tmpfname = ftmp.name;
 
             var fstream = fs.createWriteStream('', {fd: ftmp.fd, defaultEncoding: 'binary'});
@@ -108,7 +108,7 @@ function handle_delete(req, res) {
 };
 
 function ident_path(ident) {
-    return 'public/i/' + path.basename(ident);
+    return '../i/' + path.basename(ident);
 }
 
 function ident_exists(ident) {
@@ -162,8 +162,8 @@ function cf_invalidate(ident, config) {
 function create_app(config) {
   var app = express();
   app.locals.config = config
-  app.use('/config.js', express.static('./config.js'));
-  app.use('', express.static('public'));
+  app.use('', express.static('../client'));
+  app.use('/i', express.static('../i'));
   app.post('/up', handle_upload);
   app.get('/del', handle_delete);
   return app
