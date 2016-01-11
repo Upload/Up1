@@ -121,7 +121,7 @@ function ident_exists(ident) {
 }
 
 function cf_do_invalidate(ident, mode, cfconfig) {
-    var inv_url = mode + '://' + cfconfig.Url + '/i/' + ident;
+    var inv_url = mode + '://' + cfconfig.url + '/i/' + ident;
 
     request.post({
         url: 'https://www.cloudflare.com/api_json.html',
