@@ -50,8 +50,8 @@ upload.modules.addmodule({
     drop: function (e) {
         e.preventDefault()
         this._.pastearea.removeClass('dragover')
-        if (e.originalEvent.dataTransfer.files.length > 0) {
-            this.doupload(e.originalEvent.dataTransfer.files[0])
+        if (e.dataTransfer.files.length > 0) {
+            this.doupload(e.dataTransfer.files[0])
         }
     },
     dragover: function (e) {
@@ -132,10 +132,12 @@ upload.modules.addmodule({
         upload.updown.upload(blob, this.progress.bind(this), this.uploaded.bind(this))
     },
     closepaste: function() {
+      this._.pastearea.removeClass('hidden')
       this._.view.find('#uploadview').show()
       this._.view.find('.viewswitcher').show()
     },
     dopasteupload: function (data) {
+        this._.pastearea.addClass('hidden')
         this._.view.find('#uploadview').hide()
         this._.view.find('.viewswitcher').hide()
         upload.textpaste.render(this._.view, 'Pasted text.txt', data, 'text/plain', this.closepaste.bind(this))
@@ -160,13 +162,13 @@ upload.modules.addmodule({
         this.dopasteupload('')
     },
     pasted: function (e) {
-        if (!this._ || !this._.pastearea.hasClass('visible')) {
+        if (!this._ || this._.pastearea.hasClass('hidden')) {
             return
         }
 
-        var items = e.originalEvent.clipboardData.items
+        var items = e.clipboardData.items
 
-        var text = e.originalEvent.clipboardData.getData('text/plain')
+        var text = e.clipboardData.getData('text/plain')
 
         if (text) {
             e.preventDefault()
