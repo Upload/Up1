@@ -67,9 +67,9 @@
   }
 
   upload.modules.addmodule({
-      name: 'contactlink',
+      name: 'footer',
       init: function() {
-          $('#contact').prop('href', upload.config.contact_link)
+          $('#footer').html(upload.config.footer)
       }
   })
 
