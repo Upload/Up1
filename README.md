@@ -28,11 +28,11 @@ Quick start
 ---
 To install and run the server with default settings:
 
-    apt-get install golang
+    apt-get install nodejs
     git clone https://github.com/Upload/Up1
-    cd upload
-    go build server.go
-    ./server
+    cd upload/server
+    npm install
+    node server.js
 
 Server configuration is done through the [`server.conf`](https://github.com/Upload/Up1/server.conf.example) file. For a quick start, simply move `server.conf.example` to `server.conf`.
 
@@ -73,7 +73,7 @@ The browser-side is written in plain Javascript using SJCL for the AES-CCM encry
 
 Additionally, the repository copy of SJCL comes from the source at https://github.com/bitwiseshiftleft/sjcl, commit `fb1ba931a46d41a7c238717492b66201b2995840` (Version 1.0.3), built with the command line `./configure --without-all --with-aes --with-sha512 --with-codecBytes --with-random --with-codecBase64 --with-ccm`, and compressed using Closure Compiler. If all goes well, a self-built copy should match up byte-for-byte to the contents of `static/deps/sjcl.min.js`.
 
-The server-side is written in Go and uses no dependencies outside of the standard library. The only cryptography it uses is for generating deletion keys, using HMAC and SHA256 in the built-in `crypto/hmac` and `crypto/sha256` packages, respectively.
+The server-side is written in Node, although we also have a Go server which uses no dependencies outside of the standard library. The only cryptography it uses is for generating deletion keys, using HMAC and SHA256 in the built-in `crypto/hmac` and `crypto/sha256` packages, respectively.
 
 Caveats
 ---
@@ -82,9 +82,9 @@ Caveats
 
 * **CCM is kinda slow.** Compared to other authenticated encryption modes out there such as GCM or OCB, CCM is considered one of the slower modes (slightly slower than GCM, and almost twice as slow as OCB), isn't parallelizable and [didn't make the best design decisions](http://crypto.stackexchange.com/a/19446). The reason that we chose this algorithm, however, is twofold: primarily, this is the most-audited, oldest and most commonly used algorithm contained in SJCL; as this is used for viewing data, security there is important - and secondly, the other two mentioned algorithms in SJCL were actually *slower* than CCM. There are other crypto libraries which may be allegedly faster, such as [asmcrypto.js](https://github.com/vibornoff/asmcrypto.js/), but it seems new, we don't know anything about it and currently prefer SJCL for its familiarity. With an audit from a trusted party, we may take a second look at asmcrypto.js.
 
-* **By its very nature, this uses cryptography in Javascript.** There have been many reasons given as to why it's bad to use cryptography in Javascript, and some may be more valid than others. We're working on browser extensions to mitigate some of these reasons (and non-Javascript clients are always welcome!), but safe to say that if you unconditionally believe that Javascript crypto is bad, you probably won't want to use this.
+* **By its very nature, this uses cryptography in Javascript.** There have been many reasons given as to why it's bad to use cryptography in Javascript, and some may be more valid than others. We're working on browser extensions to mitigate some of these reasons (and non-Javascript clients are always welcome!), but safe to say that if you unconditionally believe that Javascript crypto is bad, you probably won't want to use this.  In the event of a breach of trust on the server the client could still be modified to read your decryption keys.
 
-* **As a new project, this code hasn't been audited by a trusted party.** Since this is brand new, there have been (to date) very few eyes on the code, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk. 
+* **As a new project, this code hasn't been audited by a trusted party.** Since this is brand new, there have been (to date) very few eyes on the code, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk.
 
 * **The server will, in most cases, receive referrer headers.** If a server decides to log requests, they will also be able to receive `Referer` headers. For private/protected websites and direct links sent via IM or email, this isn't a big deal. If the link is on a public website however, it means the server owner might be able to find the original image. Unfortunately there's nothing that the software or server owner can do about this (apart from hosting behind a CDN and offloading the Referer header to the edge), however when posting a link you have a couple of options:
   1. Put `rel="noreferrer"` into any `<a>` links that are directed at the Up1 server.
