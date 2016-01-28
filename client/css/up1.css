@@ -101,6 +101,11 @@
   width: 0;
 }
 
+#previewimg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
 #previewimg img {
   display: block;
   margin: 0 auto;
