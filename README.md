@@ -78,7 +78,7 @@ The server-side is written in Node, although we also have a Go server which uses
 Caveats
 ---
 
-* **Encryption/Decryption are not streamed or chunked.** This means that (at the time) any download must fit fully in memory, or the browser may crash. This is not a problem with sub-10MB images, but may be a problem if you want to share a long gameplay video or recorded meeting minutes. We would love help and contributions, even if they break backwards compatibilty. As this project is still relatively new, the API is not sacred, so break away!
+* **Encryption/Decryption are not streamed or chunked.** This means that (at the time) any download must fit fully in memory, or the browser may crash. This is not a problem with sub-10MB images, but may be a problem if you want to share a long gameplay video or recorded meeting minutes. We would love help and contributions, even if they break backwards compatibilty.
 
 * **CCM is kinda slow.** Compared to other authenticated encryption modes out there such as GCM or OCB, CCM is considered one of the slower modes (slightly slower than GCM, and almost twice as slow as OCB), isn't parallelizable and [didn't make the best design decisions](http://crypto.stackexchange.com/a/19446). The reason that we chose this algorithm, however, is twofold: primarily, this is the most-audited, oldest and most commonly used algorithm contained in SJCL; as this is used for viewing data, security there is important - and secondly, the other two mentioned algorithms in SJCL were actually *slower* than CCM. There are other crypto libraries which may be allegedly faster, such as [asmcrypto.js](https://github.com/vibornoff/asmcrypto.js/), but it seems new, we don't know anything about it and currently prefer SJCL for its familiarity. With an audit from a trusted party, we may take a second look at asmcrypto.js.
 
@@ -92,7 +92,7 @@ Caveats
 
 Contributing
 ---
-Any contributions, whether to our existing code or as separate applications, are very welcome! Additionally, as we're in the early stages of this project, we don't mind breaking the API if it's for a good reason.
+Any contributions, whether to our existing code or as separate applications, are very welcome!
 
 We don't ask for any CLAs - you don't have to give up copyright on your code - however we prefer that you contribute under the MIT license, just for consistency.
 
