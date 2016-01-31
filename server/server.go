@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -12,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 	"sync"
 )
 
@@ -20,6 +22,11 @@ type Config struct {
 	ApiKey      string `json:"api_key"`
 	DeleteKey   string `json:"delete_key"`
 	MaxFileSize int64  `json:"maximum_file_size"`
+
+	Path struct {
+		I      string `json:"i"`
+		Client string `json:"client"`
+	} `json:"path"`
 
 	Http struct {
 		Enabled bool   `json:"enabled"`
@@ -53,8 +60,8 @@ type SuccessMessage struct {
 	Delkey string `json:"delkey"`
 }
 
-func readConfig() Config {
-	file, _ := os.Open("server.conf")
+func readConfig(name string) Config {
+	file, _ := os.Open(name)
 	decoder := json.NewDecoder(file)
 	config := Config{}
 	err := decoder.Decode(&config)
@@ -74,6 +81,12 @@ func validateConfig(config Config) {
 	if len(config.DeleteKey) == 0 {
 		log.Fatal("A static delete key must be defined in the configuration!")
 	}
+	if len(config.Path.I) == 0 {
+		config.Path.I = "../i"
+	}
+	if len(config.Path.Client) == 0 {
+		config.Path.Client = "../client"
+	}
 }
 
 func makeDelkey(ident string) string {
@@ -85,11 +98,9 @@ func makeDelkey(ident string) string {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
-		http.ServeFile(w, r, "index.html")
-	} else if r.URL.Path == "/config.js" {
-		http.ServeFile(w, r, "config.js")
+		http.ServeFile(w, r, filepath.Join(config.Path.Client, "index.html"))
 	} else {
-		http.NotFound(w, r)
+		http.ServeFile(w, r, filepath.Join(config.Path.Client, r.URL.Path[1:]))
 	}
 }
 
@@ -125,7 +136,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	identPath := path.Join("i", path.Base(ident))
+	identPath := path.Join(config.Path.I, path.Base(ident))
 	if _, err := os.Stat(identPath); err == nil {
 		msg, _ := json.Marshal(&ErrorMessage{Error: "Ident is already taken.", Code: 4})
 		w.Write(msg)
@@ -169,7 +180,7 @@ func delfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	identPath := path.Join("i", ident)
+	identPath := path.Join(config.Path.I, ident)
 	if _, err := os.Stat(identPath); os.IsNotExist(err) {
 		msg, _ := json.Marshal(&ErrorMessage{Error: "Ident does not exist.", Code: 9})
 		w.Write(msg)
@@ -216,14 +227,16 @@ func cfInvalidate(ident string, https bool) {
 }
 
 func main() {
-	http.HandleFunc("/", index)
+	configName := flag.String("config", "server.conf", "Configuration file")
+	flag.Parse()
+
+	config = readConfig(*configName)
+	validateConfig(config)
+
+	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir(config.Path.I))))
 	http.HandleFunc("/up", upload)
 	http.HandleFunc("/del", delfile)
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("static"))))
-	http.Handle("/i/", http.StripPrefix("/i", http.FileServer(http.Dir("i"))))
-
-	config = readConfig()
-	validateConfig(config)
+	http.HandleFunc("/", index)
 
 	var wg sync.WaitGroup
 	wg.Add(2)

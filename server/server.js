@@ -36,7 +36,7 @@ function handle_upload(req, res) {
 
     busboy.on('file', function(fieldname, file, filename) {
         try {
-            var ftmp = tmp.fileSync({ postfix: '.tmp', dir: '../i/', keep: true });
+            var ftmp = tmp.fileSync({ postfix: '.tmp', dir: req.app.locals.config.path.i, keep: true });
             tmpfname = ftmp.name;
 
             var fstream = fs.createWriteStream('', {fd: ftmp.fd, defaultEncoding: 'binary'});
@@ -157,13 +157,17 @@ function cf_invalidate(ident, config) {
         cf_do_invalidate(ident, 'http', cfconfig);
     if (config.https.enabled)
         cf_do_invalidate(ident, 'https', cfconfig);
+
+    config.path |= {};
+    config.path.i |= "../i";
+    config.path.client |= "../client";
 }
 
 function create_app(config) {
   var app = express();
   app.locals.config = config
-  app.use('', express.static('../client'));
-  app.use('/i', express.static('../i'));
+  app.use('', express.static(config.path.client));
+  app.use('/i', express.static(config.path.i));
   app.post('/up', handle_upload);
   app.get('/del', handle_delete);
   return app

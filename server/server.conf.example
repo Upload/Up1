@@ -3,6 +3,11 @@
   "delete_key": "",
   "maximum_file_size": 50000000,
 
+  "path": {
+    "i": "../i",
+    "client": "../client"
+  },
+
   "http": {
     "enabled": true,
     "listen": ":80"
