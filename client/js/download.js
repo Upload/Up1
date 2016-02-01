@@ -68,6 +68,7 @@ upload.modules.addmodule({
       'application/javascript': 'text',
       'application/x-javascript': 'text',
       'application/xml': 'text',
+      'image/svg+xml': 'svg',
       'image/': 'image',
       // PDF for now only offers 'view in browser'
       'application/pdf': 'pdf',
@@ -78,8 +79,10 @@ upload.modules.addmodule({
     },
     // Mime types to use for "View in browser" for safety reasons such as html we use text/plain
     // Other display types such as PDF and images you want native viewing so we leave those
+    // SVG can be unsafe for viewing in a browser directly
     safeassocations: {
-        'text': 'text/plain'
+        'text': 'text/plain',
+        'svg': 'text/plain'
     },
     getassociation: function(mime) {
         for (var key in this.assocations) {
@@ -112,11 +115,15 @@ upload.modules.addmodule({
 
         var safemime = this.safeassocations[association]
 
-        var decrypted = new Blob([data.decrypted], { type: safemime ? safemime : data.header.mime })
+        var decrypted = new Blob([data.decrypted], { type: data.header.mime })
+
+        var safedecrypted = new Blob([decrypted], { type:  safemime ? safemime : data.header.mime })
 
         var url = URL.createObjectURL(decrypted)
 
-        this._.viewbtn.prop('href', url).hide()
+        var safeurl = URL.createObjectURL(safedecrypted)
+
+        this._.viewbtn.prop('href', safeurl).hide()
         this._.dlbtn.prop('href', url)
         this._.dlbtn.prop('download', data.header.name)
 
@@ -127,7 +134,7 @@ upload.modules.addmodule({
             this._.viewbtn.show()
         }
 
-        if (association == 'image') {
+        if (association == 'image' || association == 'svg') {
             var imgcontent = $('<div>').prop('id', 'previewimg').addClass('preview').appendTo(this._.detailsarea)
 
             var previewimg = $('<img>').addClass('dragresize').appendTo(imgcontent).prop('src', url)
