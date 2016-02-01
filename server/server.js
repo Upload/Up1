@@ -157,10 +157,6 @@ function cf_invalidate(ident, config) {
         cf_do_invalidate(ident, 'http', cfconfig);
     if (config.https.enabled)
         cf_do_invalidate(ident, 'https', cfconfig);
-
-    config.path |= {};
-    config.path.i |= "../i";
-    config.path.client |= "../client";
 }
 
 function create_app(config) {
@@ -189,7 +185,15 @@ function serv(server, serverconfig, callback) {
   return server.listen(ap.port, ap.host, callback);
 }
 
+function init_defaults(config) {
+  config.path = config.path ? config.path : {};
+  config.path.i = config.path.i ? config.path.i : "../i";
+  config.path.client = config.path.client ? config.path.client : "../client";
+}
+
 function init(config) {
+  init_defaults(config)
+
   var app = create_app(config);
 
   if (config.http.enabled) {
