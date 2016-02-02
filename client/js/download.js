@@ -63,19 +63,44 @@ upload.modules.addmodule({
         this._.title.text('Up1')
         delete this['_']
     },
-    // Only mimes in this assocation list will end up with a "View in browser" button
+    /* These mimes are trusted, anything not on this list will not embed
+       nor provide view in browser links.  Some embed exceptions apply
+       like svg will embed but will not directly link and pdf vice versa.
+       ALl text mime types support view in browser and translate to text/plain */
     assocations: {
       'application/javascript': 'text',
       'application/x-javascript': 'text',
       'application/xml': 'text',
       'image/svg+xml': 'svg',
-      'image/': 'image',
       // PDF for now only offers 'view in browser'
       'application/pdf': 'pdf',
       'application/x-pdf': 'pdf',
-      'text/': 'text',
-      'audio/': 'audio',
-      'video/': 'video'
+      'text/plain': 'text',
+      'audio/aac': 'audio',
+      'audio/mp4': 'audio',
+      'audio/mpeg': 'audio',
+      'audio/ogg': 'audio',
+      'audio/wav': 'audio',
+      'audio/webm': 'audio',
+      'video/mp4': 'video',
+      'video/ogg': 'video',
+      'video/webm': 'video',
+      'audio/wave': 'audio',
+      'audio/wav': 'audio',
+      'audio/x-wav': 'audio',
+      'audio/x-pn-wav': 'audio',
+      'audio/vnd.wave': 'audio',
+      'image/tiff': 'image',
+      'image/x-tiff': 'image',
+      'image/bmp': 'image',
+      'image/x-windows-bmp': 'image',
+      'image/gif': 'image',
+      'image/x-icon': 'image',
+      'image/jpeg': 'image',
+      'image/pjpeg': 'image',
+      'image/png': 'image',
+      'image/webp': 'image',
+      'text/': 'text'
     },
     // Mime types to use for "View in browser" for safety reasons such as html we use text/plain
     // Other display types such as PDF and images you want native viewing so we leave those
