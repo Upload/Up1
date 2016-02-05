@@ -2,6 +2,11 @@
   bottom: 5px;
   position: fixed;
   z-index: 1;
+  width: 100%;
+}
+
+#btnarea .right {
+  margin-right: 5px;
 }
 
 #create_filename {
@@ -339,4 +344,8 @@ body,html {
   margin: 0;
   overflow: auto;
   padding: 0;
+}
+
+.right {
+  float: right;
 }

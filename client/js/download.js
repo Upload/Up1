@@ -17,7 +17,9 @@ upload.modules.addmodule({
         <div id="btnarea">\
                 <a class="btn" id="dlbtn" href="#">Download</a\
                 ><a class="btn" id="inbrowserbtn" target="_blank" href="#">View In Browser</a\
-                ><a class="btn" id="deletebtn" href="#">Delete</a>\
+                ><a class="btn" id="deletebtn" href="#">Delete</a\
+                ><div class="right"><a class="btn" id="prevbtn" href="#">Prev</a\
+                ><a class="btn" id="nextbtn" href="#">Next</a></div>\
         </div>\
       </div>\
     ',
@@ -38,6 +40,8 @@ upload.modules.addmodule({
         this._.btns = view.find('#btnarea')
         this._.deletebtn = view.find('#deletebtn')
         this._.dlbtn = view.find('#dlbtn')
+        this._.nextbtn = view.find('#nextbtn')
+        this._.prevbtn = view.find('#prevbtn')
         this._.viewbtn = view.find('#inbrowserbtn')
         this._.viewswitcher = view.find('.viewswitcher')
         this._.newupload = view.find('#newupload')
@@ -46,7 +50,28 @@ upload.modules.addmodule({
         this._.title = $('title')
         $('#footer').hide()
     },
-    initroute: function (content) {
+    initroute: function (content, contentroot) {
+        contentroot = contentroot ? contentroot : content
+        this._.nextbtn.hide()
+        this._.prevbtn.hide()
+        if (contentroot.indexOf('&') > -1) {
+          var which = 0
+          var values = contentroot.split('&')
+          var howmany = values.length
+          if (content != contentroot) {
+            which = parseInt(content) - 1
+          }
+          content = values[which]
+          this._.nextbtn.attr('href', '#' + contentroot + '/' + (which + 2))
+          this._.prevbtn.attr('href', '#' + contentroot + '/' + (which))
+          if (!(which >= howmany - 1)) {
+            this._.nextbtn.show()
+          }
+          if (!(which <= 0)) {
+            this._.prevbtn.show()
+          }
+        }
+        console.log(contentroot)
         delete this._['text']
         this._.filename.hide()
         this._.title.text("Up1")
