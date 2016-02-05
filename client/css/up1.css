@@ -66,6 +66,10 @@
   min-height: 1em;
 }
 
+.line:after {
+    content: "";
+}
+
 .line .linenum {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
