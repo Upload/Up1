@@ -13,10 +13,10 @@
     "url": "https://github.com/upload/up1/issues"
   },
   "dependencies": {
-    "express": "~4.13.3",
-    "busboy": "~0.2.11",
-    "multer": "~1.1.0",
-    "tmp": "0.0.28",
-    "request": "~2.65.0"
+    "busboy": "^0.2.12",
+    "express": "~4.13.4",
+    "multer": "^1.1.0",
+    "request": "~2.69.0",
+    "tmp": "0.0.28"
   }
 }
