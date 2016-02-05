@@ -116,6 +116,13 @@ upload.modules.addmodule({
             }
         }
     },
+    setupLineNumbers: function(ele) {
+      var markup = ele.html()
+      ele.html('<div class="line">' + markup.replace(/\n/g, '</div><div class="line">') + '</div>')
+      ele.find('.line').each(function(i, e) {
+        $(e).prepend($('<span>').addClass('linenum').text(i + 1))
+      })
+    },
     downloaded: function (data) {
         this._.filename.text(data.header.name)
         this._.title.text(data.header.name + ' - Up1')
@@ -166,8 +173,6 @@ upload.modules.addmodule({
       } else if (association == 'text') {
             var textcontent = $('<div>').prop('id', 'downloaded_text').addClass('preview').addClass('previewtext').appendTo(this._.detailsarea)
 
-            var linenos = $('<div>').prop('id', 'linenos').appendTo(textcontent)
-
             var pre = $('<pre>').appendTo(textcontent)
 
             var code = $('<code>').appendTo(pre)
@@ -188,11 +193,7 @@ upload.modules.addmodule({
 
                 hljs.highlightBlock(code[0])
 
-                var length = text.split(/\r\n|\r|\n/).length
-
-                for (var i = 0; i < length; i++) {
-                    linenos.append((i + 1) + '<br>')
-                }
+                this.setupLineNumbers(code)
 
             }.bind(this)
             fr.readAsText(data.decrypted)

@@ -47,7 +47,7 @@
   color: #FFF;
 }
 
-#linenos,#create_linenos {
+#create_linenos {
   color: #7d7d7d;
   float: left;
   font-family: monospace;
@@ -58,6 +58,22 @@
   top: 6.5px;
   width: 30px;
   z-index: -1;
+}
+
+.line {
+  word-wrap: break-word;
+  min-height: 1em;
+}
+
+.line .linenum {
+  color: #7d7d7d;
+  font-family: monospace;
+  padding: 0 15px 0 10px;
+  text-align: center;
+  position: absolute;
+  left: -8px;
+  text-align: right;
+  width: 30px;
 }
 
 #module_download .preview {
@@ -266,6 +282,7 @@
 
 .previewtext pre {
   margin: 0;
+
   padding-left: 50px;
 }
 
