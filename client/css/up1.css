@@ -61,7 +61,8 @@
 }
 
 .line {
-  word-wrap: break-word;
+  word-wrap: normal;
+  white-space: pre-wrap;  
   min-height: 1em;
 }
 
