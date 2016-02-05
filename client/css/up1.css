@@ -62,11 +62,15 @@
 
 .line {
   word-wrap: normal;
-  white-space: pre-wrap;  
+  white-space: pre-wrap;
   min-height: 1em;
 }
 
 .line .linenum {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
   color: #7d7d7d;
   font-family: monospace;
   padding: 0 15px 0 10px;
