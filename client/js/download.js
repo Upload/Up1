@@ -79,7 +79,7 @@ upload.modules.addmodule({
         this._.editpaste.hide()
         this._.newupload.hide()
         this._.content = {}
-        this._.content.main = this._.content.loading = $('<h1>').prop('id', 'downloadprogress').text('Downloading')
+        this._.content.main = this._.content.loading = $('<h1>').prop('id', 'downloadprogress').addClass('centertext centerable').text('Downloading')
         this._.detailsarea.empty().append(this._.content.main)
         this._.deletebtn.hide()
         upload.updown.download(content, this.progress.bind(this), this.downloaded.bind(this))
@@ -192,7 +192,7 @@ upload.modules.addmodule({
         }
 
         if (association == 'image' || association == 'svg') {
-            var imgcontent = $('<div>').prop('id', 'previewimg').addClass('preview').appendTo(this._.detailsarea)
+            var imgcontent = $('<div>').prop('id', 'previewimg').addClass('preview centerable').appendTo(this._.detailsarea)
 
             var previewimg = $('<img>').addClass('dragresize').appendTo(imgcontent).prop('src', url)
       } else if (association == 'text') {
@@ -225,11 +225,11 @@ upload.modules.addmodule({
 
             this._.editpaste.show()
       } else if (association == 'video') {
-            $('<video>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
+            $('<div>').addClass('preview centerable').append($('<video>').prop('controls', true).prop('autoplay', true).prop('src', url)).appendTo(this._.detailsarea)
       } else if (association == 'audio') {
-            $('<audio>').addClass('preview').prop('controls', true).prop('autoplay', true).appendTo(this._.detailsarea).prop('src', url)
+            $('<div>').addClass('preview centerable').append($('<audio>').prop('controls', true).prop('autoplay', true).prop('src', url)).appendTo(this._.detailsarea)
         } else {
-            $('<div>').addClass('preview').addClass('downloadexplain').text("Click the Download link in the bottom-left to download this file.").appendTo(this._.detailsarea)
+            $('<div>').addClass('preview').addClass('downloadexplain centerable centertext').text("Click the Download link in the bottom-left to download this file.").appendTo(this._.detailsarea)
         }
         this._.filename.show()
         this._.btns.show()

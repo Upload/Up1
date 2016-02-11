@@ -136,12 +136,12 @@
   max-width: 100%;
 }
 
-#previewimg img {
+#previewimg img, .preview video, .preview audio {
   display: block;
   margin: 0 auto;
 }
 
-#previewimg img:not(.dragged) {
+#previewimg img:not(.dragged), .preview audio, .preview video {
   max-height: 100vh;
   max-width: 100vw;
 }
@@ -324,11 +324,14 @@
   white-space: nowrap;
 }
 
-audio.preview,video.preview,.downloadexplain,#downloadprogress,#previewimg {
+.centertext {
+  text-align: center;
+}
+
+.centerable {
   -webkit-transform: translateY(-50%);
   margin: 0 auto;
   position: relative;
-  text-align: center;
   top: 50%;
   transform: translateY(-50%);
 }
