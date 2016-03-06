@@ -30,7 +30,10 @@ To install and run the server with default settings:
 
     apt-get install nodejs
     git clone https://github.com/Upload/Up1
-    cd upload/server
+    cd Up1
+    cp server/server.conf.example server/server.conf
+    cp client/config.js.example client/config.js
+    cd server
     npm install
     node server.js
 
