@@ -30,7 +30,10 @@ To install and run the server with default settings:
 
     apt-get install nodejs
     git clone https://github.com/Upload/Up1
-    cd upload/server
+    cd Up1
+    cp server/server.conf.example server/server.conf
+    cp client/config.js.example client/config.js
+    cd server
     npm install
     node server.js
 
@@ -53,7 +56,7 @@ For the web application configuration, a [`config.js.example`](https://github.co
 External Tools
 ---
 
-Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/ShareX/ShareX) [(relevant code](https://github.com/ShareX/ShareX/pull/751), and [upclient](https://github.com/Upload/upclient).
+Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/ShareX/ShareX) ([relevant code](https://github.com/ShareX/ShareX/pull/751)), and [upclient](https://github.com/Upload/upclient).
 
 ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. ShareX includes a service which can send files to any Up1 server. It uses .NET BouncyCastle for the crypto.
 
