@@ -8,17 +8,8 @@ It has the ability to view images, text with syntax highlighting, short videos, 
 
 Public Server
 ---
-We currently run a public, free to use server at https://up1.ca.
-
-Example image: https://up1.ca/#hsd2mdSuIkzTUR6saZpn1Q - [(source)](https://www.ashleymills.com/node/8). *Hint: Try double-clicking on the image, and dragging around the image to zoom in and out, RES-style!*
-
-Example text paste: https://up1.ca/#_H7Wy9atfl2CW_cYx6Xh9A - [(source)](http://www.publicdomainpoems.com/ocaptainmycaptain.html)
-
-Example short video: https://up1.ca/#55s3dQnPjtcgstvspdYT5g - [(source)](https://youtu.be/O6Xo21L0ybE)
-
-Example download file: https://up1.ca/#Nmo7tW7Qi8ga0UORVZ-zUw - [(source)](https://github.com/Upload/ShareX/releases/tag/v9.10.1)
-
-This server is open to all users, so feel free to upload your own files.
+There was a public, free to use server at https://up1.ca.  
+This demo instance is no longer available or being maintained. However, there are several public hosts which use up1. An online search should turn up some results.
 
 ####Client Utilities:
 * [ShareX](https://github.com/ShareX/ShareX), a popular screenshot and image uploader, now merged with Up1 support
