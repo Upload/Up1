@@ -11,7 +11,7 @@ Public Server
 There was a public, free to use server at https://up1.ca.  
 This demo instance is no longer available or being maintained. However, there are several public hosts which use up1. An online search should turn up some results.
 
-####Client Utilities:
+#### Client Utilities:
 * [ShareX](https://github.com/ShareX/ShareX), a popular screenshot and image uploader, now merged with Up1 support
 * [upclient](https://github.com/Upload/upclient), a command-line tool for uploading to Up1 servers
 
