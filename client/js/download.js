@@ -184,6 +184,12 @@ upload.modules.addmodule({
         this._.dlbtn.prop('href', url)
         this._.dlbtn.prop('download', data.header.name)
 
+        if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+	    this._.dlbtn[0].addEventListener('click', function() {
+	        window.navigator.msSaveBlob(decrypted, data.header.name)
+            }, false);
+        }
+
         delete this._['content']
         this._.detailsarea.empty()
 
