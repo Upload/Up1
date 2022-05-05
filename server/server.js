@@ -13,7 +13,7 @@ var tmp = require('tmp');
 // Different headers can be pushed depending on data format
 // to allow for changes with backwards compatibility
 var UP1_HEADERS = {
-    v1: new Buffer("UP1\0", 'binary')
+    v1: new Buffer.from("UP1\0", 'binary')
 }
 
 function handle_upload(req, res) {
@@ -40,8 +40,7 @@ function handle_upload(req, res) {
             tmpfname = ftmp.name;
 
             var fstream = fs.createWriteStream('', {fd: ftmp.fd, defaultEncoding: 'binary'});
-            fstream.write(UP1_HEADERS.v1);
-            file.pipe(fstream);
+            fstream.write(UP1_HEADERS.v1, 'binary', () => file.pipe(fstream));
         } catch (err) {
             console.error("Error on file:", err);
             res.send("Internal Server Error");
