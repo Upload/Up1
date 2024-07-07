@@ -9,17 +9,17 @@ It has the ability to view images, text with syntax highlighting, short videos, 
 Public Server
 ---
 There was a public, free to use server at https://up1.ca.  
-This demo instance is no longer available or being maintained. However, there are several public hosts which use up1. An online search should turn up some results.
+This demo instance is no longer available or being maintained. However, there are several public hosts which use Up1. An online search should turn up some results.
 
 #### Client Utilities:
-* [ShareX](https://github.com/ShareX/ShareX), a popular screenshot and image uploader, now merged with Up1 support
 * [upclient](https://github.com/Upload/upclient), a command-line tool for uploading to Up1 servers
+* ~~ShareX~~, unfortunately, the Up1 support in ShareX has been removed since shutting down the Up1 demo server.
 
 Quick start
 ---
 To install and run the server with default settings:
 
-    apt-get install nodejs
+    apt install nodejs
     git clone https://github.com/Upload/Up1
     cd Up1
     cp server/server.conf.example server/server.conf
@@ -47,9 +47,7 @@ For the web application configuration, a [`config.js.example`](https://github.co
 External Tools
 ---
 
-Currently, there are two external programs adapted to work with Up1: [ShareX](https://github.com/ShareX/ShareX) ([relevant code](https://github.com/ShareX/ShareX/pull/751)), and [upclient](https://github.com/Upload/upclient).
-
-ShareX is a popular screenshot tool which supports tons of upload services, not just for images but also for text, video, documents, etc. ShareX includes a service which can send files to any Up1 server. It uses .NET BouncyCastle for the crypto.
+Currently, there is a command-line program that works with Up1: ~~[ShareX](https://github.com/ShareX/ShareX) ([relevant code](https://github.com/ShareX/ShareX/pull/751))~~, and [upclient](https://github.com/Upload/upclient).
 
 Upclient is a CLI tool which can send files or data to Up1 servers either via unix pipe (`ps aux | up`), or via argument (`up image.png`), and returns a URL to the uploaded file on stdout. It runs on nodejs and uses SJCL for the crypto.
 
@@ -76,11 +74,11 @@ Caveats
 
 * **CCM is kinda slow.** Compared to other authenticated encryption modes out there such as GCM or OCB, CCM is considered one of the slower modes (slightly slower than GCM, and almost twice as slow as OCB), isn't parallelizable and [didn't make the best design decisions](http://crypto.stackexchange.com/a/19446). The reason that we chose this algorithm, however, is twofold: primarily, this is the most-audited, oldest and most commonly used algorithm contained in SJCL; as this is used for viewing data, security there is important - and secondly, the other two mentioned algorithms in SJCL were actually *slower* than CCM. There are other crypto libraries which may be allegedly faster, such as [asmcrypto.js](https://github.com/vibornoff/asmcrypto.js/), but it seems new, we don't know anything about it and currently prefer SJCL for its familiarity. With an audit from a trusted party, we may take a second look at asmcrypto.js.
 
-* **By its very nature, this uses cryptography in Javascript.** There have been many reasons given as to why it's bad to use cryptography in Javascript, and some may be more valid than others. We're working on browser extensions to mitigate some of these reasons (and non-Javascript clients are always welcome!), but safe to say that if you unconditionally believe that Javascript crypto is bad, you probably won't want to use this.  In the event of a breach of trust on the server the client could still be modified to read your decryption keys.
+* **By its very nature, this uses cryptography in Javascript.** There are reasons as to why it's bad to use cryptography in Javascript. We're working on browser extensions to mitigate some of these reasons (and non-Javascript clients are always welcome!), however by the very nature of how Up1 works, cryptography in the browser is required. In the event of a breach of trust on the server, the client code could still be modified to read your decryption keys.
 
-* **As a new project, this code hasn't been audited by a trusted party.** Since this is brand new, there have been (to date) very few eyes on the code, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk.
+* **As a new project, this code hasn't been audited by a trusted party.** There have been (to date) very few eyes on the code that we're aware of, and even fewer trusted eyes on the code. While we've put as much effort as possible into offloading the hard crypto stuff to SJCL, we still might have made a mistake somewhere (reading over `static/js/encryption.js` and letting us know if you find issues would be very helpful to us!), and so for that reason, using this software is at your own risk.
 
-* **The server will, in most cases, receive referrer headers.** If a server decides to log requests, they will also be able to receive `Referer` headers. For private/protected websites and direct links sent via IM or email, this isn't a big deal. If the link is on a public website however, it means the server owner might be able to find the original image. Unfortunately there's nothing that the software or server owner can do about this (apart from hosting behind a CDN and offloading the Referer header to the edge), however when posting a link you have a couple of options:
+* **The server will, in most cases, receive referrer headers.** If a server decides to log requests, they will also be able to receive `Referer` headers. For private/protected websites and direct links sent via IM or email, this isn't a big deal. If the link is on a public website however, it means the server owner might be able to find the original image. We've added some mitigations for some scenarios, however unfortunately there's nothing that the software or server owner can do about this (apart from hosting behind a CDN and offloading the Referer header to the edge), however when posting a link you have a couple of options:
   1. Put `rel="noreferrer"` into any `<a>` links that are directed at the Up1 server.
   2. If you don't have control over the link attributes, you can use a referrer breaker such as https://anon.click/ or https://href.li/, amongst many.
 
@@ -91,8 +89,6 @@ Any contributions, whether to our existing code or as separate applications, are
 We don't ask for any CLAs - you don't have to give up copyright on your code - however we prefer that you contribute under the MIT license, just for consistency.
 
 If you find serious security issues, please email us at `security@up1.ca`.
-
-Some of us idle on `irc.freenode.net` in the `#upload` channel, if you would like to chat!
 
 Thank you for you contributions!
 
